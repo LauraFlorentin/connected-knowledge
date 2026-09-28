@@ -1,0 +1,23 @@
+# Python and local tools
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.DS_Store
+
+# Rebuildable release and demonstration outputs
+/distribution/
+/examples/completed/
+/dist/
+
+# User-specific material belongs outside the source repository
+/.env
+/.env.*
+!.env.example
+/config/collection.json
+/config/collection.local.json
+/vault/
+/inbox/
+/exports/
+/extractions/

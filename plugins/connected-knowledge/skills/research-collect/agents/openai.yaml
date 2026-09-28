@@ -1,0 +1,14 @@
+interface:
+  display_name: Collect Research
+  short_description: Collect selected sources into a reviewable inbox
+  default_prompt: Use $research-collect to configure selected sources and collect
+    a reviewable research inbox.
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true

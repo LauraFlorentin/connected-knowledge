@@ -1,0 +1,42 @@
+# Validation and limits — updated 2026-09-28
+
+## Version 1.1.1 rename — 2026-09-28
+
+Renamed the plugin and marketplace to Connected Knowledge and updated the two skill display names to Develop Knowledge and Collect Research. All core instruction, reference, template and script bytes were checked against the preceding package and preserved; only skill UI metadata changed. Internal skill names remain unchanged.
+
+Both skills passed format validation. The twelve existing tool tests were rerun successfully from the renamed source path. The offline worked example also passed from that path: one initial capture, one unchanged duplicate, two PDF pages, three connected notes, zero checker errors or warnings, and unchanged vault bytes after checking. The package build, manifests, marketplace paths, core hashes, local Markdown links and ZIP contents were checked. Native host installation and live collection remain untested.
+
+## Version 1.1.0 update — 2026-09-28
+
+The updated canonical core passed the skill-format validator and local reference-link checks. Its main instructions remain about 1,400 words, with the added detail routed to references. The relevant starter-vault gate test passed after installing the declared defusedxml dependency; a temporary fixture verified the exact new vault guide and four templates. The full twelve-test suite below belongs to the 1.0.0 validation; unchanged collection/PDF/checker code was not retested unnecessarily.
+
+An independent forward exercise applied the updated skill to an inaccessible Mac vault, remembered budget information conflicting with a documented decision, and a later Claude export. It preserved the evidenced decision and unresolved proposal, marked memory and duplicate checks as provisional, reused supplied identities, avoided replacing the vault, and distinguished supported hooks from universal native-app capture. This is an instruction exercise, not a test of a real connector or semantic-deduplication engine.
+
+The rebuilt archive passed manifest/version, shared-source hash, distribution-ZIP and archive-integrity checks. No actual vault, account capture, native installation or scheduler was connected. Platform guidance now distinguishes documented Work/Codex hooks, Claude Code hooks and Claude's connected-folder/mobile requirements. The bulk history parser and semantic search engine remain unimplemented.
+
+## Executed
+
+- Both canonical skills passed the skill-format validator before packaging.
+- Twelve unittest cases passed: PDF page extraction/cache/source preservation; cache drift; malformed/encrypted PDFs; image-only scanned page warning; repeat/versioned local collection; partial source failures; disabled ongoing runs; RSS limits and provenance; Atom; unsafe XML rejection; exclusions; missing archive detection; collector lock; private-URL rejection; duplicate identifiers; YAML duplicate keys; broken links; invalid PDF pages; missing headings; generic-schema compatibility; configured field mapping; inconsistent metadata types and source-hash drift; explicit starter gating and refusal of existing targets. Several behaviors share a single test case.
+- Offline end-to-end worked example: 1 capture, 1 unchanged repeat, 2 extracted pages, 3 connected example notes, 0 vault errors/warnings, read-only checking verified by byte hashes.
+- Independent instruction exercise: an inaccessible existing Mac vault did not trigger replacement; unspecified feeds/email and schedules remained disabled; chat title labels stayed separate from vault categories; all-chat collection was not claimed.
+- Package checks verify JSON manifests, local marketplace paths, identical shared skill copies, required distribution ZIP entries and archive readability.
+
+Runtime used: Python 3.12, pypdf 6.10.0, PyYAML 6.0.3, defusedxml 0.7.1, reportlab 4.4.9. Requirements allow compatible major-version ranges; other versions and operating systems were not run here.
+
+## Not exercised or not included
+
+- Native Claude/ChatGPT plugin installation, UI rendering and account-wide availability were not tested. Installation documentation was checked against current official pages. Neither Claude Code nor Codex CLI is installed in this validation environment.
+- Live feed/URL HTTP retrieval was not exercised; feed parsing was tested with controlled responses. DNS, network permissions, redirects, rate limits, login walls and individual sites may affect actual captures.
+- No email/cloud authentication, account chat-history access, live vault connection or recurring scheduler was configured. Those depend on your selected source, destination, permissions and trigger.
+- No OCR or automated visual PDF interpretation. Sparse/image-only pages are flagged, and figures/tables need inspection.
+- Checker is read-only and structural, not a complete Obsidian parser or evidence verifier. See its reported limits; no silent repair is available.
+- Collection is for a trusted single-user runtime with a single-writer lock. It is not an internet-facing service. A hard crash may leave a stale lock or unindexed files; recovery is manual and non-destructive.
+
+## Rerun tests
+
+```bash
+python -m unittest discover -s plugins/connected-knowledge/skills/zettelkasten-obsidian/scripts/tests -v
+```
+
+Tests use temporary synthetic files. They do not read your real vault or accounts.

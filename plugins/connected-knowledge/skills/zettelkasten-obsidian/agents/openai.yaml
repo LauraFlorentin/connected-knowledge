@@ -1,0 +1,14 @@
+interface:
+  display_name: Develop Knowledge
+  short_description: Turn chats and notes into linked, sourced knowledge
+  default_prompt: Use $zettelkasten-obsidian to prepare this conversation as linked
+    Obsidian notes with categories, sources, and decisions.
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true

@@ -1,0 +1,13 @@
+{
+  "name": "connected-knowledge-local",
+  "owner": {
+    "name": "Laura-Florentine Stiskal"
+  },
+  "plugins": [
+    {
+      "name": "connected-knowledge",
+      "source": "./plugins/connected-knowledge",
+      "description": "Source-grounded knowledge and selected research collection using Zettelkasten\u2013Obsidian."
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "name": "connected-knowledge",
+  "version": "1.1.1",
+  "description": "Collect research and develop sourced, connected knowledge from conversations, documents and notes.",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Connected Knowledge",
+    "shortDescription": "Collect sources and develop connected knowledge",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Onboard my existing vault.",
+      "Prepare selected research collection."
+    ]
+  }
+}

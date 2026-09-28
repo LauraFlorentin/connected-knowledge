@@ -1,0 +1,2 @@
+# Knowledge and research plugin
+Use skills/zettelkasten-obsidian/SKILL.md for knowledge development, onboarding and vault checks. Use skills/research-collect/SKILL.md for selected collection. Resolve scripts relative to the core skill. Preserve existing vaults and keep collection separate from note development. Do not enable a scheduler or sources without user selection. Installation does not grant account history or local vault access.

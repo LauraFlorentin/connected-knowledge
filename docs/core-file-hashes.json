@@ -1,0 +1,36 @@
+{
+  "zettelkasten-obsidian": {
+    "SKILL.md": "184c417f3a360f8cd6d15d07cb4baa69718faf278ad2926af0e96972dc28eab3",
+    "references/capture.md": "68e2921ea8345dd37fdb2dc7dae17328101dbae71641bedd8a8e70e1e3affb4f",
+    "references/knowledge-development.md": "cef727ec206c3896dae6dae3508e8dc8bc12474b590c6b46e8026622e3a360b9",
+    "references/onboarding.md": "bdf5e7f24bf5bf5b0929e058f314f74e7e903bd5a8827a3e229e148f58b1479d",
+    "references/note-development.md": "bd85f3dffad1cd6c0152137b1ee666fe1870ea258678df0d76b5cfe83286ac74",
+    "references/review.md": "e2679f0e15136437194f27ae89724201d4825f7c5526d70ada88ffadad344473",
+    "references/sources.md": "518109fd3861549e3b415a34f021724cc04d57ff97ce41fc9ce0b0905a64bc48",
+    "references/research-tools.md": "221e2061c75c6bbea42bea097c168707ba277149fae49f4bf1e768820a6c169d",
+    "references/settings-instruction.md": "56c939a4642586652b683d70018e0a1b56964be4ee22bad9724539027d3654e3",
+    "references/knowledge-maintenance.md": "908160dfefc85c4514dbf7d1ccb9733a2deeb3a3b9df4b02b98682bbcfb23be7",
+    "references/ontology.md": "5e56b9c951577d70ef0ca2e2cd2cd4cd277c552e81c0586bd5afd1cc8dc863ab",
+    "references/future-chat-capture.md": "35b5f4844a771db83f71d705178118e254989a10f0251d47ccaaf7b1be2ec16e",
+    "assets/icon.svg": "51a6923974188748638a424aa59b42b6afad2d910f910a1d43bb13ee10f3ce26",
+    "assets/vault-guide.md": "37c77772ece36adeaeeb72316ece1e36b2bf22b596dfbbe8ab105162ee0b4950",
+    "scripts/extract_pdf.py": "aba590175d13cf46e1a42cc4bb92bf082fff9c6503bb44872947ea14fcd39fce",
+    "scripts/starter_vault.py": "9b74e4f69872fa24daa846ab8777e831ff294690478a053519874f6ec8c69073",
+    "scripts/vault_check.py": "eccf729f865eec83f8eb48908efb084d955110fb6ff065c814d4edd617d4ea0b",
+    "scripts/collect.py": "8b416c17b1c425b224b0a8eba46b58ec01a6fb01ecd251324796f7f09116b2e9",
+    "scripts/requirements.txt": "1069ab8798ef27921a9fb39e962bdaab1e89d351f21ed5bb84ddda6d4a0bc2e2",
+    "scripts/requirements-dev.txt": "b6dc8c3d290a017b04a26c6a9f730a97e860ef760deb103b73586ea32a541817",
+    "agents/openai.yaml": "0ff0f1cb0961e2963812b35bb67197b5c17ef24f9c7fc2840cc1a0ccfc99d131",
+    "assets/templates/idea.md": "131cdc1658880db840c2750c444132bc32b8616405839b93676ff353dbc87a04",
+    "assets/templates/map.md": "8234183a5ad0b78daabbcd8cce54fd309e07de36e3f6d3099ccdc072f9886ee1",
+    "assets/templates/decision.md": "a48013a079d6df4082ddfd43f0e73ded30f0c643a5a8031795788a056bea2520",
+    "assets/templates/source.md": "4e8a9316349746c569f56d6e3a0fcb7d52890da93179a080d6da8a3659361fdf",
+    "scripts/tests/test_tools.py": "0f039802e4aa3acc6166c731f7e85b0348b1591a3e0a50777920310c7fcbb261"
+  },
+  "research-collect": {
+    "SKILL.md": "4be8c74d76bda16e4cbd199f883105e74bef07d8deeacd4995c02b49f2db7d95",
+    "references/collection.md": "bca25cdc38c1b76dc8228eaeb0d3e964fd2ccbe32c392c224b3adfece45311ef",
+    "assets/icon.svg": "83edb7ff1fcb54461e60f8bab4147bf6e24b4f9bb9e5d29283c614f40b811039",
+    "agents/openai.yaml": "3f0e7abaae7df81fa19697e58d85133153ca970a518cf65f3a877210cec76d98"
+  }
+}
