@@ -12,9 +12,9 @@ Read-only input; writes a SHA-256/version/threshold cache containing `document.m
 
 `python scripts/vault_check.py /path/to/vault --profile auto > /outside/vault/report.json`
 
-Never rewrites notes. It checks YAML (including duplicate keys), duplicate IDs, metadata types, required fields/enums for our schema, basic links/anchors, PDF page bounds and optional source hashes. `auto` applies our schema only to `schema_version: 1` notes; `generic` avoids imposing it; `zettelkasten` explicitly applies it to all checked notes. Templates and hidden directories are skipped. `--strict` treats warnings as failure. Exit 0: no errors; 1: findings; 2: execution failure. A clean report is not factual validation. Complex Markdown reference links, escaped syntax and renderer-specific anchors need manual review.
+Never rewrites notes. It checks YAML (including duplicate keys), duplicate IDs, metadata types, required fields/enums for our schema, basic links/anchors, PDF page bounds and optional source hashes. `auto` applies our schema only to `schema_version: 1` notes; `generic` avoids imposing it; `zettelkasten` explicitly applies it to all checked notes. Templates and hidden directories are skipped as notes. Configured templates are now validated separately; see [existing-vaults.md](existing-vaults.md). `--strict` treats warnings as failure. Exit 0: no errors; 1: findings; 2: execution failure. A clean report is not factual validation. Complex Markdown reference links, escaped syntax and renderer-specific anchors need manual review.
 
-Optional JSON config: `{"fields":{"id":"uid","note_type":"type"},"required":["id","title"],"exclude_dirs":["Archive"],"enums":{"category":["Admin","Personal","Work"]}}`. Fields map canonical to existing names; do not edit legacy metadata merely to pass a check. Keep output outside the vault so it cannot overwrite a note.
+Optional JSON config: `{"fields":{"id":"uid","note_type":"type"},"required":["id","title"],"exclude_dirs":["Archive"],"enums":{"category":["Admin","Personal","Work"]}}`. Explicit config enums apply in all modes, including generic; role rules and local types are documented in [existing-vaults.md](existing-vaults.md). Fields map canonical to existing names; do not edit legacy metadata merely to pass a check. Keep output outside the vault so it cannot overwrite a note.
 
 ## Collection
 

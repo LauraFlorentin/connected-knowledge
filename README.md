@@ -1,6 +1,6 @@
 # Connected Knowledge
 
-Reusable knowledge and research workflows for Claude and ChatGPT, built around the Zettelkasten–Obsidian skill. Version **1.1.1**.
+Reusable knowledge and research workflows for Claude and ChatGPT, built around the Zettelkasten–Obsidian skill. Version **1.2.0**.
 
 Develop conversations, documents and notes into sourced, connected knowledge. Adapt to an existing Obsidian vault, collect selected material into a reviewable inbox, retrieve relevant context, and revise notes without losing provenance.
 
@@ -22,13 +22,21 @@ This is a plugin for supported AI hosts. It works with ordinary Obsidian Markdow
 | --- | --- |
 | Develop Knowledge (`zettelkasten-obsidian`) | Onboard, capture, develop, retrieve, synthesize and revise knowledge. |
 | Collect Research (`research-collect`) | Collect explicitly selected sources into an inbox. |
-| Four Python tools | Collect material, extract PDFs with page references, check vault structure, and create an optional starter. |
+| Five Python tools | Collect material, extract PDFs with page references, check vault structure, compare existing vaults, and create an optional starter. |
 | Templates and vault guide | Shared conventions for people and assistants. |
 | Platform manifests | Claude and ChatGPT/Codex packaging with shared skill sources. |
 
 The integrated Zettelkasten Practice guidance is preserved within the primary skill; a second Practice installation is unnecessary. Existing vault conventions take priority. The optional starter requires an explicit choice and refuses an existing target directory.
 
 Bulk ChatGPT/Claude export parsing, an active MCP service, logging hooks, semantic-search infrastructure and background scheduling are not implemented. See [future capture options](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/future-chat-capture.md) for their requirements.
+
+## Existing-vault validation
+
+Validate local properties and role-scoped identities without changing your schema.
+Inspect configured templates separately, distinguish excluded/external links from
+missing targets, and compare settings and file hashes without writing to either vault.
+See [profiles and comparison](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/existing-vaults.md).
+The extension adds one profile example and two report outlines; existing note templates are unchanged.
 
 ## Build distribution files
 

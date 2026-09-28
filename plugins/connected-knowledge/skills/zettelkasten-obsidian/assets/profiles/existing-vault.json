@@ -1,0 +1,19 @@
+{
+  "guide": "Vault Guide.md",
+  "template_folders": ["90-meta/templates/manual"],
+  "fields": {"note_type": "type", "review_status": "status"},
+  "required": [],
+  "enums": {
+    "note_type": ["reference", "entity", "decision", "review", "meeting", "workstream", "account", "agent", "idea", "map"],
+    "review_status": ["auto", "reviewed"],
+    "decision_state": ["proposed", "decided"]
+  },
+  "types": {
+    "note_type": "string", "review_status": "string", "date": ["string", "date"],
+    "aliases": "string_list", "entities": "string_list"
+  },
+  "references": ["workstream_id", "conversation_id", "email_workbook_id"],
+  "roles": {
+    "decision": {"identity": "decision_id", "required": ["decision_id"]}
+  }
+}

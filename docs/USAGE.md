@@ -67,3 +67,10 @@ python "$CORE/scripts/collect.py" --config /path/to/collection.json --scheduled
 ```
 
 No scheduler is installed by these instructions. A sleeping/offline local computer cannot provide dependable unattended collection. Phone use requires a reachable remote runtime/destination or selected manual upload. Available email or cloud connectors require separately authorized access; this package does not fetch all consumer chat histories.
+
+
+## Compare and validate existing vaults
+
+Use the existing shared guide to adapt the [profile example](../plugins/connected-knowledge/skills/zettelkasten-obsidian/assets/profiles/existing-vault.json). Then ask: “Check this vault using its existing properties; report template and link scope separately and do not change files.” For a two-vault comparison, explicitly supply both paths.
+
+[Profile rules, commands and evidence limits](../plugins/connected-knowledge/skills/zettelkasten-obsidian/references/existing-vaults.md) explain the JSON reports. The reusable [comparison outline](../plugins/connected-knowledge/skills/zettelkasten-obsidian/assets/reports/vault-comparison.md) and [validation outline](../plugins/connected-knowledge/skills/zettelkasten-obsidian/assets/reports/vault-validation.md) are reporting aids, not new note templates to install.
