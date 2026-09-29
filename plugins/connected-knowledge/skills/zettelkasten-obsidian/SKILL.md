@@ -17,6 +17,8 @@ For existing-vault profiling, comparison, local property/identity validation, or
 
 For supplied chat-history imports, read [history-import.md](references/history-import.md). Preview the actual export before applying; choose a dedicated archive destination and preserve the shared vault guide. Installation does not grant account-history access.
 
+For classifying imported chats, developing graph notes, or citing imported messages, read [graph-development.md](references/graph-development.md). Use evidence packets to prepare a scoped proposal, preview it, and apply only the requested writes.
+
 ## Select the requested outcome
 
 - **Label or classify:** Provide `[Category] Title`, with a title of at most five words. Add requested metadata without turning a labeling task into note creation.
