@@ -1,5 +1,16 @@
 # Validation and limits — updated 2026-09-28
 
+## Graph development candidate — 2026-09-29
+
+55 synthetic tests pass (43 existing plus 12 graph workflow tests). Graph coverage
+includes exact message citations, lexical search/limits, read-only preview,
+idempotent apply, valid vault links, legacy property conventions, proposed decision
+state, cross-note relationships, stale/missing evidence, invalid paths/categories,
+human edits, revisions, symlinks and changes during proposal rendering. Import
+archives remain byte-unchanged during graph writes. AI reasoning quality and real
+history coverage are not established by these structural tests. No live vault,
+account capture, scheduled process or plugin installation was modified.
+
 ## History import candidate — 2026-09-28
 
 43 tests pass (30 existing plus 13 importer tests). Synthetic fixtures cover

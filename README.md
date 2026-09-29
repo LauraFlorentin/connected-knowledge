@@ -22,7 +22,7 @@ This is a plugin for supported AI hosts. It works with ordinary Obsidian Markdow
 | --- | --- |
 | Develop Knowledge (`zettelkasten-obsidian`) | Onboard, capture, develop, retrieve, synthesize and revise knowledge. |
 | Collect Research (`research-collect`) | Collect explicitly selected sources into an inbox. |
-| Six Python tools | Collect material, extract PDFs with page references, check vault structure, compare existing vaults, import supplied chat JSON, and create an optional starter. |
+| Seven Python tools | Collect material, extract PDFs with page references, check vault structure, compare existing vaults, import supplied chat JSON, develop evidence-backed graph notes, and create an optional starter. |
 | Templates and vault guide | Shared conventions for people and assistants. |
 | Platform manifests | Claude and ChatGPT/Codex packaging with shared skill sources. |
 
@@ -37,6 +37,15 @@ Inspect configured templates separately, distinguish excluded/external links fro
 missing targets, and compare settings and file hashes without writing to either vault.
 See [profiles and comparison](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/existing-vaults.md).
 The extension adds one profile example and two report outlines; existing note templates are unchanged.
+
+## Develop a graph from imported conversations
+
+Search imported messages with source citations, prepare optional classifications and
+linked notes, then preview and apply the proposal. Existing notes can be linked
+without being rewritten. The assistant supplies the reasoning; the script verifies
+source identity, evidence locators, links and write conflicts. See the
+[graph workflow](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/graph-development.md).
+No embedding service or automatic semantic classifier is required or included.
 
 ## Build distribution files
 
