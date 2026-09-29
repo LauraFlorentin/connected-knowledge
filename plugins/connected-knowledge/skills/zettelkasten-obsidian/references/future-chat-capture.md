@@ -1,4 +1,9 @@
-# Future chat capture: select an actual route
+# Chat capture: select an actual route
+
+Update 2026-09-29: a local Codex/Claude Code adapter is now implemented; see
+[session-capture.md](session-capture.md). It supports historical previews and
+explicitly configured event capture. No live hooks are installed by the package.
+The remaining platform/reachability limits below still apply.
 
 Capability review: 2026-09-28. Recheck the named host/version, account, runtime and tool permissions at setup time. The package currently contains collection scripts and instructions; it does not contain a deployed MCP service, registered logging hook or automatic account-history fetcher. Supplied ChatGPT/Claude JSON can be imported with `chat_import.py`; see [history onboarding](history-import.md).
 

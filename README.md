@@ -22,13 +22,13 @@ This is a plugin for supported AI hosts. It works with ordinary Obsidian Markdow
 | --- | --- |
 | Develop Knowledge (`zettelkasten-obsidian`) | Onboard, capture, develop, retrieve, synthesize and revise knowledge. |
 | Collect Research (`research-collect`) | Collect explicitly selected sources into an inbox. |
-| Seven Python tools | Collect material, extract PDFs with page references, check vault structure, compare existing vaults, import supplied chat JSON, develop evidence-backed graph notes, and create an optional starter. |
+| Eight Python tools | Collect material, extract PDFs with page references, check vault structure, compare existing vaults, import supplied chat JSON, develop evidence-backed graph notes, adapt local agent transcripts, and create an optional starter. |
 | Templates and vault guide | Shared conventions for people and assistants. |
 | Platform manifests | Claude and ChatGPT/Codex packaging with shared skill sources. |
 
 The integrated Zettelkasten Practice guidance is preserved within the primary skill; a second Practice installation is unnecessary. Existing vault conventions take priority. The optional starter requires an explicit choice and refuses an existing target directory.
 
-Supplied ChatGPT/Claude JSON import is available with preview, repeat detection and edit protection; see [history onboarding](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/history-import.md). Account-history fetching, an active MCP service, logging hooks, semantic-search infrastructure and background scheduling are not implemented. See [future capture options](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/future-chat-capture.md) for their requirements.
+Supplied ChatGPT/Claude JSON import is available with preview, repeat detection and edit protection; see [history onboarding](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/history-import.md). Account-history fetching, an active MCP service, registered capture hooks, semantic-search infrastructure and background scheduling are not implemented. See [future capture options](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/future-chat-capture.md) for their requirements.
 
 ## Existing-vault validation
 
@@ -46,6 +46,10 @@ without being rewritten. The assistant supplies the reasoning; the script verifi
 source identity, evidence locators, links and write conflicts. See the
 [graph workflow](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/graph-development.md).
 No embedding service or automatic semantic classifier is required or included.
+
+## Local session history and ongoing capture
+
+The opt-in [session adapter](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/session-capture.md) converts selected Codex/Claude Code JSONL histories and can run from configured Stop/SessionEnd hooks. It defaults to preview and requires explicit source/project selection and enabled configuration for writes. No hooks are installed automatically; ordinary Claude account exports remain a separate route.
 
 ## Build distribution files
 

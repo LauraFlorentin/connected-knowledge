@@ -19,6 +19,8 @@ For supplied chat-history imports, read [history-import.md](references/history-i
 
 For classifying imported chats, developing graph notes, or citing imported messages, read [graph-development.md](references/graph-development.md). Use evidence packets to prepare a scoped proposal, preview it, and apply only the requested writes.
 
+For local Codex/Claude Code session history or ongoing-capture setup, read [session-capture.md](references/session-capture.md). Preview selected sources first; the adapter is available but no capture hooks are registered by installation.
+
 ## Select the requested outcome
 
 - **Label or classify:** Provide `[Category] Title`, with a title of at most five words. Add requested metadata without turning a labeling task into note creation.
