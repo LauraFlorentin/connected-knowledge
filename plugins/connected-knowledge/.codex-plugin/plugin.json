@@ -14,6 +14,12 @@
     "defaultPrompt": [
       "Onboard my existing vault.",
       "Prepare selected research collection."
-    ]
+    ],
+    "developerName": "LauraFlorentin",
+    "longDescription": "Collect selected research into a reviewable inbox and develop sourced, linked knowledge using existing Obsidian vault conventions. Includes read-only vault validation and comparison tools; no scheduler or account-history access is installed."
+  },
+  "author": {
+    "name": "LauraFlorentin",
+    "url": "https://github.com/LauraFlorentin"
   }
 }

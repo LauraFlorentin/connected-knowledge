@@ -28,7 +28,9 @@ vocabulary, not a universal required schema. There are no machine-specific paths
 - `references` documents shared references. They are not uniqueness constraints;
   a role cannot declare the same mapped field as both identity and reference.
 - `guide` and `template_folders` are vault-relative. Saved core Templates settings
-  contribute an additional template location. Templates are excluded from note
+  contribute an additional template location. Missing paths or paths that are not
+  directories fail with exit code 2; overlapping folders inspect each file once.
+  Templates are excluded from note
   identity checks and checked separately. `exclude_dirs` retains the original
   directory-basename exclusion behavior (for example `Archive`, not a glob).
 
@@ -54,7 +56,10 @@ excluding `.git` and symlinks), selected saved settings, property types and valu
 scoped identities, template hashes and bounded substitution results. They compare
 before/after inventories and flag concurrent changes rather than asserting that
 a changing vault was preserved. Reports can contain private property values and
-paths: keep them local unless sharing is explicitly authorized.
+paths: keep them local unless sharing is explicitly authorized. Vocabulary values
+use JSON strings; values containing YAML mapping keys that JSON cannot serialize
+or sort are stored as a JSON object with a `yaml` string, preserving typed keys
+without merging distinct keys such as `1` and `"1"`.
 
 Template checks substitute `{{title}}`, `{{date}}`, `{{date:YYYY-MM-DD}}`,
 `{{time}}` and `{{time:HH:mm}}` with fixed synthetic values, then parse YAML and

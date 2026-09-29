@@ -113,4 +113,45 @@ class Profiles(unittest.TestCase):
         result=subprocess.run(command+['--other-config','absent'],capture_output=True,text=True)
         self.assertEqual(result.returncode,2)
 
+    def test_yaml_vocabulary_keys_preserved_in_cli_reports(self):
+        import yaml
+        from datetime import date
+        self.note('A.md', '---\nmetadata:\n  2026-09-28: dated\n  1: numeric\n  "1": text\n  label: named\n---\n')
+        before = file_inventory(self.root)
+        for script in ('vault_check.py', 'vault_compare.py'):
+            with self.subTest(script=script):
+                result = subprocess.run([sys.executable, str(SCRIPTS/script), str(self.root)],
+                                        capture_output=True, text=True)
+                self.assertEqual(result.returncode, 0, result.stdout)
+                report = json.loads(result.stdout)
+                validation = report.get('validation', report)
+                encoded = validation['property_vocabulary']['metadata']['values'][0]
+                value = yaml.safe_load(json.loads(encoded)['yaml'])
+                self.assertEqual(value, {date(2026, 9, 28): 'dated', 1: 'numeric', '1': 'text', 'label': 'named'})
+        self.assertEqual(before, file_inventory(self.root))
+
+    def test_missing_or_file_template_locations_fail(self):
+        self.note('NotAFolder', 'content')
+        for folder in ('Missing', 'NotAFolder'):
+            for source in ('profile', 'settings'):
+                with self.subTest(folder=folder, source=source):
+                    self.note('.obsidian/templates.json', json.dumps({'folder': folder if source == 'settings' else ''}))
+                    config = {'template_folders': [folder]} if source == 'profile' else {}
+                    cfg = self.root.parent/'profile.json'
+                    cfg.write_text(json.dumps(config))
+                    for script in ('vault_check.py', 'vault_compare.py'):
+                        result = subprocess.run([sys.executable, str(SCRIPTS/script), str(self.root), '--config', str(cfg)],
+                                                capture_output=True, text=True)
+                        self.assertEqual(result.returncode, 2, result.stdout)
+                        self.assertIn(folder, json.loads(result.stdout)['error'])
+
+    def test_overlapping_template_locations_report_each_file_once(self):
+        self.note('Blueprints/sub/A.md', '---\nstatus: invalid\n---\n')
+        self.note('.obsidian/templates.json', json.dumps({'folder': 'Blueprints/sub'}))
+        cfg = dict(self.cfg, template_folders=['Blueprints', 'Blueprints/sub'])
+        report = vault_check.check(self.root, 'generic', cfg)
+        self.assertEqual([t['path'] for t in report['templates']], ['Blueprints/sub/A.md'])
+        self.assertEqual(report['errors'], 1)
+        self.assertEqual(len(report['findings']), 1)
+
 if __name__ == '__main__': unittest.main()

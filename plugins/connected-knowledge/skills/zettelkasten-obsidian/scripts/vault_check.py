@@ -10,7 +10,7 @@ import sys
 from urllib.parse import unquote, urlsplit
 import yaml
 from pypdf import PdfReader
-from vault_profile import validate_config, local_rules, template_locations, is_template, inspect_templates
+from vault_profile import validate_config, local_rules, template_locations, is_template, inspect_templates, property_value
 
 class UniqueLoader(yaml.SafeLoader): pass
 
@@ -162,7 +162,7 @@ def check(vault, profile='auto', config=None):
         for finding in template['findings']:
             add(finding['code'], root/template['path'], finding['message'], finding['severity'])
     return {'configuration':cfg, 'templates':templates, 'template_folders':[str(p.relative_to(root)) for p in template_folders],
-            'property_vocabulary':{str(k): {'types':sorted(v), 'values':sorted({json.dumps(meta[k], default=str, sort_keys=True) for meta in parsed.values() if k in meta})} for k,v in field_types.items()},
+            'property_vocabulary':{str(k): {'types':sorted(v), 'values':sorted({property_value(meta[k]) for meta in parsed.values() if k in meta})} for k,v in field_types.items()},
             'identities':[{'role':role,'field':field,'value':ident,'paths':[str(p.relative_to(root)) for p in paths]}
                           for (role,field,ident),paths in ids.items()],
             'evidence':{'filesystem':'checked', 'ui_trial':'not_performed', 'factual_validation':'not_performed'},

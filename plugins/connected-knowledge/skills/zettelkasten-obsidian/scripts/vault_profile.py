@@ -8,6 +8,18 @@ import re
 TYPE_NAMES = {'string', 'integer', 'number', 'boolean', 'date', 'list', 'string_list'}
 
 
+def property_value(value):
+    """Serialize vocabulary values without dropping typed YAML mapping keys."""
+    try:
+        return json.dumps(value, default=str, sort_keys=True)
+    except TypeError:
+        # JSON cannot represent date keys or sort mixed string/numeric keys.
+        # Retain those values as explicit YAML rather than coercing keys, which
+        # could silently merge distinct keys such as 1 and "1".
+        import yaml
+        return json.dumps({'yaml': yaml.safe_dump(value, sort_keys=True)})
+
+
 def validate_config(cfg):
     if not isinstance(cfg, dict):
         raise ValueError('Profile config must be an object')
@@ -96,6 +108,8 @@ def template_locations(root, cfg):
         p = (root / folder).resolve()
         if not p.is_relative_to(root) or p == root:
             raise ValueError('Template folder must be a subdirectory inside the vault')
+        if not p.is_dir():
+            raise ValueError(f'Template folder is missing or not a directory: {folder}')
         if p not in result: result.append(p)
     return result
 
@@ -117,9 +131,11 @@ def file_inventory(root):
 def inspect_templates(root, folders, loader, cfg):
     import yaml
     results = []
+    seen = set()
     for folder in folders:
         for p in sorted(folder.rglob('*.md')):
-            if p.is_symlink(): continue
+            if p.is_symlink() or p in seen: continue
+            seen.add(p)
             text = p.read_text(encoding='utf-8-sig')
             issues = []
             # Bounded core substitution; arbitrary Moment formats are deliberately unverified.
