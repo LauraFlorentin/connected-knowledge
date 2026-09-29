@@ -1,5 +1,16 @@
 # Validation and limits — updated 2026-09-28
 
+## Session capture candidate — 2026-09-29
+
+67 tests pass (55 existing plus 12 session-adapter tests). Covers read-only previews,
+repeat/append behavior, raw preservation, project exclusions, disabled writes,
+incomplete JSONL, shortened snapshots, identity/final-message checks, non-text
+exclusions, symlinks, history batch reporting, human edits and hook exit behavior.
+Local read-only format trials parsed 15 of 16 Codex transcript files and 4 of 10
+main Claude Code files. Rejected files were empty, incomplete or had unclear
+project identity; no coverage was inferred for them. No transcript contents are
+included here, no actual history was imported, and no live hook was installed.
+
 ## Graph development candidate — 2026-09-29
 
 55 synthetic tests pass (43 existing plus 12 graph workflow tests). Graph coverage

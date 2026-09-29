@@ -1,0 +1,10 @@
+{
+  "enabled": false,
+  "host": "codex",
+  "account": "personal",
+  "transcript_roots": [],
+  "projects": [],
+  "spool": "",
+  "destination": "",
+  "vocabulary": "existing"
+}
