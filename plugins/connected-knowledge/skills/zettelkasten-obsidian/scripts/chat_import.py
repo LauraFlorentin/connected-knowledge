@@ -193,6 +193,20 @@ def run(source, destination, platform, account, apply=False, annotations=None, v
             if path.is_symlink():
                 raise ValueError('Refusing symlink note')
             current = digest(path.read_bytes()) if path.exists() else None
+            if old and current == old['sha256']:
+                original_name = old.get('original')
+                if original_name is None:
+                    # Read archives written before the manifest recorded this field.
+                    original_name = yaml.safe_load(path.read_text().split('---', 2)[1]).get('source_file')
+                if not isinstance(original_name, str):
+                    raise ValueError('Archived original reference missing')
+                original_path = root/original_name
+                expected_hash = original_path.stem
+                if (original_path.parent != root/'originals' or original_path.suffix != '.json'
+                        or (root/'originals').is_symlink() or original_path.is_symlink()
+                        or not original_path.is_file()
+                        or digest(original_path.read_bytes()) != expected_hash):
+                    raise ValueError('Archived original is missing or changed; reconcile before importing')
             if old and current == old['sha256'] and old['fingerprint'] == fingerprint:
                 action = 'unchanged'
             elif (old and current != old['sha256']) or (not old and path.exists()):
@@ -236,7 +250,8 @@ def run(source, destination, platform, account, apply=False, annotations=None, v
                 revision = root/'revisions'/(key+'-'+previous+'.md')
                 atomic_write(revision, path.read_bytes())
             atomic_write(path, content)
-            state['records'][key] = {'path':path.name, 'sha256':digest(content), 'fingerprint':fingerprint}
+            state['records'][key] = {'path':path.name, 'sha256':digest(content), 'fingerprint':fingerprint,
+                                     'original': 'originals/' + digest(raw) + '.json'}
             atomic_write(manifest_path, encoded(state))
             report['written'] += 1
     finally:

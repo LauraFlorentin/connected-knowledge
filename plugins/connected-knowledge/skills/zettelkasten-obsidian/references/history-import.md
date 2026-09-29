@@ -82,6 +82,11 @@ can leave an untracked/mismatched note. The next import reports a conflict; keep
 that note and reconcile it against the preserved original and revisions before
 repairing manifest state. Never delete human edits just to clear a conflict.
 
+Before accepting a repeat or update, the importer verifies the referenced original
+export still exists and matches its recorded content-addressed filename. Missing
+or changed originals block the batch for reconciliation; they are not silently
+replaced.
+
 A repeat import preserves unchanged notes even if unrelated conversations changed
 in the export. Missing conversations are not deleted from the archive. This is an
 archive policy, not a synchronization deletion policy. Disappearing source records

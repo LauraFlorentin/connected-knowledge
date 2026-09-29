@@ -95,4 +95,28 @@ class ChatImport(unittest.TestCase):
         with self.assertRaises(FileExistsError):self.run_import(apply=True)
         self.assertTrue((self.dest/'.import.lock').exists())
 
+    def test_missing_or_changed_original_blocks_repeat(self):
+        self.run_import(apply=True)
+        original = next((self.dest/'originals').glob('*.json'))
+        original.write_text('changed')
+        report = self.run_import(apply=True)
+        self.assertEqual(report['failed'], 1)
+        self.assertEqual(report['written'], 0)
+        self.assertEqual(original.read_text(), 'changed')
+        original.unlink()
+        report = self.run_import(apply=True)
+        self.assertEqual(report['failed'], 1)
+        self.assertEqual(report['unchanged'], 0)
+        self.assertFalse(original.exists())
+
+    def test_legacy_manifest_original_is_verified(self):
+        self.run_import(apply=True)
+        manifest = self.dest/'manifest.json'
+        state = json.loads(manifest.read_text())
+        for entry in state['records'].values(): entry.pop('original')
+        manifest.write_text(json.dumps(state))
+        self.assertEqual(self.run_import(apply=True)['unchanged'], 1)
+        next((self.dest/'originals').glob('*.json')).unlink()
+        self.assertEqual(self.run_import(apply=True)['failed'], 1)
+
 if __name__=='__main__':unittest.main()
