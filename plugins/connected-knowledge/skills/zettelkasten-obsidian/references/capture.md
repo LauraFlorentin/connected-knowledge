@@ -27,7 +27,7 @@ Prefer an existing compatible file or vault tool. An MCP server provides capabil
 7. Update the source note and only affected derived notes. Preserve user-authored content. Do not re-extract unchanged material simply to produce a new summary. Keep contradictions and supersession visible.
 8. Validate the produced Markdown, YAML types, links, and evidence locators. Report processed/skipped/failed counts only when measured. Flag incomplete source records rather than fabricating replacements.
 
-Create deterministic helper scripts when needed for an actual repeated or large import. This skill does not ship a universal parser; inspect provided data before implementing one. Use dependencies the actual import requires. Enable persistent watchers or scheduled ingestion only when requested as part of automation.
+Use `chat_import.py` and [history-import.md](history-import.md) for supported ChatGPT/Claude JSON arrays. It previews by default and requires `--apply` to write. Inspect actual data first; unsupported formats require an adapter and tests. Use dependencies the actual import requires. Enable persistent watchers or scheduled ingestion only when requested as part of automation.
 
 ## Saving and update checks
 

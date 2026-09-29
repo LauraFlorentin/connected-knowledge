@@ -1,6 +1,6 @@
 # Future chat capture: select an actual route
 
-Capability review: 2026-09-28. Recheck the named host/version, account, runtime and tool permissions at setup time. The package currently contains collection scripts and instructions; it does not contain a deployed MCP service, registered logging hook or ChatGPT/Claude account-history importer.
+Capability review: 2026-09-28. Recheck the named host/version, account, runtime and tool permissions at setup time. The package currently contains collection scripts and instructions; it does not contain a deployed MCP service, registered logging hook or automatic account-history fetcher. Supplied ChatGPT/Claude JSON can be imported with `chat_import.py`; see [history onboarding](history-import.md).
 
 ## Separate capture from delivery
 
@@ -11,7 +11,7 @@ A vault connection answers “where can we search, read and write?” It does no
 | Selected save in a native chat | On “save this,” the assistant can prepare available context and call an authorized destination tool. | Connect the actual vault or an inbox; label summary/excerpt coverage; verify the write. An instruction does not guarantee an automatic save after every chat. |
 | ChatGPT Work / Codex lifecycle | Official plugin docs describe hooks in the Codex runtime, including Work. Hooks can send logs or summaries at supported events. | Deploy trusted scripts in that runtime, verify event payloads and transcript availability, add an idempotent adapter and test that exact surface. A web plugin installation alone does not deploy scripts. |
 | Claude Code lifecycle | Documented hooks expose session identity and a transcript path, with turn/session events. | Implement and register an adapter for the actual runtime; verify completeness and failure handling. Do not infer equal coverage for all Claude consumer-app conversations or every Cowork surface. |
-| Periodically supplied account exports | Local collection can preserve exports after they arrive; an importer could reconcile conversations. | User requests/downloads exports; platform-specific bulk parsers are still missing. A watcher cannot cause an unsupported export to happen. |
+| Periodically supplied account exports | Local collection preserves exports; the supplied-JSON importer reconciles conversations. | User requests/downloads exports; inspect the export version against the implemented ChatGPT/Claude adapters. A watcher cannot cause an unsupported export to happen. |
 | Own multi-model chat client | Log messages sent through that client at creation time. | Build/use an API-based client, pay applicable API usage and accept that chats conducted elsewhere are outside its capture scope. |
 | Browser capture extension | Potentially capture supported browser conversations. | Select and assess a specific extension. It is not evidence of capture inside the native phone/desktop apps. |
 

@@ -29,7 +29,7 @@ These are skill-guided workflows, not a background service. Direct writes requir
 
 ## Duplicates: what is enforced and what needs judgment
 
-The collector already skips unchanged inputs with the same configured source identity and content hash. A changed export is a new raw version, not a newly reconciled set of conversations. The platform-specific history importer still needs implementation against actual exports; its contract is to match platform/account/conversation ID and update existing records.
+The collector already skips unchanged inputs with the same configured source identity and content hash. A changed export is a new raw version, not a newly reconciled set of conversations. The supplied-JSON history importer now matches platform/account/conversation ID, retains originals and revisions, and blocks updates to human-edited notes. Its adapters have synthetic coverage; inspect actual exports before first use. See the skill’s `references/history-import.md`.
 
 For ideas, search the proposition, aliases, scope and time before adding anything. Reuse the canonical idea and add evidence when equivalent. Keep distinct source records and real disagreements. Ambiguous matches become review items. Neither a clean vault-check report nor similar titles prove semantic deduplication. No honest system can guarantee that all differently worded duplicate ideas are automatically recognized; this package supplies the review discipline and structural checks.
 

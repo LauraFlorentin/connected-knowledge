@@ -1,5 +1,15 @@
 # Validation and limits — updated 2026-09-28
 
+## History import candidate — 2026-09-28
+
+41 tests pass (30 existing plus 11 importer tests). Synthetic fixtures cover
+preview with no writes, repeat imports, retained source/revision bytes, conflicts
+with human edits, unchanged notes when unrelated chats change, absent/duplicate
+IDs, account separation, branched ChatGPT messages, Claude content/attachments,
+optional categories, existing-vault vocabulary, invalid links and exclusive locks.
+The plugin validator passes. No personal export has been imported, no real-export
+compatibility claim is made, and no continuous-capture adapter is installed.
+
 ## PR review fixes — 2026-09-28
 
 30 synthetic unittest cases pass on Python 3.9.6, including regression coverage

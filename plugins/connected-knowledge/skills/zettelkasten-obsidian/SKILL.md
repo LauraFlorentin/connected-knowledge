@@ -15,6 +15,8 @@ For selected-source collection, route to the companion `research-collect` skill 
 
 For existing-vault profiling, comparison, local property/identity validation, or template/link-scope checks, read [existing-vaults.md](references/existing-vaults.md). Keep profiles and reports outside the live vault. Reuse existing field mappings and do not auto-fix findings.
 
+For supplied chat-history imports, read [history-import.md](references/history-import.md). Preview the actual export before applying; choose a dedicated archive destination and preserve the shared vault guide. Installation does not grant account-history access.
+
 ## Select the requested outcome
 
 - **Label or classify:** Provide `[Category] Title`, with a title of at most five words. Add requested metadata without turning a labeling task into note creation.
@@ -34,7 +36,7 @@ For focused retrieval, revision, or duplicate prevention, load [knowledge-mainte
 
 ## Apply the user's classification
 
-Use exactly these default categories:
+Use these categories when the user selects the default ontology. Existing vault conventions take priority; users may choose custom categories or omit classification. Do not infer a category merely to fill a required field:
 
 | Category | Meaning |
 | --- | --- |
