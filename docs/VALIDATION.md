@@ -1,5 +1,50 @@
 # Validation and limits — updated 2026-09-28
 
+## PR review fixes — 2026-09-28
+
+30 synthetic unittest cases pass on Python 3.9.6, including regression coverage
+for YAML date/mixed-type mapping keys through both CLIs, missing/non-directory
+template paths from profiles and Obsidian settings, and overlapping template
+folders. Unrepresentable JSON mappings retain typed keys in an explicit YAML
+payload. Invalid template directories exit 2, and template files are inspected
+once even when profile/settings paths overlap. No live-vault checks were repeated.
+
+The system plugin validator now passes. Added Codex author and display metadata
+and removed unsupported `policy.products` from the two skill agent files;
+`allow_implicit_invocation` and skill instructions remain intact. This supersedes
+the five packaging incompatibilities recorded below. Collection code and knowledge
+note templates remain unchanged; the collection skill's agent metadata has changed.
+The distribution was rebuilt and every ZIP entry matches source bytes.
+Native installation, UI behavior and sync remain separate, unperformed checks.
+
+## Version 1.2.0 existing-vault extension — 2026-09-28
+
+27 unittest cases passed (12 existing, 15 new) using Python 3.9.6 on macOS.
+The new tests cover configured enums/types in generic mode, identity field mapping
+and role scope, repeated references, required role properties, configured template
+folders, blank placeholders, unsupported expansion warnings, malformed YAML,
+external/excluded/missing links, ambiguous excluded short names, symlinks,
+comparison differences, concurrent changes, invalid profiles and CLI failure codes.
+The documented Python 3.10+ minimum remains; this run is additional compatibility
+evidence, not a supported-version matrix.
+
+A read-only local check of an existing everyday vault passed: 5 non-template notes,
+16 templates, no errors/warnings, unchanged file hashes. The preserved project pack
+had 16 non-template notes and 14 configured templates, zero errors, two ambiguous
+README warnings, and informational external/excluded links. Both inventories were
+unchanged. These filesystem checks do not claim a UI trial or ongoing sync test.
+Private reports remain outside this repository.
+
+All four existing note templates and the complete research-collect skill are
+byte-identical to 1.1.1. The primary skill passes the format validator. All three
+manifest versions agree, and every distribution ZIP entry matches source bytes.
+The current system plugin validator reports the same five metadata incompatibilities
+on both the unmodified baseline and this candidate: missing author object,
+longDescription and developerName, plus policy.products in each skill's agent
+metadata. This release does not silently remove that existing product metadata;
+full validation by that validator remains unresolved. No native install or hosted
+release of this candidate is claimed by these tests.
+
 ## Version 1.1.1 rename — 2026-09-28
 
 Renamed the plugin and marketplace to Connected Knowledge and updated the two skill display names to Develop Knowledge and Collect Research. All core instruction, reference, template and script bytes were checked against the preceding package and preserved; only skill UI metadata changed. Internal skill names remain unchanged.

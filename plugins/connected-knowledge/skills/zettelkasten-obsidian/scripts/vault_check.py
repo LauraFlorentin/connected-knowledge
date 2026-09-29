@@ -10,6 +10,7 @@ import sys
 from urllib.parse import unquote, urlsplit
 import yaml
 from pypdf import PdfReader
+from vault_profile import validate_config, local_rules, template_locations, is_template, inspect_templates, property_value
 
 class UniqueLoader(yaml.SafeLoader): pass
 
@@ -34,13 +35,20 @@ def body_only(text):
 def check(vault, profile='auto', config=None):
     root = Path(vault).resolve()
     if not root.is_dir(): raise ValueError('Vault directory not found')
-    cfg = config or {}
+    cfg = {} if config is None else config
+    validate_config(cfg)
     fields = cfg.get('fields', {})
+    template_folders = template_locations(root, cfg)
     excluded = {'.obsidian','.git','Templates','templates', *cfg.get('exclude_dirs',[])}
     findings, texts, ids, names, field_types = [], {}, defaultdict(list), defaultdict(list), defaultdict(set)
     def add(code, path, message, severity='error'):
         findings.append({'severity':severity,'code':code,'path':str(path.relative_to(root)), 'message':message})
-    files = [p for p in root.rglob('*') if p.is_file() and not p.is_symlink() and not any(x in excluded or x.startswith('.') for x in p.relative_to(root).parts)]
+    all_files = [p for p in sorted(root.rglob('*')) if p.is_file() and not p.is_symlink() and '.git' not in p.relative_to(root).parts]
+    scope_names = defaultdict(list)
+    for p in all_files:
+        scope_names[p.name.casefold()].append(p)
+        if p.suffix.lower() == '.md': scope_names[p.stem.casefold()].append(p)
+    files = [p for p in all_files if p.is_file() and not p.is_symlink() and not is_template(p, template_folders) and not any(x in excluded or x.startswith('.') for x in p.relative_to(root).parts)]
     for f in files:
         names[f.name.casefold()].append(f)
         if f.suffix.lower()=='.md': names[f.stem.casefold()].append(f)
@@ -55,18 +63,21 @@ def check(vault, profile='auto', config=None):
         if text.startswith('---') and not fm: add('frontmatter',f,'Unterminated YAML frontmatter')
         if fm:
             try:
-                meta = yaml.load(fm.group(1), Loader=UniqueLoader) or {}
+                meta = yaml.load(fm.group(1), Loader=UniqueLoader)
+                if meta is None: meta = {}
                 if not isinstance(meta,dict): raise ValueError('Frontmatter must be a mapping')
             except Exception as exc: add('yaml',f,str(exc)); meta={}
         parsed[f] = meta
         for key,value in meta.items():
             if value is not None: field_types[key].add(type(value).__name__)
-        ident = meta.get(fields.get('id','id'))
+        role, role_rule = local_rules(meta, cfg, add, f)
+        identity = role_rule.get('identity') if cfg.get('roles') else 'id'
+        ident = meta.get(fields.get(identity, identity)) if identity else None
         if ident is not None:
             if not isinstance(ident,str) or not ident: add('id-type',f,'Identifier must be a nonempty string')
-            else: ids[ident].append(f)
+            else: ids[(role if cfg.get('roles') else None, identity, ident)].append(f)
         strict = profile=='zettelkasten' or (profile=='auto' and meta.get('schema_version')==1)
-        required = cfg.get('required', ['schema_version','id','note_type','category','title'] if strict else [])
+        required = [] if 'required' in cfg else (['schema_version','id','note_type','category','title'] if strict else [])
         for key in required:
             actual=fields.get(key,key)
             if actual not in meta or meta[actual] in (None,''): add('required',f,f'Missing {actual}')
@@ -74,7 +85,7 @@ def check(vault, profile='auto', config=None):
             if meta.get('schema_version') != 1: add('schema-version',f,'Expected schema_version: 1')
             for key, allowed in ENUMS.items():
                 actual=fields.get(key,key)
-                if actual in meta and meta[actual] not in cfg.get('enums',{}).get(key,allowed): add('enum',f,f'Invalid {actual}: {meta[actual]!r}')
+                if key not in cfg.get('enums', {}) and actual in meta and meta[actual] not in allowed: add('enum',f,f'Invalid {actual}: {meta[actual]!r}')
             for key in LISTS:
                 value=meta.get(fields.get(key,key))
                 if value is not None and (not isinstance(value,list) or any(not isinstance(x,str) for x in value)):
@@ -86,7 +97,7 @@ def check(vault, profile='auto', config=None):
             elif hashlib.sha256(target.read_bytes()).hexdigest()!=meta['source_sha256']: add('source-drift',f,'Source bytes differ from recorded hash')
     for ident, matches in ids.items():
         if len(matches)>1:
-            for f in matches: add('duplicate-id',f,f'{ident}: '+', '.join(str(x.relative_to(root)) for x in matches))
+            for f in matches: add('duplicate-id',f,f'{ident[2]} (role={ident[0]}, field={fields.get(ident[1], ident[1])}): '+', '.join(str(x.relative_to(root)) for x in matches))
     for key, types in field_types.items():
         if len(types)>1:
             for f,meta in parsed.items():
@@ -97,8 +108,10 @@ def check(vault, profile='auto', config=None):
     for f,text in texts.items():
         clean=body_only(text)
         links=[(m.group(1).split('|')[0],True) for m in re.finditer(r'!?\[\[([^\]\n]+)\]\]',clean)]
-        links += [(m.group(1).strip('<>'),False) for m in re.finditer(r'(?<!!)\[[^\]\n]*\]\(([^)\s]+)\)',clean)]
+        links += [(m.group(1) or m.group(2),False) for m in re.finditer(r'!?\[[^\]\n]*\]\((?:<([^>]+)>|([^\s)]+))\)',clean)]
         for raw,wiki in links:
+            if urlsplit(raw).scheme == 'file':
+                add('external-link', f, raw, 'info'); continue
             if urlsplit(raw).scheme or raw.startswith('//'): continue
             path,sep,anchor=unquote(raw).partition('#')
             target=None
@@ -111,6 +124,21 @@ def check(vault, profile='auto', config=None):
                         q=q.resolve()
                         if q.is_relative_to(root) and q in files: candidates.append(q)
                 if not candidates and wiki and '/' not in path: candidates=names.get(path.casefold(),[])
+                if not candidates:
+                    scoped = []
+                    for base in bases:
+                        for q in ([base, Path(str(base)+'.md')] if wiki else [base]):
+                            q = q.resolve()
+                            if q.is_file(): scoped.append(q)
+                    if wiki and '/' not in path:
+                        scoped.extend(scope_names.get(path.casefold(), []))
+                    scoped = list(set(scoped))
+                    if len(scoped) > 1:
+                        add('ambiguous-link', f, raw); continue
+                    if scoped:
+                        outside = any(not q.is_relative_to(root) for q in scoped)
+                        add('external-link' if outside else 'excluded-link', f, raw, 'info')
+                        continue
                 candidates=list(set(candidates))
                 if len(candidates)==1: target=candidates[0]
                 else:
@@ -129,7 +157,16 @@ def check(vault, profile='auto', config=None):
                         exists=bool(re.search(r'\^'+re.escape(anchor[1:])+r'\s*$',dest,re.M))
                     else: exists=anchor.casefold() in [h.casefold() for h in headings] or anchor in [slug(h) for h in headings]
                     if not exists: add('missing-anchor',f,raw,'warning')
-    return {'vault':str(root),'profile':profile,'files_checked':len(texts),'errors':sum(x['severity']=='error' for x in findings),'warnings':sum(x['severity']=='warning' for x in findings),'findings':findings,
+    templates = inspect_templates(root, template_folders, UniqueLoader, cfg)
+    for template in templates:
+        for finding in template['findings']:
+            add(finding['code'], root/template['path'], finding['message'], finding['severity'])
+    return {'configuration':cfg, 'templates':templates, 'template_folders':[str(p.relative_to(root)) for p in template_folders],
+            'property_vocabulary':{str(k): {'types':sorted(v), 'values':sorted({property_value(meta[k]) for meta in parsed.values() if k in meta})} for k,v in field_types.items()},
+            'identities':[{'role':role,'field':field,'value':ident,'paths':[str(p.relative_to(root)) for p in paths]}
+                          for (role,field,ident),paths in ids.items()],
+            'evidence':{'filesystem':'checked', 'ui_trial':'not_performed', 'factual_validation':'not_performed'},
+            'vault':str(root),'profile':profile,'files_checked':len(texts),'errors':sum(x['severity']=='error' for x in findings),'warnings':sum(x['severity']=='warning' for x in findings),'findings':findings,
             'limits':'Structural checks only; no truth validation. Basic inline Markdown and wikilinks; complex Markdown reference links, escaped syntax and Obsidian renderer edge cases need human review.'}
 
 def main():
