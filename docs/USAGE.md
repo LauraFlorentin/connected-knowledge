@@ -74,3 +74,30 @@ No scheduler is installed by these instructions. A sleeping/offline local comput
 Use the existing shared guide to adapt the [profile example](../plugins/connected-knowledge/skills/zettelkasten-obsidian/assets/profiles/existing-vault.json). Then ask: “Check this vault using its existing properties; report template and link scope separately and do not change files.” For a two-vault comparison, explicitly supply both paths.
 
 [Profile rules, commands and evidence limits](../plugins/connected-knowledge/skills/zettelkasten-obsidian/references/existing-vaults.md) explain the JSON reports. The reusable [comparison outline](../plugins/connected-knowledge/skills/zettelkasten-obsidian/assets/reports/vault-comparison.md) and [validation outline](../plugins/connected-knowledge/skills/zettelkasten-obsidian/assets/reports/vault-validation.md) are reporting aids, not new note templates to install.
+
+## Import supplied conversations
+
+Keep the JSON and destination outside the repository. Preview a selected Claude
+conversation array without creating output:
+
+```bash
+python "$CORE/scripts/chat_import.py" /private/exports/conversations.json /private/knowledge/ChatArchive --platform claude --account personal
+```
+
+Use a stable, non-secret account label. Add `--vocabulary existing` for vaults
+using `type` and `status`. Apply only the selected scope after reviewing the preview.
+See [history import](../plugins/connected-knowledge/skills/zettelkasten-obsidian/references/history-import.md)
+for repeat detection, original preservation and edit conflicts. ZIP files must
+first be inspected and extracted separately; attachment bytes are not imported.
+
+## Develop the graph and capture later sessions
+
+The [graph workflow](../plugins/connected-knowledge/skills/zettelkasten-obsidian/references/graph-development.md)
+searches imported messages and applies reviewed proposals with source citations.
+The assistant supplies interpretation; the scripts validate structure and evidence
+references, not the truth of a claim. Classification is optional.
+
+The [session adapter](../plugins/connected-knowledge/skills/zettelkasten-obsidian/references/session-capture.md)
+supports selected local Codex/Claude Code history and explicitly configured hooks.
+Start with disabled configuration and preview. It does not access all account
+chats or automatically run after plugin installation.

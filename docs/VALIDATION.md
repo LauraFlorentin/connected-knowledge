@@ -1,4 +1,33 @@
-# Validation and limits — updated 2026-09-28
+# Validation and limits — updated 2026-09-30
+
+## Current release — 1.2.1
+
+Includes supplied-JSON history import, assistant-proposed graph development, local
+session adapters and the Claude reply-reference fix. The 69-test suite covers
+these tools with synthetic fixtures. PR #5 passed hosted checks on Python 3.10
+and 3.12 before this documentation/version cleanup. A redacted conversation
+structure parsed in memory; that is not full-export or attachment validation.
+
+No automatic account-history fetching, ZIP/attachment extraction, semantic-search
+service, registered hooks or scheduler is included. Installed-host end-to-end
+execution, live capture/recovery, mobile and cross-device behavior remain separate
+checks. No personal history was imported for this release.
+
+### Release cleanup checks — 2026-09-30
+
+- All 69 local tests pass; plugin and both skill validators pass.
+- Synthetic import-to-graph example produces one archive note, two graph notes,
+  three edges, zero checker errors/warnings and zero writes on repeat.
+- Rebuilt Claude ZIP contains 51 tracked plugin source files. Every entry matches
+  its source bytes and SHA-256 inventory; all three manifests report 1.2.1.
+- Personal exports and runtime data are outside the packaged source. No installed
+  copy was refreshed and no live capture or personal-vault test was performed.
+
+## Historical validation records
+
+The dated sections below describe their original versions and environments.
+Statements about missing features, binaries or installation in those sections
+are historical; the current release summary above takes precedence.
 
 ## Session capture candidate — 2026-09-29
 

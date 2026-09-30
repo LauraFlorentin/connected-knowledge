@@ -1,6 +1,6 @@
 # Connected Knowledge
 
-Reusable knowledge and research workflows for Claude and ChatGPT, built around the Zettelkasten–Obsidian skill. Version **1.2.0**.
+Reusable knowledge and research workflows for Claude and ChatGPT, built around the Zettelkasten–Obsidian skill. Version **1.2.1**.
 
 Develop conversations, documents and notes into sourced, connected knowledge. Adapt to an existing Obsidian vault, collect selected material into a reviewable inbox, retrieve relevant context, and revise notes without losing provenance.
 
@@ -13,6 +13,7 @@ Formerly **Zettelkasten Research**. The broader name describes the collection, r
 - [Knowledge conventions and duplicate handling](docs/KNOWLEDGE-WORKFLOW.md)
 - [Worked example](docs/WORKED-EXAMPLE.md)
 - [Validation and limitations](docs/VALIDATION.md)
+- [Release notes](docs/RELEASE-NOTES.md)
 
 This is a plugin for supported AI hosts. It works with ordinary Obsidian Markdown files; it is not installed through Obsidian's community-plugin directory. Installation does not connect a vault or grant access to account chat history.
 

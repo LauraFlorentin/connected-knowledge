@@ -43,7 +43,7 @@ The workflow labels memory-derived material, searches the vault for existing mat
 
 Two independent pieces are needed: a way to capture the selected chat content at a supported event, and a connection that can search/read/update the vault or inbox. An MCP destination alone does not fetch all app history.
 
-For a convenient first integration, use an explicit “save this” action backed by an authorized destination. For unattended capture, Work/Codex has documented hooks; Claude Code has its own hooks. These require deployed adapters, actual transcript/event access and tests on the chosen runtime. They do not establish all-chat capture across every native-app mode. Browser extensions cover the browser surfaces they support, and an API-based chat client can log only conversations passing through that client. Export requests remain manual in the package.
+For a convenient first integration, use an explicit “save this” action backed by an authorized destination. For unattended capture, Work/Codex has documented hooks; Claude Code has its own hooks. The included opt-in session adapter still requires explicit deployment, actual transcript/event access and tests on the chosen runtime. They do not establish all-chat capture across every native-app mode. Browser extensions cover the browser surfaces they support, and an API-based chat client can log only conversations passing through that client. Export requests remain manual in the package.
 
 The core's `references/future-chat-capture.md` contains dated official links, a route table, mobile/desktop reachability requirements and a setup checklist. No connector, hook or scheduler has been enabled. No source or trigger has been selected on your behalf.
 
