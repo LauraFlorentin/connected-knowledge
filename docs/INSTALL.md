@@ -36,7 +36,7 @@ From the extracted package root, test with:
 claude --plugin-dir ./plugins/connected-knowledge
 ```
 
-For reusable local marketplace installation, use Claude Code's plugin marketplace flow with this package root (it contains `.claude-plugin/marketplace.json`), then select `connected-knowledge` from `connected-knowledge-local`. The direct `--plugin-dir` route avoids requiring marketplace publication. Local terminal execution can run all bundled scripts once dependencies are installed. No MCP server or hooks are declared.
+For reusable local marketplace installation, use Claude Code's plugin marketplace flow with this package root (it contains `.claude-plugin/marketplace.json`), then select `connected-knowledge` from `connected-knowledge-local`. The direct `--plugin-dir` route avoids requiring marketplace publication. Local terminal execution can run all bundled scripts once dependencies are installed. No MCP server is declared. Version 1.3.0 includes [opt-in bundled hooks](../plugins/connected-knowledge/skills/zettelkasten-obsidian/references/bundled-hooks.md).
 
 Source: https://code.claude.com/docs/en/plugins-reference
 
@@ -60,7 +60,7 @@ Where the local plugin is unavailable, attach `distribution/instruction-bundle.m
 
 Sources: https://learn.chatgpt.com/docs/build-skills and https://learn.chatgpt.com/docs/projects
 
-Current plugin documentation describes lifecycle hooks in the Codex runtime, including ChatGPT Work. Such hooks require trusted scripts deployed in the execution environment; web plugin installation alone does not deploy them. This package declares none. See https://learn.chatgpt.com/docs/plugins and https://learn.chatgpt.com/docs/hooks, and the core reference `future-chat-capture.md` for proposed capture routes and coverage limits.
+Current plugin documentation describes lifecycle hooks in the Codex runtime, including ChatGPT Work. Such hooks require trusted scripts deployed in the execution environment; web plugin installation alone does not deploy them. Version 1.3.0 bundles opt-in hooks; private configuration and a tested runtime are required. See https://learn.chatgpt.com/docs/plugins and https://learn.chatgpt.com/docs/hooks, and the core reference `future-chat-capture.md` for proposed capture routes and coverage limits.
 
 ## Avoid duplicate activation
 

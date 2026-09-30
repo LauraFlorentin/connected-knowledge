@@ -74,3 +74,5 @@ After import, use [graph development](graph-development.md) to prepare sourced
 notes. Test [capture and recovery](session-capture.md) with synthetic events before
 separately enabling any real source or host hook. None of these steps establishes
 complete account coverage or cross-device synchronization.
+
+For packaged ongoing capture, follow [bundled hooks](bundled-hooks.md). Setup writes disabled configs only; set the host-specific environment variable and explicitly enable the chosen configuration after a synthetic test. Do not add duplicate manual hooks.

@@ -5,13 +5,14 @@ from pathlib import Path
 import shutil
 import sys
 import yaml
+from chat_import import output_path
 
 def create(target,confirmed=False,ontology='default',categories=None):
     if not confirmed: raise ValueError('First establish that there is no existing vault the user wants to use')
     if ontology not in ('none','default','custom'): raise ValueError('Invalid ontology choice')
     if ontology == 'custom' and (not categories or any(not isinstance(c,str) or not c.strip() for c in categories)):
         raise ValueError('Custom ontology requires nonempty category labels')
-    target=Path(target).resolve()
+    target=output_path(target)
     if target.exists(): raise ValueError('Target exists; refusing to merge into or replace a vault')
     target.mkdir(parents=True)
     templates=Path(__file__).resolve().parents[1]/'assets/templates'

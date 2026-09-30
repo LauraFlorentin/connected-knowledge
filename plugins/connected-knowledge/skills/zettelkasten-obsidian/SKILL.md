@@ -19,7 +19,7 @@ For supplied chat-history imports, read [history-import.md](references/history-i
 
 For classifying imported chats, developing graph notes, or citing imported messages, read [graph-development.md](references/graph-development.md). Use evidence packets to prepare a scoped proposal, preview it, and apply only the requested writes.
 
-For local Codex/Claude Code session history or ongoing-capture setup, read [session-capture.md](references/session-capture.md). Preview selected sources first; the adapter is available but no capture hooks are registered by installation.
+For local Codex/Claude Code session history or ongoing-capture setup, read [session-capture.md](references/session-capture.md). Preview selected sources first; the adapter is available but bundled hooks remain inert until private configuration enables capture. Read [bundled-hooks.md](references/bundled-hooks.md) for runtime and activation requirements.
 
 ## Select the requested outcome
 
@@ -80,4 +80,4 @@ Keep replies concise: lead with the category and short title when useful, then r
 - Verify writes by reading back the target or equivalent reliable confirmation. If a write times out, inspect the target before retrying to avoid duplicates. Describe partial success precisely.
 - Do not claim to have renamed a sidebar chat, imported all account history, installed this skill into another app, or enabled background capture without evidence of that specific completed action.
 
-This skill supplies instructions, templates, and standalone PDF, checking, starter, and selected-source collection scripts. It contains no account-history connector, installed scheduler, or registered hook. Use available capabilities for the requested work and report actual access and execution limits. Collection sources and ongoing triggers require user selection.
+This skill supplies instructions, templates, and standalone PDF, checking, starter, and selected-source collection scripts. It contains no account-history connector or installed scheduler. Bundled hooks require explicit private configuration and host activation. Use available capabilities for the requested work and report actual access and execution limits. Collection sources and ongoing triggers require user selection.

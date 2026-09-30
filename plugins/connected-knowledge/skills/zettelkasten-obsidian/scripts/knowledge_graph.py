@@ -6,7 +6,7 @@ from pathlib import Path
 import re
 import sys
 import yaml
-from chat_import import atomic_write, digest, encoded, normalize
+from chat_import import atomic_write, digest, encoded, normalize, output_path
 from vault_check import UniqueLoader
 
 KINDS = {'idea', 'decision', 'entity', 'map', 'review'}
@@ -40,7 +40,7 @@ def metadata(data):
 
 
 def load_sources(vault, archive):
-    root = Path(vault).resolve()
+    root = output_path(vault)
     folder = safe_path(root, archive)
     manifest = safe_path(root, (folder/'manifest.json').relative_to(root).as_posix())
     state = json.loads(manifest.read_bytes())
@@ -104,7 +104,7 @@ def sentence(value, label):
 
 
 def apply_plan(vault, archive, output, plan, apply=False, categories=None, vocabulary='default'):
-    root = Path(vault).resolve()
+    root = output_path(vault)
     if vocabulary not in ('default', 'existing'):
         raise ValueError('Unknown vocabulary')
     folder = safe_path(root, output)

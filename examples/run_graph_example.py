@@ -10,7 +10,7 @@ from knowledge_graph import search, apply_plan
 from vault_check import check
 
 with tempfile.TemporaryDirectory() as temporary:
-    root=Path(temporary);vault=root/'vault';vault.mkdir()
+    root=Path(temporary).resolve();vault=root/'vault';vault.mkdir()
     export=root/'export.json'
     export.write_text(json.dumps([{'id':'demo','title':'Garden questions','messages':[
         {'id':'user-1','role':'user','text':'Can mint grow in partial shade?'}]}]))
