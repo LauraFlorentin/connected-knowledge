@@ -49,7 +49,7 @@ an all-or-nothing import. Once the requested scope/destination is verified, set
 `enabled` to true and add `--apply`. All repeated writes use importer identities,
 source integrity checks, preserved revisions and human-edit conflict detection.
 
-## Hook configuration (not installed automatically)
+## Hook configuration
 
 Codex and Claude Code document `Stop`/`SessionEnd` hooks with `session_id`,
 `transcript_path` and `cwd`. Use the existing host hook configuration mechanism
@@ -65,7 +65,7 @@ and preserve all existing hooks. A representative command hook is:
 ```
 
 Quote actual command paths if they contain spaces. This JSON is a setup example,
-not registered plugin hooks. Codex requires review/trust for unmanaged hooks.
+a manual alternative to the bundled hooks. Do not register both. Codex requires review/trust for unmanaged hooks.
 Validate the exact installed host/version before activation. Do not install hooks
 just because someone imports old history.
 
@@ -144,3 +144,26 @@ Recovery rules:
 `last-result.json` describes the last successful invocation only. Use the current
 hook exit status/stderr to detect failure. A retry daemon, automatic lock expiry,
 transactional multi-file recovery and storage retention policy are not included.
+
+## Bundled hooks: release-review decision (2026-09-30)
+
+Both [Codex](https://learn.chatgpt.com/docs/hooks) and
+[Claude Code](https://code.claude.com/docs/en/plugins-reference) support a bundled
+`hooks/hooks.json`. The package now ships default registration with an opt-in launcher; see [bundled hooks](bundled-hooks.md). Manual history
+import and guided setup need no hooks. For convenient ongoing local capture, the
+bundled launcher returns without reading transcripts when its private
+configuration is absent or disabled. Validate host, Python dependencies, selected
+projects and destinations before enabling it. Package-relative script paths avoid
+stale installation-cache paths. Never package personal paths or chat data.
+
+Use one registration per host; remove duplicate manually configured capture hooks
+when deliberately switching to bundled registration. Codex requires trust of the
+current hook definition even after installation. Synthetic adapter tests do not
+prove registration, host firing or runtime dependencies. Test those separately.
+
+[OpenAI configuration documentation](https://learn.chatgpt.com/docs/config-file/config-reference)
+currently states that plugin/local command hooks are unsupported under cloud
+orchestration, even with local tools. Supported local-only Work/Codex sessions are
+a separate route. This plugin cannot promise all-chat capture from ordinary Chat
+or cloud Work. Keep private history outside plugin installation/data directories
+that may be removed during upgrade/uninstall.

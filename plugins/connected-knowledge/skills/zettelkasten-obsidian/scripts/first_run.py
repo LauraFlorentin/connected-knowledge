@@ -122,7 +122,10 @@ def save_setup(answers,directory,apply=False):
     text += 'Ontology: '+result['ontology']+'. Categories are optional annotations, not automatic classifications. Capture remains disabled.\n\n'
     for s in result['steps']:
         text += '## '+s['label']+'\n\n```sh\n'+shlex.join(s['argv'])+'\n```\n\n'
-    text += 'After history import, use graph-development.md for evidence-backed proposals. Test capture with a synthetic session before enabling configuration and registering any host hook. Preserve the setup folder when retrying an interrupted setup; do not overwrite it.\n'
+    for cfg in result['capture']:
+        variable = 'CONNECTED_KNOWLEDGE_CODEX_CONFIG' if cfg['host']=='codex' else 'CONNECTED_KNOWLEDGE_CLAUDE_CODE_CONFIG'
+        text += 'Bundled '+cfg['host']+' capture: set `'+variable+'` in the host launch environment to `'+str(dest/('capture-'+cfg['host']+'.json'))+'`. Set `CONNECTED_KNOWLEDGE_PYTHON` to the Python environment with dependencies. The config remains disabled.\n\n'
+    text += 'After history import, use graph-development.md for evidence-backed proposals. Follow bundled-hooks.md and test a synthetic session before enabling configuration and trusting the bundled hook. Do not duplicate it with a manual registration. Preserve the setup folder when retrying an interrupted setup; do not overwrite it.\n'
     atomic_write(dest/'NEXT-STEPS.md',text.encode())
     return result
 

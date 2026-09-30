@@ -93,4 +93,11 @@ class FirstRun(unittest.TestCase):
         self.assertEqual(result.returncode,0,result.stderr)
         self.assertIn('Setup plan only',result.stdout);self.assertFalse(self.output.exists())
 
+    def test_starter_rejects_redirected_parent(self):
+        outside=self.root/'outside';outside.mkdir()
+        link=self.root/'redirect';link.symlink_to(outside,target_is_directory=True)
+        with self.assertRaisesRegex(ValueError,'Symlink output'):
+            create(link/'starter',True)
+        self.assertEqual(list(outside.iterdir()),[])
+
 if __name__=='__main__':unittest.main()

@@ -9,6 +9,16 @@ import sys
 import tempfile
 import yaml
 
+IMPORT_FORMAT_VERSION = 2
+
+
+def output_path(value):
+    """Reject redirected destinations before resolve() erases symlink evidence."""
+    path = Path(value).expanduser().absolute()
+    if any(p.is_symlink() for p in (path, *path.parents)):
+        raise ValueError('Symlink output paths are unsupported')
+    return path.resolve()
+
 
 def digest(data):
     return hashlib.sha256(data).hexdigest()
@@ -144,7 +154,7 @@ def run(source, destination, platform, account, apply=False, annotations=None, v
     records = json.loads(raw)
     if not isinstance(records, list):
         raise ValueError('Expected a JSON array of conversations; ZIPs must first be inspected/extracted outside the vault')
-    root = Path(destination).resolve()
+    root = output_path(destination)
     if root == Path(source).resolve() or root in Path(source).resolve().parents:
         raise ValueError('Keep input exports outside the import destination')
     if root.exists() and (root.is_symlink() or not root.is_dir()):
@@ -188,7 +198,7 @@ def run(source, destination, platform, account, apply=False, annotations=None, v
                 if not isinstance(link.get('reason'), str) or not link['reason'].strip():
                     raise ValueError('Connection needs an explanation')
             # Fingerprint only this conversation, not unrelated export changes.
-            fingerprint = digest(encoded([record, annotation, vocabulary, categories]))
+            fingerprint = digest(encoded([IMPORT_FORMAT_VERSION, record, annotation, vocabulary, categories]))
             old = state['records'].get(key)
             path = root/note_name
             if path.is_symlink():

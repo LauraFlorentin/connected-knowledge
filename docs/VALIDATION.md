@@ -1,6 +1,18 @@
 # Validation and limits — updated 2026-09-30
 
-## Development candidate — 1.3.0
+## Release — 1.3.0
+
+### Bundled hook follow-up
+
+105 local tests pass after the integrity-review fixes and bundled launcher addition.
+The eight launcher tests execute the actual hooks.json command with synthetic
+Codex/Claude Code events and cover disabled/missing configuration, host mismatch,
+project/subagent exclusion, absent dependencies, Stop/SessionEnd repeats and failed
+transcript retry. The launcher uses only standard-library imports before opt-in.
+Plugin and skill validation pass. No installed host was configured or observed
+firing a hook; shell testing is POSIX/macOS, not Windows or cloud Work.
+
+### Earlier candidate evidence
 
 All 93 local tests pass (69 existing plus 24 setup, bundle and recovery tests).
 Plugin and primary skill validation pass; the existing graph example has zero
@@ -22,8 +34,8 @@ Capture coverage includes incomplete/unflushed retry, checkpoint-write recovery,
 locks, snapshot corruption and fail-closed note/manifest interruption. Real installed
 host events, scheduler recovery and cross-device behavior remain untested.
 
-No private export or actual vault was used. This candidate is not installed or
-published; 1.2.1 remains the published release.
+No private export or actual vault was used. Publication is handled separately from validation. Installed-host trials remain
+pending; no installed copy was changed during these checks.
 
 ## Published release — 1.2.1
 

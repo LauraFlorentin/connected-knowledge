@@ -5,13 +5,13 @@ import tempfile
 import unittest
 import yaml
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from chat_import import run, normalize
+from chat_import import run, normalize, digest, encoded
 
 
 class ChatImport(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
-        self.root = Path(self.tmp.name)
+        self.root = Path(self.tmp.name).resolve()
         self.source = self.root/'export.json'
         self.dest = self.root/'archive'
         self.data = [{'id':'c1','title':'A thought','messages':[{'id':'m1','role':'user','text':'Original thought'}]}]
@@ -153,6 +153,35 @@ class ChatImport(unittest.TestCase):
         self.assertEqual(report['failed'], 1)
         self.assertEqual(report['unchanged'], 0)
         self.assertFalse(original.exists())
+
+    def test_symlink_destination_and_parent_rejected(self):
+        outside=self.root/'outside';outside.mkdir()
+        link=self.root/'redirect';link.symlink_to(outside,target_is_directory=True)
+        for dest in (link,link/'archive'):
+            with self.assertRaisesRegex(ValueError,'Symlink output'):
+                run(self.source,dest,'normalized','synthetic',apply=True)
+        self.assertEqual(list(outside.iterdir()),[])
+
+    def test_format_upgrade_refreshes_legacy_reply_metadata_once(self):
+        self.data=[{'uuid':'c','chat_messages':[{'uuid':'m','sender':'human','text':'Synthetic','parent_message_uuid':'root'}]}]
+        self.save()
+        result=run(self.source,self.dest,'claude','synthetic',apply=True)
+        note=self.dest/result['items'][0]['path']
+        note.write_text(note.read_text().replace('"parent": "root"','"parent": null'))
+        old_note=note.read_bytes()
+        path=self.dest/'manifest.json';state=json.loads(path.read_text())
+        for entry in state['records'].values():
+            entry['sha256']=digest(old_note)
+            entry['fingerprint']=digest(encoded([self.data[0],{},'default',None]))
+        path.write_bytes(encoded(state))
+        self.assertEqual(run(self.source,self.dest,'claude','synthetic')['updated'],1)
+        self.assertEqual(note.read_bytes(),old_note)
+        self.assertEqual(run(self.source,self.dest,'claude','synthetic',apply=True)['updated'],1)
+        self.assertIn('"parent": "root"',note.read_text())
+        self.assertEqual(next((self.dest/'revisions').glob('*.md')).read_bytes(),old_note)
+        self.assertEqual(run(self.source,self.dest,'claude','synthetic',apply=True)['unchanged'],1)
+        note.write_text(note.read_text()+'Human edit')
+        self.assertEqual(run(self.source,self.dest,'claude','synthetic',apply=True)['conflicts'],1)
 
     def test_legacy_manifest_original_is_verified(self):
         self.run_import(apply=True)

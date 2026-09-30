@@ -1,6 +1,6 @@
 # Connected Knowledge
 
-Reusable knowledge and research workflows for Claude and ChatGPT, built around the Zettelkasten–Obsidian skill. Version **1.3.0 (development)**.
+Reusable knowledge and research workflows for Claude and ChatGPT, built around the Zettelkasten–Obsidian skill. Version **1.3.0**.
 
 Develop conversations, documents and notes into sourced, connected knowledge. Adapt to an existing Obsidian vault, collect selected material into a reviewable inbox, retrieve relevant context, and revise notes without losing provenance.
 
@@ -31,7 +31,7 @@ This is a plugin for supported AI hosts. It works with ordinary Obsidian Markdow
 
 The integrated Zettelkasten Practice guidance is preserved within the primary skill; a second Practice installation is unnecessary. Existing vault conventions take priority. The optional starter requires an explicit choice and refuses an existing target directory.
 
-Supplied ChatGPT/Claude JSON import is available with preview, repeat detection and edit protection; see [history onboarding](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/history-import.md). Account-history fetching, an active MCP service, registered capture hooks, semantic-search infrastructure and background scheduling are not implemented. See [future capture options](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/future-chat-capture.md) for their requirements.
+Supplied ChatGPT/Claude JSON import is available with preview, repeat detection and edit protection; see [history onboarding](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/history-import.md). Account-history fetching, an active MCP service, semantic-search infrastructure and background scheduling are not implemented. See [future capture options](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/future-chat-capture.md) for their requirements.
 
 ## Existing-vault validation
 
@@ -52,7 +52,7 @@ No embedding service or automatic semantic classifier is required or included.
 
 ## Local session history and ongoing capture
 
-The opt-in [session adapter](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/session-capture.md) converts selected Codex/Claude Code JSONL histories and can run from configured Stop/SessionEnd hooks. It defaults to preview and requires explicit source/project selection and enabled configuration for writes. No hooks are installed automatically; ordinary Claude account exports remain a separate route.
+The opt-in [session adapter](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/session-capture.md) converts selected Codex/Claude Code JSONL histories and can run from configured Stop/SessionEnd hooks. It defaults to preview and requires explicit source/project selection and enabled configuration for writes. Bundled hooks are included but capture is disabled until explicitly configured; see [activation](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/bundled-hooks.md). Ordinary Claude account exports remain a separate route.
 
 ## Build distribution files
 

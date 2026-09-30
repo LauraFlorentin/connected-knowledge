@@ -119,3 +119,16 @@ branches, missing content, and ontology selection. Real export compatibility,
 first personal import, AI classification, graph development, and continuous
 capture require their own observed results. Do not mark them complete from a
 successful synthetic test.
+
+## Import-format upgrades
+
+Repeat detection includes an importer format version. On the first import after
+a format upgrade, unchanged source records may be regenerated so corrected metadata
+(such as Claude reply parents) reaches existing archives. Previous generated notes
+are retained as revisions; human edits still block overwrite. Later repeats are
+no-ops. Developers must bump the format version for normalization/rendering changes.
+
+Import, graph and starter output paths reject symlinks in the destination or its
+parents. Use the actual canonical destination path, including on systems whose
+temporary paths contain OS symlinks. Do not resolve a user-selected redirect
+silently and treat the resulting location as authorized.

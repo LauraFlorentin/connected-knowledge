@@ -13,8 +13,13 @@ from vault_check import check
 
 
 class KnowledgeGraph(unittest.TestCase):
+    def test_symlink_vault_root_rejected(self):
+        link=self.root/'redirect';link.symlink_to(self.vault,target_is_directory=True)
+        with self.assertRaisesRegex(ValueError,'Symlink output'):
+            graph.search(link,'Archive','')
+
     def setUp(self):
-        self.tmp=tempfile.TemporaryDirectory();self.root=Path(self.tmp.name)
+        self.tmp=tempfile.TemporaryDirectory();self.root=Path(self.tmp.name).resolve()
         self.vault=self.root/'vault';self.vault.mkdir()
         self.source=self.root/'export.json'
         self.source.write_text(json.dumps([{'id':'chat','title':'Herb garden','messages':[

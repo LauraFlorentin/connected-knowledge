@@ -21,7 +21,7 @@ def make_pdf(path,text='Fictional example: one small pilot cannot establish a un
 
 class Tools(unittest.TestCase):
     def setUp(self):
-        self.tmp=tempfile.TemporaryDirectory(); self.root=Path(self.tmp.name)
+        self.tmp=tempfile.TemporaryDirectory(); self.root=Path(self.tmp.name).resolve()
     def tearDown(self): self.tmp.cleanup()
     def config(self,sources):
         p=self.root/'config.json'; p.write_text(json.dumps({'inbox':'inbox','ongoing_enabled':False,'sources':sources})); return p

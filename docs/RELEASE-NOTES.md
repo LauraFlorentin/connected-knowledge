@@ -1,7 +1,12 @@
 # Release notes
 
-## 1.3.0 — unreleased
+## 1.3.0 — 2026-09-30
 
+- Bundle Stop/SessionEnd hooks with a host-specific opt-in launcher, disabled
+  without private configuration; no user/global hook files are modified.
+
+- Reject symlinked output roots before resolution; version import fingerprints
+  so corrected metadata reaches existing archives while preserving revisions.
 - Add a terminal wizard and assistant-driven first-run plan for vault choice,
   selected history, optional categories and disabled capture configurations.
 - Add bounded ZIP inspection/preparation, selected attachment byte preservation,
@@ -12,7 +17,7 @@
   synthetic data; reject modified normalized snapshots and symlinked output parents.
 
 Setup saves a plan only. Attachment associations are not inferred, URLs are not
-followed and no real host hooks are registered. Live-host activation remains a
+followed and bundled hooks stay inactive without explicit private configuration. Live-host activation remains a
 separate test.
 
 ## 1.2.1 — 2026-09-30
