@@ -1,5 +1,20 @@
 # Release notes
 
+## 1.3.0 — unreleased
+
+- Add a terminal wizard and assistant-driven first-run plan for vault choice,
+  selected history, optional categories and disabled capture configurations.
+- Add bounded ZIP inspection/preparation, selected attachment byte preservation,
+  a linked attachment index, original ZIP retention and hash-verified repeat runs.
+- Allow new starter templates without forced default categories. Existing vaults
+  remain unchanged.
+- Test both capture hook command interfaces and interruption/retry behavior with
+  synthetic data; reject modified normalized snapshots and symlinked output parents.
+
+Setup saves a plan only. Attachment associations are not inferred, URLs are not
+followed and no real host hooks are registered. Live-host activation remains a
+separate test.
+
 ## 1.2.1 — 2026-09-30
 
 - Preserve Claude `parent_message_uuid` reply relationships, including alternate

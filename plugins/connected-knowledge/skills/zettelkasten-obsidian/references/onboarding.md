@@ -1,5 +1,7 @@
 # Onboard without replacing the user's system
 
+For the unified setup questions and command-plan wizard, start with [first-run.md](first-run.md).
+
 First establish whether the user has an Obsidian vault they want to use. Accept an answer already given. Ask: “Do you have an existing vault to use, or would you like a new starter?” A missing path, failed search, disconnected tool, or inaccessible device does not mean no vault exists. Continue preparing material if access is missing; do not create a replacement vault.
 
 ## Existing vault

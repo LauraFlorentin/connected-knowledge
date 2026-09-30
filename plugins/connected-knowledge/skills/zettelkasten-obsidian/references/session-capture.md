@@ -115,3 +115,32 @@ files; no hook has been installed or observed firing in a live host by this chan
 - [Claude export instructions](https://support.claude.com/en/articles/9450526-export-your-claude-data)
 - [Codex hooks](https://learn.chatgpt.com/docs/hooks): transcript format is not a stable interface.
 - [Claude Code hooks](https://code.claude.com/docs/en/hooks): event fields and host behavior.
+
+## Synthetic runtime and recovery checks — 2026-09-30
+
+The regression suite invokes the actual command-line hook interface in subprocesses
+with synthetic Codex and Claude Code events and temporary transcripts. It checks
+Stop → append → SessionEnd → repeat, incomplete JSONL retry, unflushed final-message
+retry, checkpoint-write failure after a completed import, existing locks, changed
+normalized snapshots, and an interrupted note/manifest pair. These are adapter
+runtime tests, not evidence that an installed host fired the hook. No live hooks
+are registered by the tests.
+
+Recovery rules:
+
+- Incomplete/unflushed transcript: wait for the selected writer to finish, then
+  retry the same session. Do not invent the missing message.
+- Checkpoint failure after a completed import: retry the complete same transcript;
+  importer identity makes the archive update a no-op and restores the checkpoint.
+- Existing lock: first establish the writer is stopped. Preserve state before
+  removing only a confirmed abandoned lock. The adapter never clears it automatically.
+- Changed snapshot or human-edited note: stop and preserve the file; reconcile
+  against original evidence. Never overwrite to make the test pass.
+- Interrupted note/manifest pair: automatic retry stops. Back up the archive,
+  manifest, spool and note. Inspect the mismatch and explicitly reconcile it, or
+  rebuild into a new empty archive from preserved sources. Do not delete the old
+  archive or reconstruct human edits from a generated transcript.
+
+`last-result.json` describes the last successful invocation only. Use the current
+hook exit status/stderr to detect failure. A retry daemon, automatic lock expiry,
+transactional multi-file recovery and storage retention policy are not included.

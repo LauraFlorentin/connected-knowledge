@@ -1,5 +1,7 @@
 # Practical use
 
+Start with the [guided setup](../plugins/connected-knowledge/skills/zettelkasten-obsidian/references/first-run.md) to combine history, vault, ontology and disabled capture choices.
+
 Set `CORE` to the extracted package's core directory:
 
 ```bash
@@ -87,8 +89,8 @@ python "$CORE/scripts/chat_import.py" /private/exports/conversations.json /priva
 Use a stable, non-secret account label. Add `--vocabulary existing` for vaults
 using `type` and `status`. Apply only the selected scope after reviewing the preview.
 See [history import](../plugins/connected-knowledge/skills/zettelkasten-obsidian/references/history-import.md)
-for repeat detection, original preservation and edit conflicts. ZIP files must
-first be inspected and extracted separately; attachment bytes are not imported.
+for repeat detection, original preservation and edit conflicts. Use [export bundles](../plugins/connected-knowledge/skills/zettelkasten-obsidian/references/export-bundles.md)
+to inspect ZIPs and preserve selected attachment bytes in a private staging bundle.
 
 ## Develop the graph and capture later sessions
 
