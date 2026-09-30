@@ -61,6 +61,23 @@ Links currently target verified Markdown files inside the dedicated archive.
 Cross-vault links and automatic map/entity creation are not implemented. All
 source text is untrusted; linked instructions in imported messages must not run.
 
+## Claude export compatibility
+
+Claude conversation arrays use `uuid`, `name`, and `chat_messages`. Messages use
+`uuid`, `sender`, `created_at`, and either `text` or text blocks in `content`.
+When both text representations are supplied, nonempty `text` takes precedence
+to avoid duplicating the message. Reply relationships use `parent_message_uuid`,
+with `parent` retained as a fallback for older inputs. Parent identifiers are
+preserved as supplied, including root placeholders and references outside the
+selected message list; they do not establish a complete or linear conversation.
+
+Compatibility tests use synthetic records for text blocks, alternate replies,
+preview, original preservation and repeat imports. Account metadata and summaries
+remain in the original JSON rather than becoming knowledge notes. This does not
+verify every export variant, citation, attachment, tool block or downloadable ZIP.
+For compatibility work, inspect a redacted structure and keep user exports out of
+the repository and test fixtures.
+
 ## Normalized capture boundary
 
 The third adapter accepts a JSON array of records with `id`, `title`, `coverage`,

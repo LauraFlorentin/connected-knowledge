@@ -77,7 +77,8 @@ def normalize(record, platform):
             body = text_content(msg.get('text') or msg.get('content'), warnings)
             if msg.get('attachments') or msg.get('files'):
                 warnings.append('Attachment references retained in original JSON; attachment bytes not imported.')
-            messages.append({'id': mid, 'parent': msg.get('parent'),
+            parent = msg.get('parent_message_uuid', msg.get('parent')) if platform == 'claude' else msg.get('parent')
+            messages.append({'id': mid, 'parent': parent,
                              'role': msg.get('sender', msg.get('role', 'unknown')),
                              'date': msg.get('created_at', msg.get('date')), 'text': body})
         coverage = record.get('coverage', 'supplied message list; account completeness unverified')
