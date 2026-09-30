@@ -25,7 +25,7 @@ This is a plugin for supported AI hosts. It works with ordinary Obsidian Markdow
 | --- | --- |
 | Develop Knowledge (`zettelkasten-obsidian`) | Onboard, capture, develop, retrieve, synthesize and revise knowledge. |
 | Collect Research (`research-collect`) | Collect explicitly selected sources into an inbox. |
-| Ten command-line Python tools | Collect material, extract PDFs with page references, check vault structure, compare existing vaults, import supplied chat JSON, develop evidence-backed graph notes, adapt local agent transcripts, create an optional starter, prepare ZIP/attachment bundles, and guide first-run setup. |
+| Eleven command-line Python tools | Collect material, extract PDFs with page references, check vault structure, compare existing vaults, import supplied chat JSON, develop evidence-backed graph notes, adapt local agent transcripts, create an optional starter, prepare ZIP/attachment bundles, guide first-run setup, and prepare scoped Codex project hooks. |
 | Templates and vault guide | Shared conventions for people and assistants. |
 | Platform manifests | Claude and ChatGPT/Codex packaging with shared skill sources. |
 
@@ -52,7 +52,7 @@ No embedding service or automatic semantic classifier is required or included.
 
 ## Local session history and ongoing capture
 
-The opt-in [session adapter](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/session-capture.md) converts selected Codex/Claude Code JSONL histories and can run from configured Stop/SessionEnd hooks. It defaults to preview and requires explicit source/project selection and enabled configuration for writes. Bundled hooks are included but capture is disabled until explicitly configured; see [activation](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/bundled-hooks.md). Ordinary Claude account exports remain a separate route.
+The opt-in [session adapter](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/session-capture.md) converts selected Codex/Claude Code JSONL histories and can run from configured Stop/SessionEnd hooks. It defaults to preview and requires explicit source/project selection and enabled configuration for writes. Bundled hooks are included but capture is disabled until explicitly configured; see [activation](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/bundled-hooks.md). Codex onboarding defaults to the verified [project-hook setup](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/project-hooks.md), with a separate preview/apply and normal trust review. Bundled discovery did not work in the Codex CLI 0.159.2 trial; native Claude Code bundled capture passed. Ordinary Claude account exports remain a separate route.
 
 ## Build distribution files
 

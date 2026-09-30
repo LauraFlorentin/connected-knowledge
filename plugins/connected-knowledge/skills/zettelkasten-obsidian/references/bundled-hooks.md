@@ -6,8 +6,10 @@ Claude manifest: default discovery is sufficient and duplicate registrations can
 invoke capture twice. Remove any manually configured duplicate only after reviewing
 its identity and explicitly switching to bundled capture.
 
-The launcher is tested with POSIX shell commands on macOS. Windows shells and real
-installed-host event firing still require validation. Python 3.10+ and the core
+The launcher is tested with POSIX shell commands on macOS. Windows shells still require validation. Native Claude Code 2.1.214 bundled
+capture and resume passed on macOS. Codex CLI 0.159.2 did not discover the bundled
+hooks in the installed-host trial; use [project-hook setup](project-hooks.md), whose
+new-session, continuation and restart/resume capture passed with the same script. Python 3.10+ and the core
 requirements are needed for enabled capture. Installation does not install Python
 or dependencies. A missing Python executable can produce a shell error even when
 capture is unconfigured; the Python launcher itself is dependency-free when disabled.
@@ -50,8 +52,9 @@ not establish that the latest hook invocation succeeded.
 4. Verify a small synthetic conversation causes one archive write, then a no-op on
    repeat. Verify failure reporting and disable via `enabled: false`.
 
-No global/user hook files are modified by this package. No hook in this development
-change was activated on a real installed host. Plugin/local command hooks are not
+No global/user hook files are modified by this package. The separate project-hook
+helper writes only a selected project hook file after explicit `--apply`. Native
+trials used synthetic conversations and temporary archives; real capture stays opt-in. Plugin/local command hooks are not
 supported in cloud-orchestrated Work, even when some tools run locally. Ordinary
 Chat account history still requires supplied exports.
 

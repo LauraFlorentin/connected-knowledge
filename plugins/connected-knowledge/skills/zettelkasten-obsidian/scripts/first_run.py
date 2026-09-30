@@ -79,6 +79,7 @@ def plan(answers, directory):
             args.extend(['--categories',*categories])
         step('Preview history; add --apply only after reviewing this result','chat_import.py',*args)
     captures = []
+    routes = {}
     for item in answers.get('capture',[]):
         host = item.get('host')
         if host not in ('codex','claude-code') or any(c['host']==host for c in captures):
@@ -98,11 +99,20 @@ def plan(answers, directory):
                'transcript_roots':item['transcript_roots'],'projects':item['projects'],
                'spool':str(directory/('spool-'+host)), 'destination':str(vault/'ChatArchive'/host),
                'vocabulary':vocabulary}
+        route = item.get('hook_setup', 'project' if host == 'codex' else 'bundled')
+        if route not in ('project', 'bundled') or (host != 'codex' and route == 'project'):
+            raise ValueError('Project hooks are supported only for Codex')
+        routes[host] = route
         captures.append(cfg)
         step('Preview selected local history; capture is disabled','session_capture.py',
              '--config',directory/('capture-'+host+'.json'),'--history')
+        if route == 'project':
+            for project in dict.fromkeys(item['projects']):
+                step('Preview Codex project hook; add --apply only after review', 'project_hook.py',
+                     '--project', project, '--config', directory/('capture-'+host+'.json'),
+                     '--python', sys.executable)
     return {'version':1,'vault_mode':mode,'vault':str(vault),'vocabulary':vocabulary,
-            'ontology':ontology,'categories':categories,'history':history,'capture':captures,'steps':steps,
+            'ontology':ontology,'categories':categories,'history':history,'capture':captures,'hook_setup':routes,'steps':steps,
             'scope':'Setup plan only. No imports, starter creation, classifications or hooks have run.'}
 
 
@@ -123,9 +133,12 @@ def save_setup(answers,directory,apply=False):
     for s in result['steps']:
         text += '## '+s['label']+'\n\n```sh\n'+shlex.join(s['argv'])+'\n```\n\n'
     for cfg in result['capture']:
+        if result['hook_setup'][cfg['host']] == 'project':
+            text += 'Codex project hook: run the preview above, then add `--apply` only after reviewing the command and destination. This preserves unrelated hooks and leaves capture disabled. In Codex, use `/hooks` to review/trust the exact Stop hook; disable any duplicate bundled capture hook. Keep `.codex/hooks.json` private and out of version control. Test a synthetic-only config/archive before enabling real capture. After plugin updates or moves, review and regenerate paths. See project-hooks.md.\n\n'
+            continue
         variable = 'CONNECTED_KNOWLEDGE_CODEX_CONFIG' if cfg['host']=='codex' else 'CONNECTED_KNOWLEDGE_CLAUDE_CODE_CONFIG'
         text += 'Bundled '+cfg['host']+' capture: set `'+variable+'` in the host launch environment to `'+str(dest/('capture-'+cfg['host']+'.json'))+'`. Set `CONNECTED_KNOWLEDGE_PYTHON` to the Python environment with dependencies. The config remains disabled.\n\n'
-    text += 'After history import, use graph-development.md for evidence-backed proposals. Follow bundled-hooks.md and test a synthetic session before enabling configuration and trusting the bundled hook. Do not duplicate it with a manual registration. Preserve the setup folder when retrying an interrupted setup; do not overwrite it.\n'
+    text += 'After history import, use graph-development.md for evidence-backed proposals. Follow project-hooks.md or bundled-hooks.md for the selected route. Test a synthetic-only configuration, review/trust its exact hook, and enable only the selected capture config. Use one capture route per project. Preserve the setup folder when retrying an interrupted setup; do not overwrite it.\n'
     atomic_write(dest/'NEXT-STEPS.md',text.encode())
     return result
 
@@ -155,7 +168,8 @@ def wizard():
         a['history'].append(item)
     for host in ('codex','claude-code'):
         if input('Prepare disabled '+host+' capture? [y/N] ').strip().lower()!='y':continue
-        a['capture'].append({'host':host,'account':input('Account label: ').strip(),
+        route = (input('Codex hook setup: project (verified) or bundled? [project] ').strip() or 'project') if host == 'codex' else 'bundled'
+        a['capture'].append({'host':host,'hook_setup':route,'account':input('Account label: ').strip(),
             'transcript_roots':[input('Absolute transcript root: ').strip()],
             'projects':[input('Absolute project directory: ').strip()]})
     return a
