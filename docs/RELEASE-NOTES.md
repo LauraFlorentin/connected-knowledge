@@ -1,5 +1,24 @@
 # Release notes
 
+## 1.3.1 — 2026-09-30
+
+- Add guided Codex project-hook setup with separate preview/apply, disabled capture,
+  normal host trust review, and one capture route per selected project.
+- Preserve unrelated project hooks and back up existing JSON; reject conflicting
+  capture commands, malformed files and symlink destinations. Identical repeats
+  make no changes.
+- Document synthetic activation, upgrade/relocation and removal steps.
+- Verify 111 tests, including generated hook commands and onboarding-to-hook setup.
+
+Native macOS trials with the unchanged 1.3.0 capture script verified Codex CLI
+0.159.2 project-hook capture, continuation and restart/resume without duplicates.
+Bundled Codex hook discovery remained unsuccessful. Claude Code 2.1.214 bundled
+capture and resume passed. These trials do not establish every host's support.
+
+Updating does not enable capture or import history. Refresh the installed plugin,
+then run guided setup from that copy; keep private data and configuration outside
+plugin code. Existing project-hook paths require review after upgrades.
+
 ## 1.3.0 — 2026-09-30
 
 - Bundle Stop/SessionEnd hooks with a host-specific opt-in launcher, disabled

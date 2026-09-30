@@ -1,6 +1,6 @@
 # Connected Knowledge
 
-Reusable knowledge and research workflows for Claude and ChatGPT, built around the Zettelkasten–Obsidian skill. Version **1.3.0**.
+Reusable knowledge and research workflows for Claude and ChatGPT, built around the Zettelkasten–Obsidian skill. Version **1.3.1**.
 
 Develop conversations, documents and notes into sourced, connected knowledge. Adapt to an existing Obsidian vault, collect selected material into a reviewable inbox, retrieve relevant context, and revise notes without losing provenance.
 
