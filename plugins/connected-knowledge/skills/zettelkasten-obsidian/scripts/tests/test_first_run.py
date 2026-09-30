@@ -25,11 +25,42 @@ class FirstRun(unittest.TestCase):
     def test_capture_plan_disabled_and_no_import(self):
         sessions=self.root/'sessions';sessions.mkdir()
         self.answers['capture']=[{'host':'codex','account':'synthetic','transcript_roots':[str(sessions)],'projects':[str(self.root)]}]
-        save_setup(self.answers,self.output,True)
+        result=save_setup(self.answers,self.output,True)
+        self.assertEqual(result['hook_setup']['codex'],'project')
+        self.assertIn('project_hook.py',result['steps'][-1]['argv'][1])
+        self.assertNotIn('--apply',result['steps'][-1]['argv'])
+        self.assertFalse((self.root/'.codex/hooks.json').exists())
         cfg=json.loads((self.output/'capture-codex.json').read_text())
         self.assertFalse(cfg['enabled']);self.assertFalse(Path(cfg['spool']).exists())
         self.assertFalse((self.vault/'ChatArchive').exists())
         with self.assertRaises(ValueError):save_setup(self.answers,self.output,True)
+    def test_saved_project_hook_command_preview_and_apply(self):
+        sessions=self.root/'sessions';sessions.mkdir()
+        project=self.root/'project';project.mkdir()
+        self.answers['capture']=[{'host':'codex','account':'synthetic',
+            'transcript_roots':[str(sessions)],'projects':[str(project)]}]
+        result=save_setup(self.answers,self.output,True)
+        command=result['steps'][-1]['argv']
+        preview=subprocess.run(command,capture_output=True,text=True)
+        self.assertEqual(preview.returncode,0,preview.stderr)
+        self.assertFalse((project/'.codex').exists())
+        applied=subprocess.run([*command,'--apply'],capture_output=True,text=True)
+        self.assertEqual(applied.returncode,0,applied.stderr)
+        self.assertTrue((project/'.codex/hooks.json').exists())
+        self.assertFalse(json.loads((self.output/'capture-codex.json').read_text())['enabled'])
+        self.assertFalse((self.vault/'ChatArchive').exists())
+
+    def test_bundled_route_and_invalid_claude_project_route(self):
+        sessions=self.root/'sessions';sessions.mkdir()
+        item={'host':'codex','hook_setup':'bundled','account':'synthetic',
+            'transcript_roots':[str(sessions)],'projects':[str(self.root)]}
+        self.answers['capture']=[item]
+        result=save_setup(self.answers,self.output)
+        self.assertFalse(any('project_hook.py' in s['argv'][1] for s in result['steps']))
+        item.update(host='claude-code',hook_setup='project')
+        with self.assertRaises(ValueError):save_setup(self.answers,self.output,True)
+        self.assertFalse(self.output.exists())
+
     def test_inaccessible_existing_and_occupied_starter_rejected(self):
         self.answers['vault']=str(self.root/'missing')
         with self.assertRaises(ValueError):save_setup(self.answers,self.output,True)

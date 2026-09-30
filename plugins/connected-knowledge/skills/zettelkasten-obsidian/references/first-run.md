@@ -15,7 +15,8 @@ do not request personal export content just to set up paths.
    choices do not authorize reading or classifying every conversation.
 4. **Should new local sessions be captured?** Off by default. If requested, choose
    host, exact project directories and transcript roots. Prepare a disabled config
-   for each host; do not register hooks during setup.
+   for each host. Codex defaults to the verified project-hook route; bundled hooks
+   remain an explicit alternative. Setup prepares preview commands without registering hooks.
 5. **Review the plan.** Show source scope, destinations, category choices and disabled
    capture state. Save the setup files, then carry out only the authorized steps.
    Start with one small import preview and check its coverage before applying.
@@ -75,4 +76,11 @@ notes. Test [capture and recovery](session-capture.md) with synthetic events bef
 separately enabling any real source or host hook. None of these steps establishes
 complete account coverage or cross-device synchronization.
 
-For packaged ongoing capture, follow [bundled hooks](bundled-hooks.md). Setup writes disabled configs only; set the host-specific environment variable and explicitly enable the chosen configuration after a synthetic test. Do not add duplicate manual hooks.
+For Codex, follow [project-hook setup](project-hooks.md): the saved plan supplies a
+preview per selected project. Add `--apply` to the helper only after reviewing the
+proposed hook file, then review/trust it in Codex. Capture stays disabled. For Claude
+Code or explicitly selected bundled Codex hooks, follow [bundled hooks](bundled-hooks.md).
+Use one capture route per project and test a synthetic-only configuration first.
+
+A capture answer can specify `"hook_setup": "project"` (Codex default) or
+`"hook_setup": "bundled"`. Existing answer files without this field remain supported.
