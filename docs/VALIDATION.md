@@ -1,6 +1,31 @@
 # Validation and limits — updated 2026-09-30
 
-## Current release — 1.2.1
+## Development candidate — 1.3.0
+
+All 93 local tests pass (69 existing plus 24 setup, bundle and recovery tests).
+Plugin and primary skill validation pass; the existing graph example has zero
+checker issues and zero repeat writes. The rebuilt ZIP's 58 entries match source
+bytes and SHA-256 inventory, and all three manifests report 1.3.0. These are local
+checks, not hosted CI results for this uncommitted candidate.
+
+Guided setup combines explicit vault/history/category/capture choices in a saved
+plan. Saving never runs planned commands or enables capture. The synthetic end-to-end
+test executes starter creation, ZIP preparation, attachment preservation, import
+preview/apply and no-op repeat in temporary storage. The wizard subprocess is also
+exercised. Separate recovery tests invoke both host adapters through hook stdin.
+
+ZIP support is selected-file preservation and a linked index, not automatic
+provider attachment association, OCR, remote download or in-vault asset copying.
+Safety coverage includes path/link/collision rejection, limits, exclusive locks,
+byte preservation, changed output detection and cleanup after a simulated disk error.
+Capture coverage includes incomplete/unflushed retry, checkpoint-write recovery,
+locks, snapshot corruption and fail-closed note/manifest interruption. Real installed
+host events, scheduler recovery and cross-device behavior remain untested.
+
+No private export or actual vault was used. This candidate is not installed or
+published; 1.2.1 remains the published release.
+
+## Published release — 1.2.1
 
 Includes supplied-JSON history import, assistant-proposed graph development, local
 session adapters and the Claude reply-reference fix. The 69-test suite covers

@@ -12,8 +12,8 @@ Keep personal exports, archive state and output outside the plugin repository.
    and inspect representative records. The current adapters accept JSON arrays:
    ChatGPT records with `id` or `conversation_id` and a `mapping`; Claude records
    with `uuid` and `chat_messages`; normalized records as described below. Other
-   export versions must be adapted and tested, not guessed. ZIP extraction and
-   attachment import are not implemented by this script.
+   export versions must be adapted and tested, not guessed. Use [export bundles](export-bundles.md) to safely prepare a selected ZIP and
+   preserve attachment bytes outside the importer archive; this script accepts JSON.
 3. Choose an empty, dedicated archive subdirectory (or the same previously managed
    archive). Do not pass the vault root. The default invocation is a read-only
    preview; inspect failures and coverage warnings before applying.

@@ -1,6 +1,6 @@
 # Connected Knowledge
 
-Reusable knowledge and research workflows for Claude and ChatGPT, built around the Zettelkasten–Obsidian skill. Version **1.2.1**.
+Reusable knowledge and research workflows for Claude and ChatGPT, built around the Zettelkasten–Obsidian skill. Version **1.3.0 (development)**.
 
 Develop conversations, documents and notes into sourced, connected knowledge. Adapt to an existing Obsidian vault, collect selected material into a reviewable inbox, retrieve relevant context, and revise notes without losing provenance.
 
@@ -8,6 +8,8 @@ Formerly **Zettelkasten Research**. The broader name describes the collection, r
 
 ## Start here
 
+- [Guided first-run setup](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/first-run.md)
+- [ZIP and attachment support](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/export-bundles.md)
 - [Installation and platform support](docs/INSTALL.md)
 - [Practical commands and usage](docs/USAGE.md)
 - [Knowledge conventions and duplicate handling](docs/KNOWLEDGE-WORKFLOW.md)
@@ -23,7 +25,7 @@ This is a plugin for supported AI hosts. It works with ordinary Obsidian Markdow
 | --- | --- |
 | Develop Knowledge (`zettelkasten-obsidian`) | Onboard, capture, develop, retrieve, synthesize and revise knowledge. |
 | Collect Research (`research-collect`) | Collect explicitly selected sources into an inbox. |
-| Eight Python tools | Collect material, extract PDFs with page references, check vault structure, compare existing vaults, import supplied chat JSON, develop evidence-backed graph notes, adapt local agent transcripts, and create an optional starter. |
+| Ten command-line Python tools | Collect material, extract PDFs with page references, check vault structure, compare existing vaults, import supplied chat JSON, develop evidence-backed graph notes, adapt local agent transcripts, create an optional starter, prepare ZIP/attachment bundles, and guide first-run setup. |
 | Templates and vault guide | Shared conventions for people and assistants. |
 | Platform manifests | Claude and ChatGPT/Codex packaging with shared skill sources. |
 

@@ -97,7 +97,7 @@ def capture(config, transcript, apply=False, event=None):
     if not isinstance(account,str) or not account.strip():raise ValueError('Select a non-secret account label')
     spool=Path(config['spool']).expanduser();destination=Path(config['destination']).expanduser()
     if not spool.is_absolute() or not destination.is_absolute():raise ValueError('Spool and destination must be absolute')
-    if spool.is_symlink() or destination.is_symlink():raise ValueError('Symlink destinations unsupported')
+    if any(p.is_symlink() for p in (spool,destination,*spool.parents,*destination.parents)):raise ValueError('Symlink destinations unsupported')
     spool=spool.resolve();destination=destination.resolve()
     if spool==destination or spool.is_relative_to(destination) or destination.is_relative_to(spool):
         raise ValueError('Use separate private spool and archive directories')
@@ -123,7 +123,8 @@ def capture(config, transcript, apply=False, event=None):
         chat['raw_snapshot']=str(source)
         normalized=encoded([chat]);input_path=spool/'normalized'/(digest(normalized)+'.json')
         if input_path.is_symlink():raise ValueError('Symlink normalized input unsupported')
-        atomic_write(input_path,normalized)
+        if input_path.exists() and input_path.read_bytes()!=normalized:raise ValueError('Normalized snapshot integrity failure')
+        if not input_path.exists():atomic_write(input_path,normalized)
         imported=run(input_path,destination,'normalized',account,True,
                      vocabulary=config.get('vocabulary','default'))
         if imported['failed'] or imported['conflicts']:raise ValueError('Archive conflict; inspect importer report: '+json.dumps(imported))
