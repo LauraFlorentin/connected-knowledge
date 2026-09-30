@@ -76,6 +76,51 @@ class ChatImport(unittest.TestCase):
         chat=normalize({'uuid':'c','name':'Test','chat_messages':[{'uuid':'m','sender':'human','content':[{'type':'text','text':'Hello'}],'attachments':[{'name':'paper.pdf'}]}]},'claude')
         self.assertEqual(chat['messages'][0]['text'],'Hello')
         self.assertTrue(chat['warnings'])
+    def test_claude_export_reply_branches_round_trip(self):
+        # Entirely synthetic values; no exported user data is a test fixture.
+        self.data = [{'uuid':'synthetic-chat','name':'Fictional conversation',
+            'summary':'Synthetic summary','account':{'uuid':'synthetic-account'},
+            'created_at':'2025-01-01T00:00:00Z','updated_at':'2025-01-01T00:03:00Z',
+            'chat_messages':[
+                {'uuid':'question','sender':'human','text':'Fictional question',
+                 'content':[], 'attachments':[], 'files':[],
+                 'parent_message_uuid':'root-placeholder'},
+                {'uuid':'answer-one','sender':'assistant','text':'',
+                 'content':[{'type':'text','text':'First fictional answer',
+                             'flags':None,'citations':[],
+                             'start_timestamp':'2025-01-01T00:01:00Z',
+                             'stop_timestamp':'2025-01-01T00:02:00Z'}],
+                 'parent_message_uuid':'question'},
+                {'uuid':'answer-two','sender':'assistant','text':'Alternative answer',
+                 'content':[{'type':'text','text':'Alternative answer'}],
+                 'parent_message_uuid':'question'}]}]
+        self.save()
+        chat = normalize(self.data[0], 'claude')
+        self.assertEqual([m['parent'] for m in chat['messages']],
+                         ['root-placeholder','question','question'])
+        self.assertEqual(chat['messages'][1]['text'], 'First fictional answer')
+        self.assertEqual(chat['messages'][2]['text'], 'Alternative answer')
+        preview = run(self.source,self.dest,'claude','synthetic')
+        self.assertEqual(preview['created'],1)
+        self.assertFalse(self.dest.exists())
+        result = run(self.source,self.dest,'claude','synthetic',apply=True)
+        note = (self.dest/result['items'][0]['path']).read_text()
+        self.assertEqual(note.count('"parent": "question"'),2)
+        self.assertEqual(next((self.dest/'originals').glob('*.json')).read_bytes(),
+                         self.source.read_bytes())
+        self.assertEqual(run(self.source,self.dest,'claude','synthetic',apply=True)['unchanged'],1)
+
+    def test_claude_parent_field_precedence_and_legacy_fallback(self):
+        for fields, expected in [({'parent':'legacy'},'legacy'),
+                                  ({'parent_message_uuid':None,'parent':'legacy'},None),
+                                  ({'parent_message_uuid':'native','parent':'legacy'},'native')]:
+            message = dict(uuid='message',sender='human',text='Synthetic',**fields)
+            record = {'uuid':'conversation','chat_messages':[message]}
+            self.assertEqual(normalize(record,'claude')['messages'][0]['parent'],expected)
+        record = {'id':'conversation','messages':[dict(id='message',text='Synthetic',
+                  parent='normalized-parent',parent_message_uuid='unrelated')]}
+        self.assertEqual(normalize(record,'normalized')['messages'][0]['parent'],'normalized-parent')
+
     def test_ontology_optional_existing_vocabulary(self):
         result=self.run_import(apply=True,vocabulary='existing',categories=['Admin','Personal','Work'],annotations={'c1':{'category':'Personal'}})
         text=(self.dest/result['items'][0]['path']).read_text()
