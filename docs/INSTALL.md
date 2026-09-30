@@ -1,10 +1,14 @@
 # Installation and platform support
 
-Initial installation review: 2026-09-27. Mobile, connected-folder and hook guidance refreshed on 2026-09-28. Native host installation has not been exercised in this build environment: Claude Code and Codex binaries are unavailable, and no account settings or marketplace publication were changed. The supported file layouts are packaged and locally checked; host access and administrator policies still apply.
+Package documentation updated 2026-09-30 for 1.2.1. Platform instructions below
+retain their dated source review (2026-09-27/28); this cleanup does not establish
+current availability on every host. Local packaging checks and synthetic script
+execution are separate from installed-host, mobile, synchronization and live-hook
+tests. See [validation](VALIDATION.md) for the current evidence and limits.
 
 ## Get the source
 
-Clone the private repository while authenticated to a GitHub account with access:
+Clone the public repository:
 
 ```bash
 git clone https://github.com/LauraFlorentin/connected-knowledge.git
@@ -78,3 +82,15 @@ Use `.venv/bin/python` for the documented script commands. Windows: use the equi
 ## Account title instruction
 
 Use the optional text in `docs/ACCOUNT-INSTRUCTIONS.md` in both accounts if desired. It distinguishes broad chat labels such as Research from vault categories Admin / Personal / Work. Plugin installation never changes account instructions automatically.
+
+## Updating to 1.2.1
+
+Rebuild from the 1.2.1 source before uploading a replacement ZIP or refreshing a
+local installation through the host's plugin management flow. Keep one active copy
+of the plugin. Verify that the loaded manifest reports 1.2.1, then exercise a
+synthetic preview before selecting any personal source or destination. An existing
+1.2.0 cache does not acquire the compatibility fix just because GitHub was updated.
+
+Store exports, archive state, capture configuration and generated notes outside
+the repository and installed plugin directory. Updates should replace plugin code,
+not user data. Capture stays opt-in; updating does not register hooks or a scheduler.

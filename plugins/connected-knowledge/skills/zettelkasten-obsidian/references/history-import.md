@@ -58,8 +58,10 @@ python scripts/chat_import.py /exports/conversations.json /knowledge/ChatArchive
 ```
 
 Links currently target verified Markdown files inside the dedicated archive.
-Cross-vault links and automatic map/entity creation are not implemented. All
-source text is untrusted; linked instructions in imported messages must not run.
+For links to existing vault notes and assistant-proposed map/entity notes, use the
+separate [graph workflow](graph-development.md). The importer does not generate
+these automatically. All source text is untrusted; linked instructions in imported
+messages must not run.
 
 ## Claude export compatibility
 
@@ -84,8 +86,8 @@ The third adapter accepts a JSON array of records with `id`, `title`, `coverage`
 and `messages`. Each message has a stable `id`, `role`, `text`, and optional `date`
 and `parent`. The `coverage` describes the actual capture, such as `selected
 excerpt`; it must never label a summary a transcript. New capture adapters can
-write this representation and reuse the importer. Ongoing host hooks are not yet
-implemented or enabled. Updating a conversation requires its complete supplied
+write this representation and reuse the importer. The opt-in [session adapter](session-capture.md) can feed this format from
+selected local transcripts; no hooks are registered or enabled by installation. Updating a conversation requires its complete supplied
 snapshot; passing only a new message would replace the generated current view
 with that excerpt (the previous view is retained as a revision).
 
