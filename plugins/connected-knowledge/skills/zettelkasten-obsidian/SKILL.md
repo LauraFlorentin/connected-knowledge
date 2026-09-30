@@ -21,6 +21,8 @@ For classifying imported chats, developing graph notes, or citing imported messa
 
 For local Codex/Claude Code session history or ongoing-capture setup, read [session-capture.md](references/session-capture.md). Preview selected sources first; the adapter is available but bundled hooks remain inert until private configuration enables capture. Read [bundled-hooks.md](references/bundled-hooks.md) for runtime and activation requirements.
 
+For explicitly selected saves from ordinary chats, the private MCP interface, Gemini CLI capture or regular Gemini app coverage, read [private-capture.md](references/private-capture.md). Use only supplied available content and accurate coverage labels; preserve external private runtime storage.
+
 ## Select the requested outcome
 
 - **Label or classify:** Provide `[Category] Title`, with a title of at most five words. Add requested metadata without turning a labeling task into note creation.

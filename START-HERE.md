@@ -1,4 +1,6 @@
-# Connected Knowledge — version 1.1.1
+# Connected Knowledge — development branch
+
+Released baseline: 1.3.1. Next-version work is unreleased and inactive. Start with the [private capture coverage and setup guide](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/private-capture.md).
 
 A reusable knowledge and research plugin built around the existing Zettelkasten–Obsidian skill, preserving its integrated Practice workflows and ontology.
 

@@ -1,6 +1,6 @@
 # Connected Knowledge
 
-Reusable knowledge and research workflows for Claude and ChatGPT, built around the Zettelkasten–Obsidian skill. Version **1.3.1**.
+Reusable knowledge and research workflows for Claude and ChatGPT, built around the Zettelkasten–Obsidian skill. Released baseline **1.3.1**; next-version development is unreleased.
 
 Develop conversations, documents and notes into sourced, connected knowledge. Adapt to an existing Obsidian vault, collect selected material into a reviewable inbox, retrieve relevant context, and revise notes without losing provenance.
 
@@ -25,13 +25,13 @@ This is a plugin for supported AI hosts. It works with ordinary Obsidian Markdow
 | --- | --- |
 | Develop Knowledge (`zettelkasten-obsidian`) | Onboard, capture, develop, retrieve, synthesize and revise knowledge. |
 | Collect Research (`research-collect`) | Collect explicitly selected sources into an inbox. |
-| Eleven command-line Python tools | Collect material, extract PDFs with page references, check vault structure, compare existing vaults, import supplied chat JSON, develop evidence-backed graph notes, adapt local agent transcripts, create an optional starter, prepare ZIP/attachment bundles, guide first-run setup, and prepare scoped Codex project hooks. |
+| Command-line Python tools | Collect material, extract PDFs with page references, check vault structure, compare existing vaults, import supplied chat JSON, develop evidence-backed graph notes, adapt local agent transcripts, create an optional starter, prepare ZIP/attachment bundles, guide first-run setup, and prepare scoped Codex project hooks. |
 | Templates and vault guide | Shared conventions for people and assistants. |
 | Platform manifests | Claude and ChatGPT/Codex packaging with shared skill sources. |
 
 The integrated Zettelkasten Practice guidance is preserved within the primary skill; a second Practice installation is unnecessary. Existing vault conventions take priority. The optional starter requires an explicit choice and refuses an existing target directory.
 
-Supplied ChatGPT/Claude JSON import is available with preview, repeat detection and edit protection; see [history onboarding](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/history-import.md). Account-history fetching, an active MCP service, semantic-search infrastructure and background scheduling are not implemented. See [future capture options](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/future-chat-capture.md) for their requirements.
+Supplied ChatGPT/Claude JSON import is available with preview, repeat detection and edit protection; see [history onboarding](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/history-import.md). An optional private stdio MCP selected-save server and Gemini CLI completed-turn adapter are implemented on this development branch; neither is installed or active. Account-history fetching, semantic-search infrastructure and background scheduling are not implemented. See [private capture coverage and setup](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/private-capture.md). See [future capture options](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/future-chat-capture.md) for their requirements.
 
 ## Existing-vault validation
 

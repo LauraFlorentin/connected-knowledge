@@ -1,0 +1,6 @@
+{
+  "name": "connected-knowledge",
+  "version": "1.4.0-dev",
+  "description": "Knowledge development and opt-in completed-turn capture for selected Gemini CLI workspaces.",
+  "contextFileName": "GEMINI.md"
+}

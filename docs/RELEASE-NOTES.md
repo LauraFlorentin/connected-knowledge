@@ -1,5 +1,9 @@
 # Release notes
 
+## Unreleased — 1.4.0 development
+
+Shared private selected-content capture, optional stdio MCP save tool, Gemini CLI completed-turn extension packaging, and explicit coverage/onboarding documentation. Synthetic/local protocol checks only; no account connection, native Gemini trial, release or deployment. Regular Gemini Apps Takeout schema remains unimplemented.
+
 ## 1.3.1 — 2026-09-30
 
 - Add guided Codex project-hook setup with separate preview/apply, disabled capture,

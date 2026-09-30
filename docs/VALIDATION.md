@@ -186,3 +186,9 @@ python -m unittest discover -s plugins/connected-knowledge/skills/zettelkasten-o
 ```
 
 Tests use temporary synthetic files. They do not read your real vault or accounts.
+
+## Next-version development checks — September 30, 2026
+
+119 tests pass locally on Python 3.12, including shared private capture, concurrent duplicate saves, interrupted-import recovery, human-edit protection, bounded/disabled inputs, path separation, Gemini event replay/continuation and a real MCP stdio client discovery/save/retry test. MCP SDK 1.30.0 tested. Both development packages build. Extracted Gemini ZIP command successfully saved/replayed a synthetic event with exactly one resulting record; this tests packaging and process invocation, not Gemini native hook discovery.
+
+Gemini CLI is absent on the inspected host. ChatGPT account/tunnel association and ordinary desktop/mobile selected saves have not been tested. No live vault, personal exports, personal runtime capture, remote service, tunnel, scheduler, cost-bearing API call or release was used. New private capture runtime is POSIX-only. Existing released host evidence remains dated; it was not rerun. Hosted CI was not run for this local development branch.

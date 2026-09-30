@@ -60,7 +60,7 @@ Where the local plugin is unavailable, attach `distribution/instruction-bundle.m
 
 Sources: https://learn.chatgpt.com/docs/build-skills and https://learn.chatgpt.com/docs/projects
 
-Current plugin documentation describes lifecycle hooks in the Codex runtime, including ChatGPT Work. Such hooks require trusted scripts deployed in the execution environment; web plugin installation alone does not deploy them. Version 1.3.0 bundles opt-in hooks; private configuration and a tested runtime are required. See https://learn.chatgpt.com/docs/plugins and https://learn.chatgpt.com/docs/hooks, and the core reference `future-chat-capture.md` for proposed capture routes and coverage limits.
+Current plugin documentation describes lifecycle hooks in the Codex runtime; plugin hooks are not supported in cloud-orchestrated ChatGPT Work. Such hooks require trusted scripts deployed in the execution environment; web plugin installation alone does not deploy them. Version 1.3.0 bundles opt-in hooks; private configuration and a tested runtime are required. See https://learn.chatgpt.com/docs/plugins and https://learn.chatgpt.com/docs/hooks, and the core reference `future-chat-capture.md` for proposed capture routes and coverage limits.
 
 ## Avoid duplicate activation
 
@@ -96,3 +96,7 @@ the repository and installed plugin directory. Updates should replace plugin cod
 not user data. Capture stays opt-in; updating does not register hooks or a scheduler.
 
 For Codex 1.3.1 onboarding, use the [project-hook route](../plugins/connected-knowledge/skills/zettelkasten-obsidian/references/project-hooks.md). Preview first, apply the selected project hook separately, and review/trust it in Codex. Capture remains disabled until the private configuration is explicitly enabled. Use one capture route per project.
+
+## Next-version private capture (unreleased)
+
+See [private capture](../plugins/connected-knowledge/skills/zettelkasten-obsidian/references/private-capture.md) for ordinary-chat selected saves, the private stdio MCP server, Gemini CLI extension, and regular Gemini Apps import limits. No tunnel or public service is deployed. New capture components require POSIX Python 3.10+; Windows is unverified.
