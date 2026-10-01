@@ -1,15 +1,15 @@
-# Private capture — development capability
+# Private selected capture — 1.4.0
 
-Released baseline: 1.3.1. These additions are unreleased and inactive. Save explicitly selected content from ordinary chats or project chats through the same private inbox. Archiving is a source stage; use the existing graph workflow separately to propose developed notes.
+These components remain inactive until configured. Start with [guided private setup](private-setup.md). Save explicitly selected content from ordinary chats or project chats through the same private inbox. Archiving is a source stage; use the existing graph workflow separately to propose developed notes.
 
 ## Choose your route
 
 | Surface | Route | Evidence and limit |
 | --- | --- | --- |
-| ChatGPT ordinary/project chats, desktop/mobile | `save_selected_capture` through a separately connected private MCP server | Local MCP protocol tested. Official docs support account-available plugins on desktop/mobile; actual account connection and each target app remain unverified. No universal chat-end event or history feed. |
+| ChatGPT ordinary/project chats, desktop/mobile | `save_selected_capture` through a separately connected private MCP server | Local MCP protocol and native ChatGPT web selected save/retry verified. Desktop/mobile remain separate native checks. No universal chat-end event or history feed. |
 | Codex | Existing scoped project Stop hook | Prior native test passed; bundled discovery was not proven. |
 | Claude Code | Existing opt-in bundled capture | Prior native test passed. |
-| Gemini CLI | Development extension AfterAgent hook | Synthetic event/process tests pass; native extension discovery and invocation unverified. One archive record per completed event, not a fabricated full-session transcript. |
+| Gemini CLI | Development extension AfterAgent hook | Experimental: synthetic event/process tests pass; native extension discovery and invocation unverified. One archive record per completed event, not a fabricated full-session transcript. |
 | Regular Gemini apps | Explicit text/file save through manual private interface, or supplied Takeout activity | No native Gemini Apps MCP connection or automatic trigger implemented. Takeout export schema not inferred; normalize selected material explicitly before capture. |
 | Claude ordinary apps | Supplied exports or selected text through private interface | No automatic all-account capture. |
 

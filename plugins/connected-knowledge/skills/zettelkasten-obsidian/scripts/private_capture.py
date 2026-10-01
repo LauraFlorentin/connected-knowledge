@@ -8,7 +8,9 @@ import sys
 from chat_import import atomic_write, digest, encoded, normalize, run
 
 LIMIT = 1024 * 1024
-PLUGIN = Path(__file__).resolve().parents[3]
+SCRIPT_ROOT = Path(__file__).resolve().parent
+PLUGIN = next((parent for parent in SCRIPT_ROOT.parents
+               if (parent/'plugin.json').is_file() and (parent/'skills').is_dir()), SCRIPT_ROOT)
 REPOSITORY = PLUGIN.parents[1] if PLUGIN.parent.name == 'plugins' else PLUGIN
 
 
@@ -70,6 +72,16 @@ def validate(payload):
 def capture(cfg, payload, apply=False):
     account, spool, archive = settings(cfg)
     record = validate(payload)
+    template = None
+    if cfg.get('template'):
+        path = Path(cfg['template']).expanduser()
+        if not path.is_absolute() or any(p.is_symlink() for p in (path, *path.parents)) or path.stat().st_size > LIMIT:
+            raise ValueError('Select an absolute bounded non-symlink Markdown template')
+        template = path.read_text()
+        from capture_template import apply_template
+        from chat_import import render
+        apply_template(template, render(normalize(record, 'normalized'), 'normalized', account,
+                                        'originals/preview.json', {}, cfg.get('vocabulary', 'existing')), record['id'])
     receipt = {'status': 'preview', 'coverage': payload['coverage'],
                'receipt': digest(encoded([account, record['id']])), 'messages': len(record['messages'])}
     if not apply:
@@ -86,10 +98,12 @@ def capture(cfg, payload, apply=False):
         if not source.exists():
             atomic_write(source, data)
         report = run(source, archive, 'normalized', account, True,
-                     vocabulary=cfg.get('vocabulary', 'existing'))
+                     vocabulary=cfg.get('vocabulary', 'existing'), template=template,
+                     readable_names=cfg.get('readable_names', True), lock_directory=spool)
         if report['failed'] or report['conflicts']:
             raise ValueError('Archive conflict; reconcile privately')
         receipt.update(status='saved' if report['written'] else 'unchanged', written=report['written'])
+        receipt['notes'] = [item['path'] for item in report['items'] if 'path' in item]
         return receipt
 
 

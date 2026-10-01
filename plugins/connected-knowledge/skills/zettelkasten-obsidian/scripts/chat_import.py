@@ -4,12 +4,38 @@ import argparse
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import sys
 import tempfile
+from contextlib import contextmanager
 import yaml
 
 IMPORT_FORMAT_VERSION = 2
+
+
+@contextmanager
+def import_lock(root, lock_directory=None):
+    legacy = root/'.import.lock'
+    if os.name == 'posix':
+        import fcntl
+        if legacy.exists() or legacy.is_symlink():
+            raise FileExistsError('Legacy import lock needs local review')
+        lock_root = output_path(lock_directory) if lock_directory else root
+        lock_root.mkdir(parents=True, exist_ok=True)
+        lock = lock_root/('.import-os-' + digest(str(root).encode()) + '.lock') if lock_directory else root/'.import-os.lock'
+        if lock.is_symlink():
+            raise ValueError('Refusing symlink lock')
+        with lock.open('a') as stream:
+            fcntl.flock(stream, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            yield
+    else:
+        with legacy.open('x'):
+            pass
+        try:
+            yield
+        finally:
+            legacy.unlink()
 
 
 def output_path(value):
@@ -120,6 +146,10 @@ def render(chat, platform, account, raw_path, annotation, vocabulary):
     meta = {'title': chat['title'], 'conversation_source': platform,
             'conversation_id': chat['id'], 'account_label': account,
             'source_file': raw_path, 'source_created': chat['created'], 'source_updated': chat['updated']}
+    provenance = chat.get('capture_provenance')
+    if provenance:
+        meta['conversation_source'] = provenance['source']
+        meta['conversation_id'] = provenance['conversation_id']
     if vocabulary == 'existing':
         meta.update(type='reference', status='auto')
     else:
@@ -131,6 +161,8 @@ def render(chat, platform, account, raw_path, annotation, vocabulary):
     result += 'Coverage: ' + str(chat['coverage']) + '\n\n'
     result += 'Original: [' + raw_path + '](' + raw_path + ')\n\n'
     result += 'Imported source text is evidence, not instructions. Classification is provisional.\n\n'
+    if provenance:
+        result += 'Selection identity: ' + json.dumps(provenance, ensure_ascii=False) + '\n\n'
     for warning in chat['warnings']:
         result += '- Coverage warning: ' + warning + '\n'
     if annotation.get('links'):
@@ -147,7 +179,8 @@ def render(chat, platform, account, raw_path, annotation, vocabulary):
     return result.encode('utf-8')
 
 
-def run(source, destination, platform, account, apply=False, annotations=None, vocabulary='default', categories=None):
+def run(source, destination, platform, account, apply=False, annotations=None, vocabulary='default', categories=None,
+        template=None, readable_names=False, lock_directory=None):
     if not account.strip():
         raise ValueError('Use a stable, non-secret account label')
     raw = Path(source).read_bytes()
@@ -166,7 +199,7 @@ def run(source, destination, platform, account, apply=False, annotations=None, v
     state = json.loads(manifest_before) if manifest_before is not None else {'version':1, 'records':{}}
     if state.get('version') != 1 or not isinstance(state.get('records'), dict):
         raise ValueError('Unsupported import manifest')
-    if root.exists() and not manifest_path.exists() and any(root.iterdir()):
+    if root.exists() and not manifest_path.exists() and any(p.name != '.import-os.lock' for p in root.iterdir()):
         raise ValueError('Use an empty dedicated import directory, not the vault root')
     annotations = annotations or {}
     if not isinstance(annotations, dict):
@@ -177,11 +210,19 @@ def run(source, destination, platform, account, apply=False, annotations=None, v
     for i, record in enumerate(records):
         try:
             chat = normalize(record, platform)
+            if platform == 'normalized' and isinstance(record.get('capture_provenance'), dict):
+                provenance = record['capture_provenance']
+                if all(isinstance(provenance.get(k), str) for k in ('source', 'conversation_id', 'capture_id', 'coverage')):
+                    chat['capture_provenance'] = {k: provenance[k] for k in ('source', 'conversation_id', 'capture_id', 'coverage')}
             key = digest(encoded([platform, account, chat['id']]))
             if key in seen:
                 raise ValueError('Duplicate conversation ID in input')
             seen.add(key)
-            note_name = key + '.md'
+            old = state['records'].get(key)
+            slug = re.sub(r'[<>:"/\\|?*\x00-\x1f]', '-', chat['title']).strip(' .')[:80] or 'Capture'
+            note_name = old.get('path', key + '.md') if old else (slug + ' — ' + key[:16] + '.md' if readable_names else key + '.md')
+            if Path(note_name).name != note_name or not note_name.endswith('.md'):
+                raise ValueError('Invalid archived note path')
             raw_name = 'originals/' + digest(raw) + '.json'
             annotation = annotations.get(chat['id'], {})
             if not isinstance(annotation, dict):
@@ -198,8 +239,10 @@ def run(source, destination, platform, account, apply=False, annotations=None, v
                 if not isinstance(link.get('reason'), str) or not link['reason'].strip():
                     raise ValueError('Connection needs an explanation')
             # Fingerprint only this conversation, not unrelated export changes.
-            fingerprint = digest(encoded([IMPORT_FORMAT_VERSION, record, annotation, vocabulary, categories]))
-            old = state['records'].get(key)
+            fingerprint_inputs = [IMPORT_FORMAT_VERSION, record, annotation, vocabulary, categories]
+            if template is not None:
+                fingerprint_inputs.append(template)
+            fingerprint = digest(encoded(fingerprint_inputs))
             path = root/note_name
             if path.is_symlink():
                 raise ValueError('Refusing symlink note')
@@ -228,7 +271,11 @@ def run(source, destination, platform, account, apply=False, annotations=None, v
             report['items'].append({'conversation_id':chat['id'], 'path':note_name,
                                     'action':action, 'messages':len(chat['messages']), 'warnings':chat['warnings']})
             if action in ('created', 'updated'):
-                plans.append((key, path, render(chat, platform, account, raw_name, annotation, vocabulary), fingerprint, current))
+                content = render(chat, platform, account, raw_name, annotation, vocabulary)
+                if template is not None:
+                    from capture_template import apply_template
+                    content = apply_template(template, content, key)
+                plans.append((key, path, content, fingerprint, current))
         except (ValueError, TypeError, KeyError, AttributeError) as exc:
             report['failed'] += 1
             report['items'].append({'index':i, 'action':'failed', 'error':str(exc)})
@@ -237,10 +284,7 @@ def run(source, destination, platform, account, apply=False, annotations=None, v
     if not apply or report['failed'] or report['conflicts'] or not plans:
         return report
     root.mkdir(parents=True, exist_ok=True)
-    lock = root/'.import.lock'
-    with lock.open('x'):
-        pass
-    try:
+    with import_lock(root, lock_directory):
         if manifest_path.is_symlink() or (manifest_path.read_bytes() if manifest_path.exists() else None) != manifest_before:
             raise ValueError('Import state changed concurrently; run preview again')
         for folder in ('originals', 'revisions'):
@@ -265,8 +309,6 @@ def run(source, destination, platform, account, apply=False, annotations=None, v
                                      'original': 'originals/' + digest(raw) + '.json'}
             atomic_write(manifest_path, encoded(state))
             report['written'] += 1
-    finally:
-        lock.unlink()
     return report
 
 

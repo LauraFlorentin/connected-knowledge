@@ -15,4 +15,4 @@ with zipfile.ZipFile(DIST/'gemini-extension.zip', 'w', zipfile.ZIP_DEFLATED) as 
             continue
         out.write(path, name)
     out.write(ROOT/'integrations/gemini/hooks.json', 'hooks/hooks.json')
-print('Built development Gemini extension ZIP; no installation or activation.')
+print('Built experimental Gemini extension ZIP; no installation or activation.')

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Regenerate distribution copies from the single shared plugin source."""
 from pathlib import Path
-import hashlib,json,zipfile
+import hashlib,json,zipfile,shutil
 ROOT=Path(__file__).resolve().parents[1]
 PLUGIN=ROOT/'plugins/connected-knowledge'
 DIST=ROOT/'distribution'; DIST.mkdir(exist_ok=True)
@@ -14,5 +14,6 @@ with zipfile.ZipFile(DIST/'claude-plugin.zip','w',zipfile.ZIP_DEFLATED) as z:
     for f in sorted(PLUGIN.rglob('*')):
         if f.is_file() and '__pycache__' not in f.parts and f.suffix!='.pyc': z.write(f,f.relative_to(PLUGIN))
 files={str(f.relative_to(PLUGIN)):hashlib.sha256(f.read_bytes()).hexdigest() for f in PLUGIN.rglob('*') if f.is_file() and '__pycache__' not in f.parts and f.suffix!='.pyc'}
+shutil.copyfile(DIST/'claude-plugin.zip', DIST/'connected-knowledge.zip')
 (DIST/'plugin-sha256.json').write_text(json.dumps(files,indent=2)+'\n')
-print('Rebuilt Claude ZIP, instruction bundle, and plugin file hashes.')
+print('Rebuilt portable/Claude ZIPs, instruction bundle, and plugin file hashes.')

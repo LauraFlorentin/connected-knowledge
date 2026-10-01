@@ -1,10 +1,19 @@
 # Installation and platform support
 
-Package documentation updated 2026-09-30 for 1.3.1. Platform instructions below
+Package documentation updated 2026-10-01 for 1.4.0. Platform instructions below
 retain their dated source review (2026-09-27/28); this cleanup does not establish
 current availability on every host. Local packaging checks and synthetic script
 execution are separate from installed-host, mobile, synchronization and live-hook
 tests. See [validation](VALIDATION.md) for the current evidence and limits.
+
+## Private ChatGPT selected saves — 1.4.0
+
+Use the [guided installer](../plugins/connected-knowledge/skills/zettelkasten-obsidian/references/private-setup.md).
+It prepares a permanent external runtime, supports your selected vault template,
+and uses your own private tunnel. macOS/Linux require Python 3.10+; Windows private
+runtime is unsupported. ChatGPT web selected save/retry was verified; desktop/mobile
+and native Gemini CLI are separate checks. Gemini CLI support is experimental.
+This downloadable release does not publish a ChatGPT directory app.
 
 ## Get the source
 
@@ -83,11 +92,11 @@ Use `.venv/bin/python` for the documented script commands. Windows: use the equi
 
 Use the optional text in `docs/ACCOUNT-INSTRUCTIONS.md` in both accounts if desired. It distinguishes broad chat labels such as Research from vault categories Admin / Personal / Work. Plugin installation never changes account instructions automatically.
 
-## Updating to 1.3.1
+## Updating to 1.4.0
 
-Rebuild from the 1.3.1 source before uploading a replacement ZIP or refreshing a
+Rebuild from the 1.4.0 source before uploading a replacement ZIP or refreshing a
 local installation through the host's plugin management flow. Keep one active copy
-of the plugin. Verify that the loaded manifest reports 1.3.1, then exercise a
+of the plugin. Verify that the loaded manifest reports 1.4.0, then exercise a
 synthetic preview before selecting any personal source or destination. An existing
 older cache does not acquire the update just because GitHub was updated.
 

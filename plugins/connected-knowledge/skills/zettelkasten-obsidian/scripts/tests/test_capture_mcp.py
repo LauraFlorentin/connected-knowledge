@@ -27,6 +27,10 @@ class CaptureMCPTests(unittest.TestCase):
                     self.assertNotIn('destination', props)
                     self.assertNotIn('account', props)
                     self.assertTrue(tools[0].annotations.idempotentHint)
+                    schema = tools[0].inputSchema
+                    message_schema = schema['$defs']['SelectedMessage']
+                    self.assertEqual(set(message_schema['required']), {'id', 'role', 'text'})
+                    self.assertFalse(message_schema['additionalProperties'])
                     args = {'source': 'chatgpt', 'conversation_id': 'fictional-chat',
                             'capture_id': 'fictional-selection', 'title': 'Synthetic orchard',
                             'coverage': 'summary', 'messages': [

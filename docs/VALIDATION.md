@@ -1,4 +1,34 @@
-# Validation and limits — updated 2026-09-30
+# Validation and limits — updated 2026-10-01
+
+
+## 1.4.0 release checks
+
+126 local Python 3.12 tests pass. New coverage includes explicit MCP message schema,
+template preservation and unsupported-code rejection, readable filename identity,
+private setup boundaries, official binary variant/checksum verification, startup
+file argument isolation, loopback-only status, and release of archive locks after
+process termination. Existing source/import/graph/hook compatibility checks remain.
+Both skills validate; extracted package save/retry/human-edit checks run in CI.
+
+A clean extracted macOS package trial creates its own permanent-style external
+runtime and Python environment, installs runtime dependencies, and exercises
+synthetic selected saves. Official tunnel-client v0.0.15 Darwin arm64 download
+checksum verified. Native ChatGPT web tool discovery/save/retry succeeded in a
+separate user-private connection trial. No personal content or configuration is
+included in the package or test fixtures.
+
+CI covers Python 3.10/3.12 on Ubuntu and macOS, including the extracted package.
+Hosted results are recorded with the final release rather than inferred from local
+success. User startup files are generated/tested without activating a real service;
+OS keyring access, native startup/reconnection after login, desktop/mobile selected
+saves, cross-device vault sync and native Gemini CLI remain separate host checks.
+Gemini CLI is experimental. Windows private capture is unsupported. Regular Gemini
+Apps use selected text/supplied exports; no inferred Takeout schema or universal
+all-chat capture is implemented. The downloadable release is not a published
+ChatGPT directory service.
+
+Historical evidence below describes its original versions; it does not override
+this release's implemented behavior or remaining limits.
 
 ## Release — 1.3.0
 
