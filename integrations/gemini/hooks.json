@@ -1,0 +1,10 @@
+{
+  "hooks": {
+    "AfterAgent": [{"hooks": [{
+      "name": "connected-knowledge-capture",
+      "type": "command",
+      "command": "\"${CONNECTED_KNOWLEDGE_PYTHON:-python3}\" \"${extensionPath}/hooks/gemini_capture.py\"",
+      "timeout": 10000
+    }]}]
+  }
+}

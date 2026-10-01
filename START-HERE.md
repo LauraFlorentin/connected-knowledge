@@ -1,4 +1,6 @@
-# Connected Knowledge — version 1.1.1
+# Connected Knowledge — 1.4.0
+
+Start with the [guided private ChatGPT setup](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/private-setup.md) for selected saves, or the general first-run guide for history import and local agent hooks. Capture stays inactive until explicitly configured.
 
 A reusable knowledge and research plugin built around the existing Zettelkasten–Obsidian skill, preserving its integrated Practice workflows and ontology.
 
@@ -21,10 +23,10 @@ Begin with `config/collection.disabled.json`. It deliberately has no sources and
 
 Read `docs/USAGE.md` for commands and `docs/WORKED-EXAMPLE.md` for an offline demonstration. Read `docs/VALIDATION.md` for actual test results and remaining limits.
 
-Read `docs/KNOWLEDGE-WORKFLOW.md` for vault basics, bounded retrieval, duplicate handling, memory-derived context and future chat capture options. Version 1.1 adds those operating conventions, a reusable vault-guide template and richer source/idea templates. It does not add a bulk history importer, semantic-search engine or active capture connector.
+Read `docs/KNOWLEDGE-WORKFLOW.md` for vault basics, bounded retrieval, duplicate handling, memory-derived context and future chat capture options. Existing vault conventions take precedence. Supplied-history import, selected capture, and developed knowledge are distinct workflows; no all-account history fetcher or semantic-search service is installed.
 
 ## Components
 
-Implemented: plugin manifests, marketplace definitions, two skills, references, templates and four reusable Python tools. No MCP server, registered hook, background agent, email authentication, or universal chat-history importer is included. A scheduler or connector can be added only for sources and behavior you select.
+Implemented: plugin manifests, two skills, source/knowledge tools, supplied-history import, opt-in local hooks, private selected-save MCP, guided runtime setup, template support, and an experimental Gemini CLI extension. No public hosted service, email authentication, or universal all-account chat capture is included.
 
 This is an AI-host plugin, not an Obsidian community plugin. Obsidian remains the reader/editor for ordinary Markdown. Your linked notes are a knowledge network; no graph database is installed.

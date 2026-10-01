@@ -1,0 +1,2 @@
+-r requirements-mcp.txt
+keyring>=25,<26

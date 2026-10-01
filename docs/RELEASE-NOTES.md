@@ -1,5 +1,29 @@
 # Release notes
 
+## 1.4.0 — 2026-10-01
+
+- Add private selected-save MCP with explicit message schema, content-free errors,
+  returned note names, coverage labels and stable retry/revision identities.
+- Add macOS/Linux private setup wizard: existing vault, selected source template,
+  isolated permanent environment and checksum-verified official tunnel-client.
+- Support vault source/conversation-review templates and bundled capture templates;
+  preserve property vocabulary and originals, append exact selected messages, and
+  protect human edits. Arbitrary template code is never executed.
+- Use readable filenames while retaining existing archive paths and stable identities.
+- Add OS-keyring credential option, loopback health status and opt-in user startup
+  files. Startup after login is distinct from unattended recovery after reboot.
+- Add Gemini CLI AfterAgent extension packaging, marked experimental; regular Gemini
+  Apps remain selected-text/supplied-export routes.
+- Replace POSIX importer sentinel locking with process-released OS locking;
+  retain fail-closed handling of legacy sentinel locks.
+
+Synthetic development tests cover message schema, setup boundaries, template
+preservation, replay/revisions, human edits, concurrent saves and killed-process
+recovery. Native ChatGPT web selected save/retry succeeded in a separate private
+connection trial. Desktop/mobile, native Gemini CLI, Linux credential-store/startup
+operation and Windows private runtime are not claimed as verified. No personal
+content, credentials, account IDs or vault configuration are in this release.
+
 ## 1.3.1 — 2026-09-30
 
 - Add guided Codex project-hook setup with separate preview/apply, disabled capture,
