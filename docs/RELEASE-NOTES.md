@@ -1,5 +1,12 @@
 # Release notes
 
+## 1.4.2 — 2026-10-02
+
+- Add a guided starting menu for explicit invocation without a concrete task.
+- Guide vault setup, selected past/current conversation saves, documents and vault exploration one unresolved step at a time, reusing known choices.
+- After completion, suggest a relevant next task and wait for the user to choose it; then guide that task in turn.
+- Preserve direct-task execution, source scope, existing templates and honest access/coverage limits. These are assistant instructions, not a native wizard.
+
 ## 1.4.1 — 2026-10-02
 
 - Make a clear reusable entry point, connected source documents and readable summaries the completion standard for assistant-guided saves.

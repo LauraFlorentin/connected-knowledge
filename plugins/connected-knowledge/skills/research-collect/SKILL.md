@@ -6,6 +6,8 @@ description: Configure or run collection from user-selected local files, public 
 
 Collect source material separately from developing knowledge. Use the existing Zettelkasten–Obsidian skill for selected note development; preserve its ontology and Practice integration.
 
+For guided collection, use the companion core skill’s `references/guided-workflows.md`: give a short roadmap, ask only the next unresolved choice, and suggest a relevant next task after completion without starting it unasked.
+
 1. Establish the sources, exact account/feed/path and scope, inbox destination, and one-time versus ongoing intent. Ask only for missing choices that affect execution. Continue with disabled configuration and instructions while choices remain open. Do not choose subscriptions, accounts, schedules, or a vault on the user's behalf.
 2. Locate the companion `zettelkasten-obsidian` SKILL.md by name in the package or installed skills. Read its `references/research-tools.md`; use scripts relative to that skill directory. If unavailable, report the dependency and finish a configuration draft. Never assume the current directory is the plugin root.
 3. Read [collection.md](references/collection.md) for source formats, runtime choices and enabling behavior. Inspect existing vault conventions through the foundation onboarding workflow if capture is to be stored inside a vault. Prefer a distinct staging inbox.
