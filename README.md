@@ -14,6 +14,7 @@ Formerly **Zettelkasten Research**. The broader name describes the collection, r
 - [Installation and platform support](docs/INSTALL.md)
 - [Practical commands and usage](docs/USAGE.md)
 - [Knowledge conventions and duplicate handling](docs/KNOWLEDGE-WORKFLOW.md)
+- [Readable captures and connected documents](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/readable-captures.md)
 - [Worked example](docs/WORKED-EXAMPLE.md)
 - [Validation and limitations](docs/VALIDATION.md)
 - [Release notes](docs/RELEASE-NOTES.md)

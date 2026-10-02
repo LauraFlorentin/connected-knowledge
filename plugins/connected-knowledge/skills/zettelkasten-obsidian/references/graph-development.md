@@ -1,5 +1,7 @@
 # Classify conversations and build a useful graph
 
+Apply [readable-captures.md](readable-captures.md) for the user-facing result: reuse a topic/project entry point, connect scoped documents through source notes, distinguish originals from snapshots, and verify app navigation when available. Do not create graph nodes merely to meet a quota.
+
 Use `scripts/knowledge_graph.py` after supplied-JSON import. The archive and graph
 output must be separate subdirectories of one selected vault. The real vault guide
 remains authoritative; keep the original fields, entities, tasks and identities.

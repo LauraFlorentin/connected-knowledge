@@ -27,6 +27,12 @@ The graph comes from meaningful note links. A graph database, embedding service 
 
 These are skill-guided workflows, not a background service. Direct writes require the intended accessible vault.
 
+## A readable save is the default
+
+For assistant-guided saves, follow the [readable-captures standard](../plugins/connected-knowledge/skills/zettelkasten-obsidian/references/readable-captures.md). Reuse a clear topic/project entry point, put the summary first, and connect scoped documents through source notes. Preserve originals and distinguish dated attachment copies from maintained external files. Do not duplicate editable progress or inventory records to create graph nodes.
+
+Verify the saved links and source integrity; when Obsidian is available, open the entry point and a document and check the actual rendering. Deliver one starting link and clear coverage. Collectors, importers and private capture runtimes do not automatically perform this development workflow.
+
 ## Duplicates: what is enforced and what needs judgment
 
 The collector already skips unchanged inputs with the same configured source identity and content hash. A changed export is a new raw version, not a newly reconciled set of conversations. The supplied-JSON history importer now matches platform/account/conversation ID, retains originals and revisions, and blocks updates to human-edited notes. Its adapters have synthetic coverage; inspect actual exports before first use. See the skill’s `references/history-import.md`.

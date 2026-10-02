@@ -14,6 +14,8 @@ Obtain its explicit path or authorized connector and intended work/personal boun
 
 Keep incoming captures in a separate user-chosen research inbox by default. Agree how selected material is promoted into the existing vault. Trial a small requested capture or proposed note before a broader change. Read/write access to a folder does not grant access to another vault.
 
+Use [readable-captures.md](readable-captures.md) for that trial. A structurally valid capture is not the end of onboarding: check that the user can find its entry point, follow a relevant source-document link, and understand what is saved inside the vault versus linked to an external original. Record any unavailable in-app check honestly.
+
 Adapt `assets/vault-guide.md` into a short operating guide only when useful and authorized. Reuse an existing guide rather than create competing instructions. Four note templates already exist under `assets/templates`; adapt them, do not replace the vault's templates wholesale.
 
 ## No existing vault selected
