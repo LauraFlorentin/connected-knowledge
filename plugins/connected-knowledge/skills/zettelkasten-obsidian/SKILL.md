@@ -1,11 +1,15 @@
 ---
 name: zettelkasten-obsidian
-description: Turn AI conversations, emails, and notes into classified, sourced, linked Obsidian notes using a consistent ontology and Zettelkasten principles. Use for “prepare for Obsidian,” knowledge capture, supplied chat exports, memory-derived vault drafts, vault onboarding, PDF research, read-only vault checks, vault organization, exploring questions across notes, revising knowledge, duplicate prevention, synthesizing writing from notes, or reviewing note quality and knowledge links. Do not activate solely because a task mentions a plugin or asks an ordinary personal or work question.
+description: Turn AI conversations, emails, and notes into classified, sourced, linked Obsidian notes using a consistent ontology and Zettelkasten principles. Use for “prepare for Obsidian,” knowledge capture, supplied chat exports, memory-derived vault drafts, vault onboarding, PDF research, read-only vault checks, vault organization, exploring questions across notes, revising knowledge, duplicate prevention, synthesizing writing from notes, or reviewing note quality and knowledge links. Also use for an explicit Connected Knowledge invocation or guided workflow request. Do not activate solely because a task mentions a plugin during development or asks an ordinary personal or work question.
 ---
 
 # Zettelkasten–Obsidian
 
 Create reusable knowledge with traceable sources. Use the user's existing vault conventions when available; otherwise use the defaults below. Keep the workflow usable with local files, connected tools, or Markdown prepared for later import.
+
+## Guided use
+
+For an explicit bare invocation, getting-started help or a guided task, read [guided-workflows.md](references/guided-workflows.md). Offer a starting menu, guide the selected task one unresolved step at a time, and suggest a relevant next task after completion. Wait for the user to choose the next task. A concrete request starts its route directly without a mandatory menu or repeated setup.
 
 ## Package entry points
 

@@ -103,3 +103,7 @@ The [session adapter](../plugins/connected-knowledge/skills/zettelkasten-obsidia
 supports selected local Codex/Claude Code history and explicitly configured hooks.
 Start with disabled configuration and preview. It does not access all account
 chats or automatically run after plugin installation.
+
+## Guided use
+
+Invoke Connected Knowledge and ask “Guide me step by step.” Choose vault setup, notes from past conversations, a current conversation save, a document, or existing-note exploration. The assistant gives a short roadmap and guides the next unresolved step. Known vault/template choices are reused. After completion it suggests a relevant next task and waits for your choice, then guides that task. A specific request goes directly to its task; you can switch, skip or stop. This is conversational guidance, not automatic history access or a native wizard.
