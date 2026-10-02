@@ -10,6 +10,12 @@ review_status: draft
 
 Template only. Replace placeholders, choose category, and remove unused sections.
 
+## In brief
+[A short explanation of what this source contributes. Link a relevant existing map or project when available.]
+
+## Read the source
+[Link its source/reference note, verified original, or authorized preserved attachment. State original versus dated snapshot; embed a supported PDF when useful. Do not leave the only reference inside a transcript or code block.]
+
 ## Source and coverage
 [Original reference, material inspected, locators, limitations.]
 

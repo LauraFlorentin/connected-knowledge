@@ -1,5 +1,7 @@
 # Capture, import, and save
 
+For assistant-guided saves, apply [readable-captures.md](readable-captures.md) after establishing scope. A useful result includes an entry point and navigable links to scoped, accessible source documents; filenames buried in archived messages are insufficient. Deterministic capture tools remain capture-only unless a separate authorized development step is performed.
+
 ## Establish capabilities
 
 Inspect the input and available tools before selecting a route. Reuse the path or connection already established by the user. Read scoped vault instructions and a few relevant existing notes to learn conventions.

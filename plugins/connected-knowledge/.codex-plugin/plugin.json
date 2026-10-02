@@ -1,6 +1,6 @@
 {
   "name": "connected-knowledge",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Collect research and develop sourced, connected knowledge from conversations, documents and notes.",
   "skills": "./skills/",
   "interface": {

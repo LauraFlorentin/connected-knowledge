@@ -1,5 +1,14 @@
 # Release notes
 
+## 1.4.1 — 2026-10-02
+
+- Make a clear reusable entry point, connected source documents and readable summaries the completion standard for assistant-guided saves.
+- Distinguish maintained originals from dated attachment snapshots; reuse source identities and unchanged copies.
+- Require valid table links and an Obsidian navigation/display check when UI access is available.
+- Update source/map templates and the adaptable vault guide. Keep capture runtimes, permissions and automatic collection unchanged.
+
+Update your installed plugin to receive these instructions. Existing vault guides and templates remain authoritative; adapt them rather than replacing them wholesale.
+
 ## 1.4.0 — 2026-10-01
 
 - Add private selected-save MCP with explicit message schema, content-free errors,

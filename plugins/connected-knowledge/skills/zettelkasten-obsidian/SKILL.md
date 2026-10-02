@@ -9,6 +9,8 @@ Create reusable knowledge with traceable sources. Use the user's existing vault 
 
 ## Package entry points
 
+For assistant-guided saves and graph development, read [readable-captures.md](references/readable-captures.md). Reuse a clear entry point, connect scoped source documents through reference notes, and verify the result in Obsidian when available. Captured bytes and valid links alone do not establish a usable reading experience.
+
 For private ChatGPT selected-save setup, use [private-setup.md](references/private-setup.md). Read the actual vault guide, select a source or conversation-review template, and keep private configuration/runtime outside the package. Desktop/mobile verification is separate; Gemini CLI remains experimental.
 
 
@@ -83,6 +85,7 @@ Keep replies concise: lead with the category and short title when useful, then r
 - On “prepare,” return Markdown or an appropriate deliverable using the host's file-delivery rules. On “save,” use a confirmed vault path or a connected write tool already authorized by the task. A Library or attachment save is not a vault save.
 - If no vault connection or path is available, finish preparing the content and state that it is ready for import but not saved to Obsidian. Ask for a destination only if direct saving remains requested.
 - Verify writes by reading back the target or equivalent reliable confirmation. If a write times out, inspect the target before retrying to avoid duplicates. Describe partial success precisely.
+- Deliver one primary starting link with a short account of connected documents and ideas. Distinguish maintained originals from dated copies, and file checks from an actual in-app trial; follow the readable-captures completion standard.
 - Do not claim to have renamed a sidebar chat, imported all account history, installed this skill into another app, or enabled background capture without evidence of that specific completed action.
 
 This skill supplies instructions, templates, and standalone PDF, checking, starter, and selected-source collection scripts. It contains no account-history connector or installed scheduler. Bundled hooks require explicit private configuration and host activation. Use available capabilities for the requested work and report actual access and execution limits. Collection sources and ongoing triggers require user selection.
