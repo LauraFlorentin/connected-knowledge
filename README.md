@@ -1,6 +1,6 @@
 # Connected Knowledge
 
-Reusable knowledge and research workflows for Claude and ChatGPT, built around the Zettelkasten–Obsidian skill. Version **1.4.0** adds guided private selected-save setup and user-selected capture templates.
+Reusable knowledge and research workflows for Claude and ChatGPT, built around the Zettelkasten–Obsidian skill. Version **1.5.0** adds scoped vault reading, previewed linked-note saving with recovery, and guided optional Filesystem MCP setup.
 
 Develop conversations, documents and notes into sourced, connected knowledge. Adapt to an existing Obsidian vault, collect selected material into a reviewable inbox, retrieve relevant context, and revise notes without losing provenance.
 
@@ -8,8 +8,8 @@ Formerly **Zettelkasten Research**. The broader name describes the collection, r
 
 ## Start here
 
-- [Vault bridge and linked-note saving (unreleased)](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/vault-bridge.md)
-- [Optional Filesystem MCP](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/filesystem-option.md)
+- [Vault bridge and linked-note saving](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/vault-bridge.md)
+- [Optional Filesystem MCP setup](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/filesystem-option.md)
 - [Private ChatGPT installer](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/private-setup.md)
 - [Guided first-run setup](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/first-run.md)
 - [ZIP and attachment support](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/export-bundles.md)

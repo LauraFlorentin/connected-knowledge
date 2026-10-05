@@ -31,6 +31,13 @@ with zipfile.ZipFile(ROOT/'distribution/claude-plugin.zip') as archive:
         vault = root/'Fictional Vault'
         vault.mkdir()
         sys.path.insert(0, str(scripts))
+        from filesystem_setup import prepare as prepare_filesystem
+        filesystem = prepare_filesystem('codex', [vault], root/'Filesystem Setup')
+        assert filesystem['mode'] == 'preview' and not (root/'Filesystem Setup').exists()
+        assert filesystem['activated'] is False
+        filesystem = prepare_filesystem('codex', [vault], root/'Filesystem Setup', True)
+        assert 'enabled = false' in (root/'Filesystem Setup/codex.fragment.toml').read_text()
+        assert filesystem['activated'] is False and not list(vault.iterdir())
         from private_setup import setup
         from private_capture import capture
         result = setup(root/'Runtime', vault, 'tunnel_00000000000000000000000000000000', 'fictional')
@@ -73,4 +80,5 @@ with zipfile.ZipFile(ROOT/'distribution/claude-plugin.zip') as archive:
         else:
             raise AssertionError('Human edit was not protected')
 print(json.dumps({'version': versions.pop(), 'verified_entries': len(names),
-                  'extracted_save_retry_edit_protection': 'pass', 'extracted_vault_preview': 'pass', 'extracted_linked_save_retry': 'pass'}))
+                  'extracted_save_retry_edit_protection': 'pass', 'extracted_vault_preview': 'pass',
+                  'extracted_linked_save_retry': 'pass', 'extracted_filesystem_setup': 'pass'}))

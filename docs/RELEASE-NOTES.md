@@ -1,5 +1,25 @@
 # Release notes
 
+## 1.5.0 — 2026-10-05
+
+- Add scoped guide/template reads, keyword note search and linked-note previews to
+  the optional private vault bridge.
+- Add separately enabled saving of the exact previewed proposal, with source and
+  identity checks, conflict detection, verified receipts and interrupted-batch recovery.
+- Add guided optional Filesystem MCP setup for chosen folders, a pinned upstream
+  version, and Codex, Claude Desktop or generic local stdio connection settings.
+  Setup prepares private files; the server is a separate connection and is not bundled.
+- Preserve the default capture-only tool set and all existing private identities,
+  vault conventions and source originals. Updating the plugin activates none of
+  the new tools and does not update a separately installed private runtime.
+
+Validation: 173 local Python 3.12 tests, both package builders and extracted-package
+checks passed. A separate upstream Filesystem MCP protocol trial passed using only
+temporary synthetic folders. Native-host activation, live-vault save/navigation,
+web/mobile access and Windows remain separate verification tasks. Multi-note saves
+are resumable, not one atomic transaction; external editors and cloud sync do not
+share the bridge lock. See [validation](VALIDATION.md) and [updating](INSTALL.md#updating-to-150).
+
 ## 1.4.2 — 2026-10-02
 
 - Add a guided starting menu for explicit invocation without a concrete task.
