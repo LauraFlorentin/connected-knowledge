@@ -2,7 +2,7 @@
 
 These components remain inactive until configured. Start with [guided private setup](private-setup.md). Save explicitly selected content from ordinary chats or project chats through the same private inbox. Archiving is a source stage; use the existing graph workflow separately to propose developed notes.
 
-For opt-in guide/template reading, scoped note search and linked-note previews on the same private server, see [vault bridge](vault-bridge.md). That milestone is read-only; selected source capture remains the existing write operation. [Filesystem MCP](filesystem-option.md) is separately optional.
+For opt-in guide/template reading, scoped note search and previewed linked-note saving on the same private server, see [vault bridge](vault-bridge.md). Reading/preview and developed-note saving have separate enablement; selected source capture remains its own write operation. [Filesystem MCP](filesystem-option.md) is separately optional.
 
 ## Choose your route
 

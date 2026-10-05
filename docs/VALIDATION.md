@@ -1,7 +1,60 @@
 # Validation and limits — updated 2026-10-05
 
+## 1.5.0 optional Filesystem MCP setup
 
-## Unreleased vault bridge — read and preview milestone
+173 local Python 3.12 tests pass on macOS. Ten added setup tests cover no-write
+previews, all three connection formats, path/argument quoting, exact version
+selection, folder boundaries and aliases, protected output locations, private
+file modes, existing/concurrent setup preservation, and the command-line wizard.
+The helper uses only the standard library and prepares settings without installing
+or activating a server. Both builders pass; all 94 extracted plugin entries match
+source, including the new setup preview/apply check. Existing capture, vault
+preview and linked-save extracted checks pass. The graph example has zero checker
+issues and repeat writes.
+
+The separate opt-in `tools/verify_filesystem_mcp.py` trial passed with the official
+`@modelcontextprotocol/server-filesystem@2026.8.31`, Node 24.18.0 and npm 11.16.0.
+It downloaded dependencies into a temporary cache and used synthetic temporary
+folders only. Actual stdio checks covered discovery, read/search/write, edit
+preview and readback, move, denial of outside/traversal/symlink paths, and client
+Roots replacing the command-line folders. npm reported package integrity
+`sha512-kKaFkyAh6oipvc9+EAbJ552JafnMnOq5nzmzWkp1jJdBhTAAGpmIpWihUG1+rfNhmEFM98gUZDdCHCDD4v6a7Q==`.
+Transitive dependencies are not locked by the setup helper. This trial is opt-in
+and is not run by normal tests or package builds.
+
+Host fragments follow current upstream and official Codex documentation. Native
+Codex/Claude Desktop connection activation, Windows, web/mobile and live-vault
+trials remain unverified. No personal connection, vault or host configuration was
+changed. The tested path cases do not establish a complete filesystem sandbox;
+the upstream server and client Roots govern effective access. All four version
+manifests are synchronized at 1.5.0. Hosted release checks are recorded on the
+release pull request; the evidence below describes local feature development.
+
+
+## 1.5.0 linked-note saving
+
+163 local Python 3.12 tests pass on macOS. The 20 added save tests cover real stdio
+preview/save/retry and write revocation, unchanged read-only previews, changed
+preview inputs and scope, preserved record IDs and previous bytes, custom identity
+fields, duplicate IDs, human edits after save and during recovery, original capture
+integrity/coverage, output symlink swaps, concurrent save locking, journal corruption,
+file modes and new files created during a save. A subprocess exits immediately after
+publishing a file to verify recovery of an interrupted atomic-link operation.
+
+Both builders pass. The extracted package's 92 entries match source bytes; capture
+save/retry/edit protection, vault preview and linked-note save/retry checks pass.
+These are synthetic local checks, not a hosted CI or native-host trial of the save
+stage. The feature was initially validated before the 1.5.0 release version bump.
+No live vault, runtime configuration, guide/template or connection identity changed.
+
+Saving requires its own private switch and external journal directory. Multi-note
+saves can be incomplete and resumed; they are not a single atomic filesystem
+transaction. Other editors and cloud-sync processes do not share the bridge's lock.
+Previous note bytes are retained privately; there is no automatic rollback or
+unrestricted edit/delete operation. Template compliance, complex links/anchors,
+factual accuracy and native rendering remain separate checks.
+
+## Vault bridge — preceding read and preview milestone
 
 143 local Python 3.12 tests pass on macOS, including 17 new vault bridge tests.
 New tests exercise the real stdio MCP discovery/read/search/preview path, runtime
@@ -13,10 +66,10 @@ handling, and bounded searches. All fixtures are synthetic temporary vaults.
 Both distribution builders pass. The portable/Claude archive's 90 entries match
 source bytes; extracted capture save/retry/human-edit protection and the new
 read-only vault preview pass. The existing graph example reports zero checker
-issues and zero repeat writes. The four manifests retain the published 1.4.2
-version because this work is an unreleased development milestone.
+issues and zero repeat writes. The four manifests retained the published 1.4.2
+version at that earlier development milestone; these tools are now included in 1.5.0.
 
-No developed-note writer is exposed. Filesystem MCP is a documented optional
+That preceding milestone exposes no developed-note writer. Filesystem MCP is a documented optional
 connection, not installed, bundled or activated. No personal vault, live guide,
 template, connection identity or runtime configuration was changed. Native-host
 vault-tool trials and hosted CI for this change have not run. Simple link checks
