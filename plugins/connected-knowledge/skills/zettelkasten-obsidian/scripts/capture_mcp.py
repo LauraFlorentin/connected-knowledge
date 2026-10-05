@@ -39,6 +39,8 @@ def build_server(config_path):
             return {'status': 'error', 'error_type': type(exc).__name__,
                     'hint': hints.get(str(exc), 'Check the private configuration, selected template, and local archive. No source content is included in this error.')}
 
+    from vault_bridge_mcp import register_vault_tools
+    register_vault_tools(server, config_path)
     return server
 
 

@@ -1,5 +1,27 @@
-# Validation and limits — updated 2026-10-01
+# Validation and limits — updated 2026-10-05
 
+
+## Unreleased vault bridge — read and preview milestone
+
+143 local Python 3.12 tests pass on macOS, including 17 new vault bridge tests.
+New tests exercise the real stdio MCP discovery/read/search/preview path, runtime
+revocation, unchanged default capture tool discovery, no-write previews, source
+changes before/during preview, occupied targets and stale target hashes, scoped
+paths, symlinks/hardlinks, ambiguous links, entry-point reachability, filename
+handling, and bounded searches. All fixtures are synthetic temporary vaults.
+
+Both distribution builders pass. The portable/Claude archive's 90 entries match
+source bytes; extracted capture save/retry/human-edit protection and the new
+read-only vault preview pass. The existing graph example reports zero checker
+issues and zero repeat writes. The four manifests retain the published 1.4.2
+version because this work is an unreleased development milestone.
+
+No developed-note writer is exposed. Filesystem MCP is a documented optional
+connection, not installed, bundled or activated. No personal vault, live guide,
+template, connection identity or runtime configuration was changed. Native-host
+vault-tool trials and hosted CI for this change have not run. Simple link checks
+do not certify anchors, complex Markdown, original-source integrity, template
+compliance, factual accuracy or Obsidian rendering.
 
 ## 1.4.0 release checks
 

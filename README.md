@@ -8,6 +8,8 @@ Formerly **Zettelkasten Research**. The broader name describes the collection, r
 
 ## Start here
 
+- [Vault bridge preview milestone (unreleased)](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/vault-bridge.md)
+- [Optional Filesystem MCP](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/filesystem-option.md)
 - [Private ChatGPT installer](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/private-setup.md)
 - [Guided first-run setup](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/first-run.md)
 - [ZIP and attachment support](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/export-bundles.md)

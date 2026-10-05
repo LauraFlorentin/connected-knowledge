@@ -45,6 +45,19 @@ with zipfile.ZipFile(ROOT/'distribution/claude-plugin.zip') as archive:
         assert capture(cfg, payload, True)['written'] == 0
         note = next(Path(cfg['destination']).glob('*.md'))
         assert '> Fictional pears.' in note.read_text() and 'status: auto' in note.read_text()
+        from vault_bridge import VaultBridge
+        (vault/'Vault Guide.md').write_text('Keep the existing source archive. Use readable draft names.\n')
+        cfg['vault_bridge'] = {'enabled': True, 'root': str(vault), 'guide': 'Vault Guide.md',
+                               'templates': {}, 'note_folders': ['Inbox', 'Knowledge'],
+                               'draft_folder': 'Knowledge'}
+        bridge = VaultBridge(cfg)
+        source = bridge.read_note(note.relative_to(vault).as_posix())
+        draft = {'name': 'Fictional orchard.md',
+                 'content': '# Fictional orchard\n\n[['+source['path']+']]\n',
+                 'sources': [{'path': source['path'], 'sha256': source['sha256']}]}
+        preview = bridge.preview([draft], 'Knowledge/Fictional orchard.md')
+        assert preview['written'] == 0 and preview['can_apply'] is False
+        assert not (vault/'Knowledge').exists()
         note.write_text('Human edit')
         try:
             capture(cfg, payload, True)
@@ -53,4 +66,4 @@ with zipfile.ZipFile(ROOT/'distribution/claude-plugin.zip') as archive:
         else:
             raise AssertionError('Human edit was not protected')
 print(json.dumps({'version': versions.pop(), 'verified_entries': len(names),
-                  'extracted_save_retry_edit_protection': 'pass'}))
+                  'extracted_save_retry_edit_protection': 'pass', 'extracted_vault_preview': 'pass'}))

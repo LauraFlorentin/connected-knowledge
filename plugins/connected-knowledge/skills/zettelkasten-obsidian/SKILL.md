@@ -32,6 +32,8 @@ For local Codex/Claude Code session history or ongoing-capture setup, read [sess
 
 For explicitly selected saves from ordinary chats, the private MCP interface, Gemini CLI capture or regular Gemini app coverage, read [private-capture.md](references/private-capture.md). Use only supplied available content and accurate coverage labels; preserve external private runtime storage.
 
+For scoped private vault reading, note search or linked-note previews, read [vault-bridge.md](references/vault-bridge.md). These opt-in tools cannot save developed notes yet. For broader file management chosen by the user, read [filesystem-option.md](references/filesystem-option.md); it is an optional separate connection, never a default dependency.
+
 ## Select the requested outcome
 
 - **Label or classify:** Provide `[Category] Title`, with a title of at most five words. Add requested metadata without turning a labeling task into note creation.
