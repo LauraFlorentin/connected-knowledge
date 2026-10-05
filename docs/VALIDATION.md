@@ -1,7 +1,30 @@
 # Validation and limits — updated 2026-10-05
 
 
-## Unreleased vault bridge — read and preview milestone
+## Unreleased linked-note saving
+
+163 local Python 3.12 tests pass on macOS. The 20 added save tests cover real stdio
+preview/save/retry and write revocation, unchanged read-only previews, changed
+preview inputs and scope, preserved record IDs and previous bytes, custom identity
+fields, duplicate IDs, human edits after save and during recovery, original capture
+integrity/coverage, output symlink swaps, concurrent save locking, journal corruption,
+file modes and new files created during a save. A subprocess exits immediately after
+publishing a file to verify recovery of an interrupted atomic-link operation.
+
+Both builders pass. The extracted package's 92 entries match source bytes; capture
+save/retry/edit protection, vault preview and linked-note save/retry checks pass.
+These are synthetic local checks, not a hosted CI or native-host trial of the save
+stage. The four manifests remain at 1.4.2 until a separately authorized release.
+No live vault, runtime configuration, guide/template or connection identity changed.
+
+Saving requires its own private switch and external journal directory. Multi-note
+saves can be incomplete and resumed; they are not a single atomic filesystem
+transaction. Other editors and cloud-sync processes do not share the bridge's lock.
+Previous note bytes are retained privately; there is no automatic rollback or
+unrestricted edit/delete operation. Template compliance, complex links/anchors,
+factual accuracy and native rendering remain separate checks.
+
+## Vault bridge — preceding read and preview milestone
 
 143 local Python 3.12 tests pass on macOS, including 17 new vault bridge tests.
 New tests exercise the real stdio MCP discovery/read/search/preview path, runtime
@@ -16,7 +39,7 @@ read-only vault preview pass. The existing graph example reports zero checker
 issues and zero repeat writes. The four manifests retain the published 1.4.2
 version because this work is an unreleased development milestone.
 
-No developed-note writer is exposed. Filesystem MCP is a documented optional
+That preceding milestone exposes no developed-note writer. Filesystem MCP is a documented optional
 connection, not installed, bundled or activated. No personal vault, live guide,
 template, connection identity or runtime configuration was changed. Native-host
 vault-tool trials and hosted CI for this change have not run. Simple link checks

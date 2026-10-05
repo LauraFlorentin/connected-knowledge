@@ -42,8 +42,8 @@ A selected folder is not a read-only permission: the server includes write tools
 
 A general file tool does not itself supply Connected Knowledge's duplicate,
 source-preservation or conflict handling. Those checks remain part of the assisted
-workflow. A read-and-preview-only vault bridge does not become a developed-note
-writer merely because this optional server is documented. If saving is requested
+workflow. The vault bridge has its own separately enabled save operation. Documenting this
+optional server enables neither connection nor writer. If saving is requested
 and no authorized write route is available, report the prepared result accurately.
 
 Upstream behavior checked October 5, 2026. Native host setup and Filesystem save

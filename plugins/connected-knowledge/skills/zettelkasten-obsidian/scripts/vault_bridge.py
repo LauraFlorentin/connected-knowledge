@@ -1,4 +1,4 @@
-"""Opt-in, read-only vault access and linked-note previews. No write capability."""
+"""Scoped vault access and previews, with separately enabled journaled saves."""
 import difflib
 import hashlib
 import json
@@ -13,6 +13,7 @@ from private_capture import private_path
 from vault_check import body_only
 
 MAX_BYTES = 128 * 1024
+SOURCE_BYTES = 1024 * 1024
 MAX_SCAN_BYTES = 16 * 1024 * 1024
 MAX_FILES = 2000
 MAX_ENTRIES = 10000
@@ -63,6 +64,10 @@ class VaultBridge:
         cfg = config.get('vault_bridge')
         if not isinstance(cfg, dict) or cfg.get('enabled') is not True:
             raise BridgeError('bridge_disabled')
+        self.config = config
+        self.settings = cfg
+        self.scope_sha256 = digest(json.dumps({'bridge': cfg, 'account': config.get('account'),
+                                              'archive': config.get('destination')}, sort_keys=True).encode())
         self.root = private_path(cfg['root'])
         if not self.root.is_dir():
             raise BridgeError('invalid_configuration')
@@ -98,8 +103,9 @@ class VaultBridge:
             raise BridgeError('outside_note_scope')
         return path
 
-    def read_bytes(self, path):
+    def read_bytes(self, path, limit=None):
         """Bounded regular-file read; directory swaps and symlinks cannot redirect it."""
+        limit = MAX_BYTES if limit is None else limit
         fd = open_directory(self.root)
         file_fd = None
         try:
@@ -111,16 +117,16 @@ class VaultBridge:
             before = os.fstat(file_fd)
             if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1:
                 raise BridgeError('unsupported_file')
-            if before.st_size > MAX_BYTES:
+            if before.st_size > limit:
                 raise BridgeError('note_too_large')
             chunks, size = [], 0
             while True:
-                chunk = os.read(file_fd, min(65536, MAX_BYTES + 1 - size))
+                chunk = os.read(file_fd, min(65536, limit + 1 - size))
                 if not chunk:
                     break
                 chunks.append(chunk)
                 size += len(chunk)
-                if size > MAX_BYTES:
+                if size > limit:
                     raise BridgeError('note_too_large')
             after = os.fstat(file_fd)
             if (before.st_size, before.st_mtime_ns, before.st_ctime_ns) != (
@@ -146,7 +152,8 @@ class VaultBridge:
         return {'status': 'read', 'guide': self.document(self.guide),
                 'templates': {k: self.document(p) for k, p in self.templates.items()},
                 'note_folders': [str(p) for p in self.folders],
-                'draft_folder': str(self.output), 'can_save_developed_notes': False,
+                'draft_folder': str(self.output),
+                'can_save_developed_notes': self.settings.get('write_enabled') is True,
                 'limits': 'Templates are text only; no template code is executed. Apply conventions within the user-authorized task.'}
 
     def inventory(self):
@@ -252,6 +259,65 @@ class VaultBridge:
             raise BridgeError('ambiguous_link' if candidates else 'missing_or_outside_link')
         return candidates.pop(), anchor
 
+    def save(self, notes, entry_point, preview_id):
+        from vault_save import save
+        return save(self, notes, entry_point, preview_id)
+
+    def source_integrity(self, document):
+        """Verify selected-capture originals only for the configured capture archive."""
+        result = {'source_kind': 'note', 'original_verification': 'not_applicable'}
+        snapshots = {}
+        if not self.config.get('destination'):
+            return result, snapshots
+        archive = private_path(self.config['destination'])
+        path = self.root / document['path']
+        if archive not in path.parents:
+            return result, snapshots
+        if not archive.is_relative_to(self.root) or path.parent != archive:
+            raise BridgeError('unsupported_capture_source')
+        manifest_ref = relative((archive / 'manifest.json').relative_to(self.root).as_posix())
+        manifest_bytes = self.read_bytes(manifest_ref, SOURCE_BYTES)
+        manifest = json.loads(manifest_bytes)
+        if manifest.get('version') != 1 or not isinstance(manifest.get('records'), dict):
+            raise BridgeError('capture_integrity_failed')
+        matches = [(key, record) for key, record in manifest['records'].items()
+                   if record.get('path') == path.name]
+        if len(matches) != 1:
+            raise BridgeError('capture_integrity_failed')
+        key, record = matches[0]
+        if record.get('sha256') != document['sha256']:
+            raise BridgeError('capture_note_changed')
+        original = relative(record.get('original'))
+        if (len(original.parts) != 2 or original.parts[0] != 'originals'
+                or not re.fullmatch(r'[a-f0-9]{64}\.json', original.name)):
+            raise BridgeError('capture_integrity_failed')
+        original_ref = relative((archive / original).relative_to(self.root).as_posix())
+        raw = self.read_bytes(original_ref, SOURCE_BYTES)
+        if digest(raw) != original.stem:
+            raise BridgeError('capture_original_changed')
+        records = json.loads(raw)
+        # Private selected capture preserves one normalized selection per original.
+        # General historical export schemas remain the separate importer workflow.
+        if not isinstance(records, list) or len(records) != 1:
+            raise BridgeError('unsupported_capture_source')
+        from private_capture import validate
+        from chat_import import encoded, normalize
+        captured = records[0]
+        provenance = captured.get('capture_provenance', {})
+        normalized = validate(dict(provenance, title=captured.get('title'), messages=captured.get('messages')))
+        account = self.config.get('account')
+        if (not isinstance(account, str) or not account.strip()
+                or captured.get('id') != normalized['id']
+                or key != digest(encoded(['normalized', account, normalized['id']]))):
+            raise BridgeError('capture_integrity_failed')
+        coverage = normalize(captured, 'normalized')['coverage']
+        if document['coverage_label'] != coverage:
+            raise BridgeError('capture_coverage_changed')
+        snapshots[str(manifest_ref)] = digest(manifest_bytes)
+        snapshots[str(original_ref)] = digest(raw)
+        return {'source_kind': 'selected_capture', 'original_verification': 'verified',
+                'coverage_label': coverage, 'capture_identity': key}, snapshots
+
     def preview(self, notes, entry_point):
         if not isinstance(notes, list) or not 1 <= len(notes) <= 10:
             raise BridgeError('invalid_plan')
@@ -281,7 +347,10 @@ class VaultBridge:
                 source = self.document(self.note_path(ref['path']))
                 if source['sha256'] != ref['sha256']:
                     raise BridgeError('source_changed')
-                sources[source['path']] = {k: source[k] for k in ('path', 'sha256', 'coverage_label')}
+                integrity, evidence_snapshots = self.source_integrity(source)
+                sources[source['path']] = {k: source[k] for k in ('path', 'sha256', 'coverage_label')} | integrity
+                for ref, sha in evidence_snapshots.items():
+                    remember(ref, sha)
                 remember(source['path'], source['sha256'])
                 refs.append(PurePosixPath(source['path']))
             try:
@@ -348,15 +417,16 @@ class VaultBridge:
         # Catch source/target/convention edits while the preview itself was being assembled.
         for ref, expected in snapshots.items():
             try:
-                actual = digest(self.read_bytes(relative(ref)))
+                actual = digest(self.read_bytes(relative(ref), SOURCE_BYTES))
             except FileNotFoundError:
                 actual = None
             if actual != expected:
                 raise BridgeError('note_changed')
-        report = {'status': 'preview', 'written': 0, 'can_apply': False, 'entry_point': str(entry),
+        report = {'status': 'preview', 'written': 0, 'can_apply': self.settings.get('write_enabled') is True and not any(i['action'] == 'conflict' for i in items),
+                  'scope_sha256': self.scope_sha256, 'entry_point': str(entry),
                   'items': items, 'sources': list(sources.values()), 'edges': edges,
                   'conflicts': sum(item['action'] == 'conflict' for item in items),
                   'snapshots': snapshots, 'external_links': external, 'unchecked_links': unchecked,
-                  'limits': 'Read-only proposal, not saved or approved. Basic inline Markdown and wikilinks checked within scope. Anchors, complex link syntax, template compliance, source originals, factual accuracy and Obsidian display are unverified. Coverage labels are observed text, not transcript verification.'}
+                  'limits': 'Proposal only, not saved or approved. Basic inline Markdown and wikilinks checked within scope. Anchors, complex link syntax, template compliance, factual accuracy and Obsidian display are unverified. Selected-capture originals are checked when identified; other note coverage labels are observed text.'}
         report['preview_id'] = digest(json.dumps(report, sort_keys=True, ensure_ascii=False).encode())
         return report
