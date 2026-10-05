@@ -2,6 +2,8 @@
 
 These components remain inactive until configured. Start with [guided private setup](private-setup.md). Save explicitly selected content from ordinary chats or project chats through the same private inbox. Archiving is a source stage; use the existing graph workflow separately to propose developed notes.
 
+For opt-in guide/template reading, scoped note search and linked-note previews on the same private server, see [vault bridge](vault-bridge.md). That milestone is read-only; selected source capture remains the existing write operation. [Filesystem MCP](filesystem-option.md) is separately optional.
+
 ## Choose your route
 
 | Surface | Route | Evidence and limit |
@@ -52,7 +54,7 @@ Use real host IDs only if available; otherwise clearly label caller-assigned ide
 
 ## ChatGPT connection preparation
 
-Run `capture_mcp.py` with `CONNECTED_KNOWLEDGE_PRIVATE_CONFIG` pointing to the external configuration. It uses the official Python MCP SDK 1.x and stdio only; it opens no listening HTTP/vault endpoint. It exposes one write tool, `save_selected_capture`, with accurate write/idempotency annotations and no caller-controlled account, destination or file access. Supply only content the user asked to save. Tool errors disclose a content-free error type.
+Run `capture_mcp.py` with `CONNECTED_KNOWLEDGE_PRIVATE_CONFIG` pointing to the external configuration. It uses the official Python MCP SDK 1.x and stdio only; it opens no listening HTTP/vault endpoint. By default it exposes one write tool, `save_selected_capture`, with accurate write/idempotency annotations and no caller-controlled account, destination or file access. Supply only content the user asked to save. Tool errors disclose a content-free error type.
 
 Recommended first private connection: Secure MCP Tunnel, subject to account/workspace eligibility and an explicit setup decision. It requires a Platform tunnel association, runtime credential and a running tunnel client. Limit the association/access to the intended private owner; this server is single-owner, not a multi-user hosted service. Never connect it to a shared workspace/identity pool that should not access that archive. Authentication/access controls belong to the selected tunnel; stdio itself is not remote authentication. Do not expose this server through an unauthenticated forwarding service. Public OAuth hosting is a separate architecture, not implemented here.
 
