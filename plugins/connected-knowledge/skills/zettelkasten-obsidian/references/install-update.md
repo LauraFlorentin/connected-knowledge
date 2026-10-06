@@ -6,7 +6,7 @@ authorization already supplied. Read the actual vault guide before choosing its
 templates or note conventions. Plugin development alone does not authorize changing
 the user's installed copy, private runtime, host settings or account connection.
 
-This is the unreleased successor to the 1.5.0 fresh-install wizard. Downloading or
+Version 1.6.0 replaces the earlier fresh-install wizard with this shared flow. Downloading or
 updating a plugin alone does not execute it. Run it from the new source/package on
 the machine that has access to the selected vault.
 

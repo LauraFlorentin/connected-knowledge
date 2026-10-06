@@ -17,8 +17,8 @@ runtimes while retaining their settings, identities, templates and state. Option
 vault tools and Filesystem MCP are selected separately. It previews before applying.
 System Python 3.10+ is a prerequisite. Account authorization is completed below.
 The machine running the connection must have access to the vault and stay available.
-The released 1.5.0 package has the earlier fresh-install-only wizard; the unified
-installer is currently an unreleased source change.
+Use version 1.6.0 or later for the unified installer. Earlier packages contain
+the fresh-install-only wizard.
 
 ## Account connection
 

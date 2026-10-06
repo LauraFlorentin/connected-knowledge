@@ -1,5 +1,31 @@
 # Release notes
 
+## 1.6.0 — 2026-10-05
+
+- Add one guided installation/update flow for selected private connection and
+  Filesystem components. The earlier private wizard opens this same flow.
+- Upgrade legacy copied runtimes and managed installations while preserving
+  private settings, notes, account/archive/tunnel identities, templates, profiles,
+  credentials, spool and bridge state.
+- Stage and validate isolated code/dependency generations before switching stable
+  entry points; retain previous versions and support interrupted-update retries.
+- Optionally install verified Node.js and a pinned Filesystem MCP server, then
+  merge one selected Codex or Claude Desktop connection with a private backup,
+  preserving unrelated host settings. Filesystem remains opt-in.
+
+Validation: 190 tests pass locally; the macOS/Linux Python 3.10/3.12 matrix and
+package checks run on [PR #16](https://github.com/LauraFlorentin/connected-knowledge/pull/16).
+A fresh synthetic macOS installation downloaded all selected dependencies and
+passed capture save/retry, bridge discovery, Filesystem scope/read/write/denial,
+host merging and unchanged-repeat checks. Both builders and all 101 extracted
+plugin entries pass verification.
+
+Python 3.10+ is still required. Account authorization, host restart and optional
+startup remain separate. Updating the plugin does not itself run a migration,
+start a connection or activate new scope. Windows is unsupported; native-host
+activation and cross-device access remain separate checks. See
+[installation and updating](INSTALL.md#updating-to-160) and [validation](VALIDATION.md).
+
 ## 1.5.0 — 2026-10-05
 
 - Add scoped guide/template reads, keyword note search and linked-note previews to
@@ -18,7 +44,7 @@ checks passed. A separate upstream Filesystem MCP protocol trial passed using on
 temporary synthetic folders. Native-host activation, live-vault save/navigation,
 web/mobile access and Windows remain separate verification tasks. Multi-note saves
 are resumable, not one atomic transaction; external editors and cloud sync do not
-share the bridge lock. See [validation](VALIDATION.md) and [updating](INSTALL.md#updating-to-150).
+share the bridge lock. See [validation](VALIDATION.md) and [updating](INSTALL.md#updating-to-160).
 
 ## 1.4.2 — 2026-10-02
 

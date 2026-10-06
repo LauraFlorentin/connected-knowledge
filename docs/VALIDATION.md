@@ -1,6 +1,6 @@
 # Validation and limits — updated 2026-10-05
 
-## Unreleased unified install/update flow
+## 1.6.0 unified install/update flow
 
 190 local Python 3.12 tests pass on macOS, including 17 installer tests. Coverage
 includes fresh setup, unchanged retries, legacy and managed upgrades, preservation
@@ -27,11 +27,12 @@ Both builders pass, and all 101 extracted plugin entries match source. Extracted
 unified preview, existing Filesystem preparation, capture save/retry/edit protection,
 vault preview and linked-save checks pass. The core skill validator and local
 documentation link checks pass. The graph example has zero checker issues and
-zero repeat writes. Version manifests remain at the published 1.5.0 while this
-addition is unreleased; rebuilding locally is not publication.
+zero repeat writes. All four version manifests are synchronized at 1.6.0.
+Hosted release checks are recorded on [PR #16](https://github.com/LauraFlorentin/connected-knowledge/pull/16);
+package creation alone does not update installed copies.
 
-Python remains a prerequisite. Linux uses the same code but was not exercised in
-this local trial. Native Codex/Claude Desktop activation, actual account association,
+Python remains a prerequisite. The full dependency-download trial ran on macOS;
+hosted tests cover Python 3.10/3.12 on macOS and Linux. Native Codex/Claude Desktop activation, actual account association,
 OS keyring access, startup and cross-device synchronization were not tested here.
 The wizard stages versions and recovers via explicit retry; it does not update in
 the background, start connections, remove old generations or automatically roll back.

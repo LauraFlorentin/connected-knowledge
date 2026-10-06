@@ -1,6 +1,6 @@
 # Installation and platform support
 
-Package documentation updated 2026-10-05 for 1.5.0. Platform instructions below
+Package documentation updated 2026-10-05 for 1.6.0. Platform instructions below
 retain their dated source review (2026-09-27/28); this cleanup does not establish
 current availability on every host. Local packaging checks and synthetic script
 execution are separate from installed-host, mobile, synchronization and live-hook
@@ -9,15 +9,15 @@ tests. See [validation](VALIDATION.md) for the current evidence and limits.
 ## Private ChatGPT selected saves
 
 Use the [guided install/update flow](../plugins/connected-knowledge/skills/zettelkasten-obsidian/references/install-update.md).
-The unified installer is an unreleased source addition; published 1.5.0 retains
-the earlier fresh-install wizard.
+The unified installer is included in 1.6.0. Earlier packages retain the
+fresh-install-only wizard.
 It prepares a permanent external runtime, supports your selected vault template,
 and uses your own private tunnel. macOS/Linux require Python 3.10+; Windows private
 runtime is unsupported. ChatGPT web selected save/retry was verified; desktop/mobile
 and native Gemini CLI are separate checks. Gemini CLI support is experimental.
 This downloadable release does not publish a ChatGPT directory app.
 
-## Unreleased unified installer
+## Unified installer
 
 The source now includes one installer for selected Python dependencies, the private
 tunnel client and optional managed Node.js/Filesystem MCP. It can upgrade existing
@@ -110,11 +110,11 @@ Use `.venv/bin/python` for the documented script commands. Windows: use the equi
 
 Use the optional text in `docs/ACCOUNT-INSTRUCTIONS.md` in both accounts if desired. It distinguishes broad chat labels such as Research from vault categories Admin / Personal / Work. Plugin installation never changes account instructions automatically.
 
-## Updating to 1.5.0
+## Updating to 1.6.0
 
-Use the 1.5.0 release ZIP or rebuild from the tagged source before uploading a replacement ZIP or refreshing a
+Use the 1.6.0 release ZIP or rebuild from the tagged source before uploading a replacement ZIP or refreshing a
 local installation through the host's plugin management flow. Keep one active copy
-of the plugin. Verify that the loaded manifest reports 1.5.0, then exercise a
+of the plugin. Verify that the loaded manifest reports 1.6.0, then exercise a
 synthetic preview before selecting any personal source or destination. An existing
 older cache does not acquire the update just because GitHub was updated.
 
@@ -124,16 +124,20 @@ not user data. Capture stays opt-in; updating does not register hooks or a sched
 
 For Codex 1.3.1 onboarding, use the [project-hook route](../plugins/connected-knowledge/skills/zettelkasten-obsidian/references/project-hooks.md). Preview first, apply the selected project hook separately, and review/trust it in Codex. Capture remains disabled until the private configuration is explicitly enabled. Use one capture route per project.
 
-The separately installed private runtime contains copied Python scripts. Updating
-the plugin does not update those copies. There is no automatic runtime migration
-in the published 1.5.0 package. The unreleased unified installer above now provides
-an explicitly invoked migration. For a manual 1.5.0 code refresh, stop that connection and retain a
-private backup of its scripts, configuration, templates, spool and bridge journal.
-Preserve the existing account, archive, tunnel and credential identities. The
-fresh-install wizard refuses occupied runtimes; do not use a new identity or erase
-state to bypass that check. Validate updated runtime code with synthetic paths
-before reconnecting it to the existing vault. Keep the bridge and its writer
-disabled until their specific scope has been selected. See [vault bridge](../plugins/connected-knowledge/skills/zettelkasten-obsidian/references/vault-bridge.md).
+The private runtime is separate from the installed plugin. After updating the
+plugin, stop the existing private connection and run the new package's
+[install/update wizard](../plugins/connected-knowledge/skills/zettelkasten-obsidian/references/install-update.md)
+against the same runtime folder. Version 1.6.0 stages and validates updated code
+and dependencies while preserving the account, archive, tunnel, credentials,
+templates, spool, profiles and bridge journal. Keep the same runtime path.
+
+This migration runs only when explicitly invoked; installing the plugin does not
+run it in the background. Existing bridge and Filesystem settings are reused.
+New scope and saving remain separately selected. Restart the selected connection
+or local host after applying the update, then verify its tools. Interrupted
+publication is completed by rerunning the same setup. Retain previous generations
+and backups; do not erase private state or create replacement identities to bypass
+an error. See [vault bridge](../plugins/connected-knowledge/skills/zettelkasten-obsidian/references/vault-bridge.md).
 
 ## Private capture coverage
 

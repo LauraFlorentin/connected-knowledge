@@ -33,8 +33,8 @@ The [unified installer](install-update.md) offers Filesystem as an optional comp
 It downloads a managed Node.js and pinned server into the private runtime, validates
 synthetic file access, and can merge the selected connection into the host settings.
 Existing unrelated connections and approval policies are retained. This route does
-not require a separately installed Node or npx. It is an unreleased source addition;
-the 1.5.0 release contains the configuration-only helper described below.
+not require a separately installed Node or npx. This route is available in 1.6.0;
+the configuration-only helper introduced in 1.5.0 remains available below.
 
 ## Configuration-only setup helper
 
