@@ -38,6 +38,11 @@ with zipfile.ZipFile(ROOT/'distribution/claude-plugin.zip') as archive:
         filesystem = prepare_filesystem('codex', [vault], root/'Filesystem Setup', True)
         assert 'enabled = false' in (root/'Filesystem Setup/codex.fragment.toml').read_text()
         assert filesystem['activated'] is False and not list(vault.iterdir())
+        from runtime_install import install
+        managed = install({'runtime': str(root/'Managed Runtime'), 'filesystem': {
+            'host': 'stdio', 'directories': [str(vault)]}})
+        assert managed['mode'] == 'preview' and not (root/'Managed Runtime').exists()
+        assert managed['private_connection'] is False and managed['starts_connection'] is False
         from private_setup import setup
         from private_capture import capture
         result = setup(root/'Runtime', vault, 'tunnel_00000000000000000000000000000000', 'fictional')
@@ -81,4 +86,4 @@ with zipfile.ZipFile(ROOT/'distribution/claude-plugin.zip') as archive:
             raise AssertionError('Human edit was not protected')
 print(json.dumps({'version': versions.pop(), 'verified_entries': len(names),
                   'extracted_save_retry_edit_protection': 'pass', 'extracted_vault_preview': 'pass',
-                  'extracted_linked_save_retry': 'pass', 'extracted_filesystem_setup': 'pass'}))
+                  'extracted_linked_save_retry': 'pass', 'extracted_unified_installer_preview': 'pass', 'extracted_filesystem_setup': 'pass'}))

@@ -6,23 +6,19 @@ alone does not activate capture. Windows private runtime is unsupported.
 
 ## One guided installation
 
-Download `connected-knowledge.zip` from the GitHub release and extract it into a normal local folder. From its root run:
+Use the [install/update wizard](install-update.md). From the extracted plugin root:
 
 ```sh
-python3 skills/zettelkasten-obsidian/scripts/private_setup.py --wizard
+python3 skills/zettelkasten-obsidian/scripts/install.py --wizard
 ```
 
-The wizard asks for your vault, property vocabulary, optional source template,
-private runtime location, non-secret account label, and your own tunnel ID. It
-previews before installing. It never creates a replacement vault or imports history.
-Use a fresh `Inbox/ChatGPT Captures` folder. Existing archives require a deliberate
-migration rather than overwriting their configuration.
-
-The installer creates a permanent external Python environment, copies the runtime
-scripts, installs dependencies, and downloads the latest official OpenAI tunnel-client
-after checking the vendor's SHA256SUMS. No credentials or user content enter the
-plugin package. Default runtime location is `~/.local/share/connected-knowledge`.
-The machine running it must have local access to the vault and remain available.
+The wizard installs the selected local components and upgrades existing private
+runtimes while retaining their settings, identities, templates and state. Optional
+vault tools and Filesystem MCP are selected separately. It previews before applying.
+System Python 3.10+ is a prerequisite. Account authorization is completed below.
+The machine running the connection must have access to the vault and stay available.
+The released 1.5.0 package has the earlier fresh-install-only wizard; the unified
+installer is currently an unreleased source change.
 
 ## Account connection
 
@@ -46,8 +42,7 @@ users do not repeat the plugin's development suite.
 ## Templates
 
 Read the actual vault guide first. Choose a source-note or conversation-review
-template from the configured Obsidian Templates folder; the wizard lists that folder
-when available. The original template is never modified. If you leave this blank,
+template from the configured Obsidian Templates folder. The original template is never modified. If you leave this blank,
 the plugin uses its bundled capture template for the selected property vocabulary.
 
 Supported plain Markdown placeholders: `{{title}}`, `{{date}}`,
@@ -89,8 +84,8 @@ To stop automatic startup, use `launchctl bootout gui/$(id -u) <printed plist pa
 on macOS, or `systemctl --user disable --now connected-knowledge-private.service`
 on Linux. Keep notes and preserved originals when uninstalling. Revoking the runtime
 key or disconnecting the ChatGPT app revokes its connection; do not delete unrelated
-credentials or services. An interrupted installation remains visible in its selected
-runtime folder; inspect it before retrying into a fresh empty runtime.
+credentials or services. For an interrupted unified installation, retain the runtime
+and rerun the same setup as described in [installation recovery](install-update.md).
 
 ## Coverage
 

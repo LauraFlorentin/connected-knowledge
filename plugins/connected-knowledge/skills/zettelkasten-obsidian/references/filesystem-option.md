@@ -17,7 +17,8 @@ A selected folder is not a read-only permission: the server includes write tools
 1. Reuse an existing Filesystem connection when it already has the user's intended
    scope. Inspect the actual host's connection configuration before changing it.
 2. For a new connection, select the local host, exact folders and a reviewed package
-   version. Use the helper below to preview the settings. Reuse choices already
+   version. Use the [install/update wizard](install-update.md) to install its
+   managed Node.js/server and optionally register one host entry. Reuse choices already
    supplied; ask only for missing selections. Read the actual vault guide before
    proposing changes to notes. Setup does not need to read note contents.
 3. Inspect the effective allowed directories and test one harmless selected file.
@@ -26,7 +27,16 @@ A selected folder is not a read-only permission: the server includes write tools
    Preview requested changes and use existing task authorization; do not ask for
    redundant approval for an already authorized save. Verify actual saved files.
 
-## Guided setup helper
+## Complete installation
+
+The [unified installer](install-update.md) offers Filesystem as an optional component.
+It downloads a managed Node.js and pinned server into the private runtime, validates
+synthetic file access, and can merge the selected connection into the host settings.
+Existing unrelated connections and approval policies are retained. This route does
+not require a separately installed Node or npx. It is an unreleased source addition;
+the 1.5.0 release contains the configuration-only helper described below.
+
+## Configuration-only setup helper
 
 On macOS/Linux with Python 3.10+, run from the extracted plugin root:
 

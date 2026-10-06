@@ -1,5 +1,43 @@
 # Validation and limits — updated 2026-10-05
 
+## Unreleased unified install/update flow
+
+190 local Python 3.12 tests pass on macOS, including 17 installer tests. Coverage
+includes fresh setup, unchanged retries, legacy and managed upgrades, preservation
+of private settings/templates/profiles/state, download and validation failures,
+concurrent private edits, active-runtime locks, interrupted publication/retry,
+host-entry conflicts and retry, TOML/JSON merges, unsafe Node archive members,
+vendor checksum mismatch, and refusal before installation when disk space is low.
+A real stdio test upgrades a synthetic legacy capture runtime, retries the original
+capture unchanged and saves a new selection while retaining previous note bytes.
+Candidate validation rejects unsupported templates before selecting new code.
+
+A separate fresh macOS arm64 trial downloaded and installed a complete isolated
+runtime: Python 3.12.14 dependencies (MCP 1.30.0, keyring 25.7.0, tomlkit 0.15.1),
+official tunnel-client v0.0.15, Node 24.21.0 and Filesystem server 2026.8.31.
+Vendor archive checksums passed. The installer performed its synthetic save/retry
+and Filesystem read/write/outside-denial checks. A repeated install reused the
+generation and host entry. Actual stable launchers passed private capture
+save/retry, bridge tool discovery/convention reading, Filesystem scope inspection,
+read/write and outside-scope denial. Host merging used only a temporary TOML file;
+its unrelated setting and comment were retained. No account was connected and no
+personal vault, credentials, host settings or installed plugin were changed.
+
+Both builders pass, and all 101 extracted plugin entries match source. Extracted
+unified preview, existing Filesystem preparation, capture save/retry/edit protection,
+vault preview and linked-save checks pass. The core skill validator and local
+documentation link checks pass. The graph example has zero checker issues and
+zero repeat writes. Version manifests remain at the published 1.5.0 while this
+addition is unreleased; rebuilding locally is not publication.
+
+Python remains a prerequisite. Linux uses the same code but was not exercised in
+this local trial. Native Codex/Claude Desktop activation, actual account association,
+OS keyring access, startup and cross-device synchronization were not tested here.
+The wizard stages versions and recovers via explicit retry; it does not update in
+the background, start connections, remove old generations or automatically roll back.
+Third-party editors do not share installer locks. The live vendor download trial
+is separate from the network-free test suite and package verification.
+
 ## 1.5.0 optional Filesystem MCP setup
 
 173 local Python 3.12 tests pass on macOS. Ten added setup tests cover no-write

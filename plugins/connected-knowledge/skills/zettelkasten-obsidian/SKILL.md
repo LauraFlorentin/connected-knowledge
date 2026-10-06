@@ -15,7 +15,7 @@ For an explicit bare invocation, getting-started help or a guided task, read [gu
 
 For assistant-guided saves and graph development, read [readable-captures.md](references/readable-captures.md). Reuse a clear entry point, connect scoped source documents through reference notes, and verify the result in Obsidian when available. Captured bytes and valid links alone do not establish a usable reading experience.
 
-For private ChatGPT selected-save setup, use [private-setup.md](references/private-setup.md). Read the actual vault guide, select a source or conversation-review template, and keep private configuration/runtime outside the package. Desktop/mobile verification is separate; Gemini CLI remains experimental.
+For installing selected components or upgrading a private runtime, use [install-update.md](references/install-update.md); it keeps existing identities and makes Filesystem optional. For private ChatGPT account connection, use [private-setup.md](references/private-setup.md). Read the actual vault guide, select a source or conversation-review template, and keep private configuration/runtime outside the package. Desktop/mobile verification is separate; Gemini CLI remains experimental.
 
 
 For first-run setup combining vault, history, ontology and capture, read [first-run.md](references/first-run.md). For existing-vault conventions, read [onboarding.md](references/onboarding.md). Establish whether an existing vault should be used; inability to access it is not permission to create another. For PDF extraction or structural checks, read [research-tools.md](references/research-tools.md). Use manual templates under `assets/templates/` only after adapting to the vault. For source attribution, read [sources.md](references/sources.md).

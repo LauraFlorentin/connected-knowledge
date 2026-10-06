@@ -8,12 +8,24 @@ tests. See [validation](VALIDATION.md) for the current evidence and limits.
 
 ## Private ChatGPT selected saves
 
-Use the [guided installer](../plugins/connected-knowledge/skills/zettelkasten-obsidian/references/private-setup.md).
+Use the [guided install/update flow](../plugins/connected-knowledge/skills/zettelkasten-obsidian/references/install-update.md).
+The unified installer is an unreleased source addition; published 1.5.0 retains
+the earlier fresh-install wizard.
 It prepares a permanent external runtime, supports your selected vault template,
 and uses your own private tunnel. macOS/Linux require Python 3.10+; Windows private
 runtime is unsupported. ChatGPT web selected save/retry was verified; desktop/mobile
 and native Gemini CLI are separate checks. Gemini CLI support is experimental.
 This downloadable release does not publish a ChatGPT directory app.
+
+## Unreleased unified installer
+
+The source now includes one installer for selected Python dependencies, the private
+tunnel client and optional managed Node.js/Filesystem MCP. It can upgrade existing
+runtimes while preserving configuration and identities, and optionally register one
+selected local-host Filesystem entry. See the [full workflow and recovery](../plugins/connected-knowledge/skills/zettelkasten-obsidian/references/install-update.md).
+Python 3.10+, a supported Mac/Linux host and free disk space remain prerequisites;
+account authorization and restarting the host/connection remain user-controlled.
+Plugin installation itself does not run this installer or refresh private copies.
 
 ## Get the source
 
@@ -114,7 +126,8 @@ For Codex 1.3.1 onboarding, use the [project-hook route](../plugins/connected-kn
 
 The separately installed private runtime contains copied Python scripts. Updating
 the plugin does not update those copies. There is no automatic runtime migration
-in 1.5.0. Before a deliberate code refresh, stop that connection and retain a
+in the published 1.5.0 package. The unreleased unified installer above now provides
+an explicitly invoked migration. For a manual 1.5.0 code refresh, stop that connection and retain a
 private backup of its scripts, configuration, templates, spool and bridge journal.
 Preserve the existing account, archive, tunnel and credential identities. The
 fresh-install wizard refuses occupied runtimes; do not use a new identity or erase

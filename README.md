@@ -10,7 +10,8 @@ Formerly **Zettelkasten Research**. The broader name describes the collection, r
 
 - [Vault bridge and linked-note saving](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/vault-bridge.md)
 - [Optional Filesystem MCP setup](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/filesystem-option.md)
-- [Private ChatGPT installer](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/private-setup.md)
+- [Unified install/update wizard — unreleased](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/install-update.md)
+- [Private ChatGPT account connection](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/private-setup.md)
 - [Guided first-run setup](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/first-run.md)
 - [ZIP and attachment support](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/export-bundles.md)
 - [Installation and platform support](docs/INSTALL.md)
