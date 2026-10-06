@@ -30,7 +30,7 @@ After each meaningful milestone, state what is done and the next step. Use plain
 - **Document/research:** Select the specific material; inspect and attribute it; preserve attachments only within scope; connect useful source and idea notes; verify the reading path. Use [sources.md](sources.md) and [readable-captures.md](readable-captures.md). Route collection requests to the companion research-collect skill; collected inbox material is not automatically developed knowledge.
 - **Explore/organize/check:** Clarify the question or bounded area; inspect relevant conventions and notes; answer or prepare scoped changes; apply requested changes and verify. Use [knowledge-development.md](knowledge-development.md), [existing-vaults.md](existing-vaults.md) or [review.md](review.md). A check remains read-only unless repairs are requested.
 
-Use [private-setup.md](private-setup.md) only when a private selected-save connection is requested; future capture is a separate opt-in task. Explain actual host access and device limitations when they affect the next step.
+Use [install-update.md](install-update.md) when installation or runtime updating is requested, then [private-setup.md](private-setup.md) for a selected private account connection; future capture is a separate opt-in task. Explain actual host access and device limitations when they affect the next step.
 
 ## Complete, then suggest the next task
 

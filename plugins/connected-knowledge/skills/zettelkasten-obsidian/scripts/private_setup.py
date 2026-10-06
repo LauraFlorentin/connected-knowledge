@@ -60,37 +60,12 @@ def install_tunnel(runtime):
 
 
 def wizard():
-    print('Connected Knowledge private setup — macOS/Linux, Python 3.10+.')
-    print('Use your existing vault. Read its shared guide first. No history is imported.')
-    vault = safe_path(input('Existing vault absolute path: ').strip())
-    vocabulary = input('Vault properties: existing (type/status) or default (note_type/review_status) [existing]: ').strip() or 'existing'
-    settings = vault/'.obsidian/templates.json'
-    if settings.is_file():
-        folder = json.loads(settings.read_text()).get('folder')
-        if isinstance(folder, str) and (vault/folder).resolve().is_relative_to(vault):
-            print('Configured templates:', folder)
-            for path in sorted((vault/folder).glob('*.md')):
-                print('  ' + str(path.relative_to(vault)))
-    choice = input('Capture template path relative to vault [bundled capture template]: ').strip()
-    template = vault/choice if choice else None
-    runtime = safe_path(input('Private runtime path [~/.local/share/connected-knowledge]: ').strip()
-                        or str(Path.home()/'.local/share/connected-knowledge'))
-    account = input('Non-secret account label [personal-chatgpt]: ').strip() or 'personal-chatgpt'
-    print('Create your private tunnel at https://platform.openai.com/settings/organization/tunnels')
-    print('Use your own account/organization. The runtime key needs Tunnels Read + Use.')
-    tunnel = input('Tunnel ID: ').strip()
-    print(json.dumps(setup(runtime, vault, tunnel, account, vocabulary, template), indent=2))
-    if input('Install this configuration, dependencies, and official tunnel-client? [y/N]: ').strip().lower() != 'y':
-        print('Preview complete. Nothing installed.')
-        return
-    result = setup(runtime, vault, tunnel, account, vocabulary, template, True)
-    subprocess.run([result['python'], '-m', 'pip', 'install', '-r', str(runtime/'scripts/requirements-runtime.txt')], check=True)
-    print(json.dumps(install_tunnel(runtime), indent=2))
-    import shlex
-    command = [result['python'], str(runtime/'scripts/private_runtime.py'), 'run', '--runtime', str(runtime)]
-    print('Start the connection (it prompts privately for the key):\n' + shlex.join(command))
-    print('Then ChatGPT → Plugins → Add → Create MCP App → Tunnel → paste your tunnel ID.')
-    print('Connect and save one harmless sentence. Notes go into Inbox/ChatGPT Captures.')
+    # Keep the earlier public entry point, with one guided installation flow.
+    from install import wizard as guided_install
+    result = guided_install()
+    print(json.dumps(result, indent=2))
+    if result.get('host_connection', {}).get('status') == 'pending':
+        raise SystemExit(3)
 
 
 def safe_path(value):

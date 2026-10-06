@@ -65,10 +65,22 @@ def status(runtime):
 
 
 def run(runtime, store=False):
+    from install_support import runtime_lock
+    with runtime_lock(runtime, shared=True):
+        if (runtime/'install-pending.json').exists():
+            raise ValueError('Finish the interrupted runtime installation before connecting')
+        return _run(runtime, store)
+
+
+def _run(runtime, store=False):
     if status(runtime)['live']:
         raise ValueError('Connection already running; refusing a duplicate')
     settings = json.loads((runtime/'runtime.json').read_text())
     binary = runtime/'bin/tunnel-client'
+    if (runtime/'install-current.json').exists():
+        from runtime_install import current
+        managed = current(runtime)
+        binary = runtime/'releases'/managed['generation']/'bin/tunnel-client'
     if not binary.is_file() or binary.is_symlink():
         raise ValueError('Install the official tunnel-client before connecting')
     key = credential(runtime, store)
@@ -81,7 +93,8 @@ def run(runtime, store=False):
         # A wrapper argv avoids shell quoting and supports paths containing spaces.
         launcher = runtime/'server.sh'
         import shlex
-        launcher.write_text('#!/bin/sh\nexec ' + shlex.quote(sys.executable) + ' '
+        python = str(runtime/'venv/bin/python') if (runtime/'install-current.json').exists() else sys.executable
+        launcher.write_text('#!/bin/sh\nexec ' + shlex.quote(python) + ' '
                             + shlex.quote(str(runtime/'scripts/capture_mcp.py')) + '\n')
         launcher.chmod(0o700)
         subprocess.run([str(binary), 'init', '--sample', 'sample_mcp_stdio_local',
