@@ -1,7 +1,7 @@
 ---
 name: ck-setup
 description: Set up Connected Knowledge on this machine — choose an existing Obsidian vault or create a new one, label this Mac, and switch capture of AI sessions on. Use when the user runs /ck-setup or $ck-setup, or asks to install, set up or reconfigure Connected Knowledge. Not for ordinary note requests.
-argument-hint: "[resume | status | capture | vault <path>]"
+argument-hint: "[resume | status | capture | apps | vault <path>]"
 ---
 
 # Set up Connected Knowledge
@@ -60,10 +60,33 @@ Ask one question at a time, in plain language. Reuse answers already given.
    monthly step on the hub. If an earlier version saved conversations into a
    `ChatArchive/` folder, offer `ck.py migrate <that folder>` (preview first; it
    needs the plugin's Python packages and leaves the old folder untouched).
+10. **Other apps (optional).** Ask whether they also use chat in the Claude desktop
+    app on this Mac. Offer Filesystem MCP only for that: Claude Code, Codex and
+    Gemini CLI already read and write files, and ChatGPT on the web or iPhone
+    cannot use it. If they don't use Claude desktop chat, skip this step.
+    - Explain in plain words: Filesystem MCP lets Claude desktop chat read and
+      write the folders they choose, usually just the vault. A chosen folder can be
+      written to, and the tool has none of the plugin's duplicate or source checks.
+      Setup downloads a private copy of Node.js and a pinned server version into a
+      private folder outside the vault, and adds one entry to Claude Desktop's
+      settings while keeping everything else there. It stays off unless they choose it.
+    - Only if they want it: write the Filesystem answers file below to a temporary
+      file outside the vault and run
+      `../zettelkasten-obsidian/scripts/install.py --answers <file>` to preview, then
+      again with `--apply`. The installer needs Python 3.10 or later: if `ck.py
+      doctor` shows `python_ok.tools` as false, use a newer `python3.x` if one is
+      installed, or skip this step. If they already have a private runtime folder
+      for the ChatGPT connection, use that folder as `runtime`.
+    - Afterwards they restart Claude Desktop and, in a new chat, ask it to list its
+      allowed folders. Compare them with their choice. Details:
+      [filesystem-option.md](../zettelkasten-obsidian/references/filesystem-option.md).
+    - Saving selected text from ChatGPT is a different connection. Offer it as a
+      separate task, following
+      [private-setup.md](../zettelkasten-obsidian/references/private-setup.md).
 
 Arguments: `status` runs step 1 and summarises. `capture` jumps to step 8.
-`vault <path>` starts step 2 with that path. `resume` runs `ck.py doctor` and
-continues from the first unfinished step.
+`apps` jumps to step 10. `vault <path>` starts step 2 with that path. `resume`
+runs `ck.py doctor` and continues from the first unfinished step.
 
 ## Answers file
 
@@ -80,6 +103,17 @@ continues from the first unfinished step.
 For an existing vault use `"vault_mode": "existing"` and leave out `new_vault`.
 Add `"adopt": {...}` only to correct the proposed mapping, and
 `"update_guide": true` only if they agreed to the guide paragraph.
+
+## Filesystem answers file
+
+Only for step 10. Replace the folders with their choices:
+
+```json
+{"runtime": "/Users/me/.local/share/connected-knowledge",
+ "filesystem": {"host": "claude-desktop", "directories": ["/Users/me/Vaults/My Vault"],
+                "register": true,
+                "host_config": "/Users/me/Library/Application Support/Claude/claude_desktop_config.json"}}
+```
 
 ## Rules
 

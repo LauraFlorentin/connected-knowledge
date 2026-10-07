@@ -189,6 +189,27 @@ class InstallerTests(unittest.TestCase):
         self.assertEqual(self.build.call_count, 1)
         self.assertIn('# Personal settings', host.read_text())
 
+    def test_ck_setup_filesystem_answers_match_installer(self):
+        # /ck-setup documents this answers file for Claude desktop chat; keep it valid.
+        skill = (Path(__file__).resolve().parents[3]/'ck-setup/SKILL.md').read_text()
+        block = skill.split('## Filesystem answers file', 1)[1].split('```json', 1)[1].split('```', 1)[0]
+        answers = json.loads(block.replace('/Users/me', str(self.root)))
+        (self.root/'Vaults/My Vault').mkdir(parents=True)
+        host = Path(answers['filesystem']['host_config'])
+        host.parent.mkdir(parents=True)
+        host.write_text('{"theme":"dark","mcpServers":{"other":{"command":"unchanged"}}}')
+        preview = installer.install(answers)
+        self.assertEqual(preview['mode'], 'preview')
+        self.assertFalse(Path(answers['runtime']).exists())
+        self.assertNotIn('connected-knowledge-filesystem', host.read_text())
+        result = installer.install(answers, True)
+        self.assertEqual(result['host_connection']['status'], 'registered')
+        settings = json.loads(host.read_text())
+        self.assertEqual(settings['theme'], 'dark')
+        self.assertEqual(settings['mcpServers']['other'], {'command': 'unchanged'})
+        self.assertIn('connected-knowledge-filesystem', settings['mcpServers'])
+        self.assertFalse(list((self.root/'Vaults/My Vault').iterdir()))
+
     def test_cli_update_preview_and_wizard_do_not_install(self):
         installer.install(self.answers, True)
         script = Path(installer.__file__).with_name('install.py')

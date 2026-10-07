@@ -99,6 +99,7 @@ flowchart LR
 | Vault writer | `scripts/ck_capture.py`, `scripts/ck_render.py` | Write conversation notes, transcripts and the index, with labels and provenance; chat text is made inert |
 | New vault | `scripts/starter_vault.py` | Create the folder structure, Home, Vault Guide, topic maps and, if wanted, templates |
 | Private MCP server | `scripts/capture_mcp.py` | Optional. Lets a chat app save selected text and read scoped notes through your own tunnel |
+| Filesystem MCP | installed by `scripts/install.py` | Optional. Lets chat in the Claude desktop app read and write folders you choose. `/ck-setup apps` offers it for that app only |
 | Machine state | outside the vault | Per-Mac config, queue, manifest and raw copies, in folders only you can read. Never synced |
 
 ### Data flow

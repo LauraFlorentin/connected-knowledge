@@ -4,7 +4,7 @@
 
 | Command | Codex | What it does |
 | --- | --- | --- |
-| `/ck-setup [resume \| status \| capture \| vault <path>]` | `$ck-setup` | Choose or create the vault, label this Mac, pick capture folders, switch capture on |
+| `/ck-setup [resume \| status \| capture \| apps \| vault <path>]` | `$ck-setup` | Choose or create the vault, label this Mac, pick capture folders, switch capture on. `apps` offers the optional Filesystem MCP for chat in the Claude desktop app |
 | `/ck-help [topic]` | `$ck-help` | Status of this Mac and vault, a menu, and the most useful next step |
 | `/ck-add-session [current \| latest \| all \| <session-id> \| <path>]` | `$ck-add-session` | Save a session now as a conversation note plus transcript |
 

@@ -52,6 +52,11 @@ no local scripts, so setup becomes guidance and the commands prepare Markdown
 instead of saving it. Cowork can run hooks and scripts when the task runs on your
 computer; that route is untested.
 
+To let chat in the Claude desktop app read and write your vault, run
+`/ck-setup apps` in Claude Code on the same Mac. It offers the optional
+[Filesystem MCP](../plugins/connected-knowledge/skills/zettelkasten-obsidian/references/filesystem-option.md)
+connection, previews it, and installs it only if you agree.
+
 Sources: https://support.claude.com/en/articles/13837440-use-plugins-in-claude and
 https://claude.com/docs/plugins/platform-support
 

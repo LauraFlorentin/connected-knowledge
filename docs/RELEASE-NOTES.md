@@ -27,6 +27,9 @@
   `~/.config/connected-knowledge/config.json`. A private state folder holds the
   queue, the manifest and one raw copy per session. The vault receives only notes,
   transcripts and an index file per machine.
+- **Filesystem MCP in setup.** `/ck-setup apps` offers the optional Filesystem MCP
+  connection, only for chat in the Claude desktop app. It previews the installer
+  first, and installs nothing unless you agree.
 - **New vault structure.** A full or minimal structure, with a `Templates/` folder
   or with every note shape in the Vault Guide. Home, Vault Guide, agent
   instructions, and a topic map per main topic. Seven new note templates. Existing
@@ -44,7 +47,7 @@
   accepts, and a private-looking file stops the build. Every current version string
   in the docs is checked against the manifest.
 
-Validation: 262 tests pass on Python 3.12 (macOS); the 46 capture and command tests
+Validation: 263 tests pass on Python 3.12 (macOS); the 46 capture and command tests
 also pass on the stock macOS Python 3.9.6 without packages. All three commands ran
 natively in Claude Code 2.1.291 in a sandbox with a temporary vault. Codex, Cowork
 and Gemini CLI were not trialled. See [validation](VALIDATION.md#170-commands-capture-pipeline-and-vault-structure).

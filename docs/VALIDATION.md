@@ -2,7 +2,7 @@
 
 ## 1.7.0 commands, capture pipeline and vault structure
 
-**Automated.** 262 tests pass with Python 3.12.14 on macOS (190 carried over, 72
+**Automated.** 263 tests pass with Python 3.12.14 on macOS (190 carried over, 73
 new). The 46 tests in `test_capture_pipeline.py` and `test_ck_commands.py` also pass
 with the stock macOS Python 3.9.6 and no third-party packages, and a test re-runs a
 capture with `python -S` to prove that no package is imported. New coverage:
@@ -41,7 +41,10 @@ capture with `python -S` to prove that no package is imported. New coverage:
   skill frontmatter, and the Gemini package contents;
 - manifest versions and every current version string in the docs, manifest shape,
   hook registration, relative links in all docs, README host coverage, and the
-  private-data packaging guard.
+  private-data packaging guard;
+- the Filesystem answers file shown in `/ck-setup` previews without writing, then
+  registers one Claude Desktop entry while keeping the other settings, through the
+  real installer with downloads stubbed.
 
 **Examples and packages.** The graph example (0 checker warnings, 0 repeat writes)
 and the worked example pass. `package.py`, `package_gemini.py` and
