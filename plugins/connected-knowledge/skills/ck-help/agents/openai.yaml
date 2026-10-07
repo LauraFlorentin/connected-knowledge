@@ -1,0 +1,6 @@
+interface:
+  display_name: Connected Knowledge help
+  short_description: What it can do, status and next step
+  default_prompt: Use $ck-help to show what Connected Knowledge can do here.
+policy:
+  allow_implicit_invocation: true

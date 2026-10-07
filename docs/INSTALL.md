@@ -1,144 +1,166 @@
 # Installation and platform support
 
-Package documentation updated 2026-10-05 for 1.6.0. Platform instructions below
-retain their dated source review (2026-09-27/28); this cleanup does not establish
-current availability on every host. Local packaging checks and synthetic script
-execution are separate from installed-host, mobile, synchronization and live-hook
-tests. See [validation](VALIDATION.md) for the current evidence and limits.
+Package documentation updated 2026-10-07 for 1.7.0. Host instructions follow the
+vendors' documentation as checked on 2026-10-06; rows marked untested were not run
+for this release. See [validation](VALIDATION.md) for what was tested.
 
-## Private ChatGPT selected saves
+After installing on any host that can run local commands, run `/ck-setup`
+(Codex: `$ck-setup`). Installing alone connects no vault, switches nothing on and
+reads no account history.
 
-Use the [guided install/update flow](../plugins/connected-knowledge/skills/zettelkasten-obsidian/references/install-update.md).
-The unified installer is included in 1.6.0. Earlier packages retain the
-fresh-install-only wizard.
-It prepares a permanent external runtime, supports your selected vault template,
-and uses your own private tunnel. macOS/Linux require Python 3.10+; Windows private
-runtime is unsupported. ChatGPT web selected save/retry was verified; desktop/mobile
-and native Gemini CLI are separate checks. Gemini CLI support is experimental.
-This downloadable release does not publish a ChatGPT directory app.
+## Requirements
 
-## Unified installer
+- macOS or Linux on the Mac that holds the vault. Windows is not supported.
+- Setup, the hooks, capture and the three commands use only the Python standard
+  library and run on the `python3` that ships with macOS (3.9).
+- Account-export import, PDF tools, vault checks and the private MCP server need
+  Python 3.10 or later with the packaged requirements (see
+  [Dependencies](#dependencies-and-local-scripts)).
+- If `python3` is missing, an installed host shows a shell error on every turn.
+  `/ck-setup` checks for it.
 
-The source now includes one installer for selected Python dependencies, the private
-tunnel client and optional managed Node.js/Filesystem MCP. It can upgrade existing
-runtimes while preserving configuration and identities, and optionally register one
-selected local-host Filesystem entry. See the [full workflow and recovery](../plugins/connected-knowledge/skills/zettelkasten-obsidian/references/install-update.md).
-Python 3.10+, a supported Mac/Linux host and free disk space remain prerequisites;
-account authorization and restarting the host/connection remain user-controlled.
-Plugin installation itself does not run this installer or refresh private copies.
+## Claude Code
 
-## Get the source
+Marketplace install (documented form; not run for this release):
 
-For optional general file management, use the [Filesystem MCP setup helper](../plugins/connected-knowledge/skills/zettelkasten-obsidian/references/filesystem-option.md).
-It prepares reviewed local-host settings for selected folders. The server remains
-a separate opt-in connection; plugin installation does not register or enable it.
-The helper is included in the 1.5.0 package; the upstream server is downloaded only
-when a separately configured connection is launched.
-
-Clone the public repository:
-
-```bash
-git clone https://github.com/LauraFlorentin/connected-knowledge.git
-cd connected-knowledge
-python3 tools/package.py
+```text
+/plugin marketplace add LauraFlorentin/connected-knowledge
+/plugin install connected-knowledge@connected-knowledge-local
 ```
 
-The build creates the upload ZIP and instruction bundle used below. Repository access and plugin installation are separate steps.
-
-## Claude web, Desktop Chat, and Cowork
-
-In Customize > Plugins, use the custom-plugin upload option with `distribution/claude-plugin.zip`. The ZIP has `.claude-plugin/plugin.json` and `skills/` at its root. Select a bundled skill from the available skill/command menu. Ask: “Use Develop Knowledge (`zettelkasten-obsidian`) to onboard my existing vault” or “Use Collect Research (`research-collect`) to prepare a disabled source configuration.”
-
-Official documentation supports custom plugins in Claude. Current Cowork surface documentation also lists skills/plugins on mobile; account rollout and runtime capabilities still apply. Phone installation of this package has not been tested. Installation alone does not establish Mac-vault access. Scripts require dependencies and authorized files. Connected-folder access from mobile/web depends on an open desktop app and a session started on desktop; remote MCP is a separate route.
-
-Source: https://support.claude.com/en/articles/13837440-use-plugins-in-claude
-
-Mobile/file-access source: https://support.claude.com/en/articles/15520349-use-claude-cowork-on-web-desktop-and-mobile
-
-## Claude Code: local native plugin
-
-From the extracted package root, test with:
+For development, from a clone:
 
 ```bash
 claude --plugin-dir ./plugins/connected-knowledge
 ```
 
-For reusable local marketplace installation, use Claude Code's plugin marketplace flow with this package root (it contains `.claude-plugin/marketplace.json`), then select `connected-knowledge` from `connected-knowledge-local`. The direct `--plugin-dir` route avoids requiring marketplace publication. Local terminal execution can run all bundled scripts once dependencies are installed. No MCP server is declared. Version 1.3.0 includes [opt-in bundled hooks](../plugins/connected-knowledge/skills/zettelkasten-obsidian/references/bundled-hooks.md).
+Then run `/ck-setup`. The commands also answer to their long names, for example
+`/connected-knowledge:ck-setup`. The plugin registers `Stop`, `SessionEnd` and
+`SessionStart` hooks. They do nothing until `/ck-setup` writes this Mac's
+configuration and you switch capture on. Remote Control sessions run on the Mac
+that hosts them, so that Mac's hooks and transcripts apply whichever device you
+type on.
 
 Source: https://code.claude.com/docs/en/plugins-reference
 
-## ChatGPT desktop / Codex: local native plugin
+## Claude web, desktop chat and Cowork
 
-The package includes `.agents/plugins/marketplace.json`, pointing to `./plugins/connected-knowledge`, with a portable `plugin.json` and Codex compatibility manifest. On a supported local setup:
+In Customize → Plugins, add this GitHub repository as a marketplace, or upload
+`distribution/claude-plugin.zip` (build it with `python3 tools/package.py`). Ask for
+`ck-help` or pick a command from the `/` menu. Chat runs skills only: no hooks and
+no local scripts, so setup becomes guidance and the commands prepare Markdown
+instead of saving it. Cowork can run hooks and scripts when the task runs on your
+computer; that route is untested.
+
+Sources: https://support.claude.com/en/articles/13837440-use-plugins-in-claude and
+https://claude.com/docs/plugins/platform-support
+
+## Claude iPhone app
+
+Plugins follow your account, so the skills are available as guidance. The phone
+cannot reach your vault or run scripts. Phone chats reach the vault through the
+Claude account export, which you request on the web or desktop app.
+
+## Codex CLI and ChatGPT desktop (local Work)
 
 ```bash
-codex plugin marketplace add /absolute/path/to/connected-knowledge
+codex plugin marketplace add LauraFlorentin/connected-knowledge
 ```
 
-Open the ChatGPT desktop Plugins directory, locate `connected-knowledge-local`, and install the plugin. Local source availability varies by surface; if it does not appear, use the instruction-bundle route below and check your app's local-plugin support. Registration alone is not installation or successful execution.
+Then install `connected-knowledge` from `/plugins`. Codex has no plugin slash
+commands; the commands are skills: `$ck-setup`, `$ck-help`, `$ck-add-session`, or
+pick them in `/skills`. Codex asks you to review and trust the plugin's Stop hook
+in `/hooks`, again after each hook change. Plugin hooks do not run under
+cloud-orchestrated Work. The marketplace command above is untested for this
+release; a local path (`codex plugin marketplace add /absolute/path/to/connected-knowledge`)
+was used in earlier releases.
 
-Source: https://developers.openai.com/plugins/build/plugins
+Sources: https://learn.chatgpt.com/docs/plugins and https://learn.chatgpt.com/docs/hooks
 
-## ChatGPT web and mobile
+## ChatGPT web and iPhone
 
-Official documentation supports plugin-bundled skills in Chat and Work on web, desktop and mobile. That does not make this unlisted local package available everywhere. A published/shared account-accessible plugin needs the appropriate distribution process; this delivery does not publish it. The existing personal Zettelkasten skill and companion collection skill are a separate installation route in this account, not proof of native plugin availability on every surface.
+This unlisted local plugin cannot be installed there. For selected saves, connect
+the private MCP app through your own tunnel (see below). For guidance only, attach
+`distribution/instruction-bundle.md` to a chat or project. Chat history arrives
+through the ChatGPT account export.
 
-Where the local plugin is unavailable, attach `distribution/instruction-bundle.md` with selected source material and ask the model to follow it. This is an instruction/file bundle, not native installation; automatic activation is not promised. It contains the actual shared instructions and supporting references. For script work also provide the package ZIP to a code-capable session or execute locally. Uploading documents does not connect your Mac vault.
+## Gemini CLI (experimental)
 
-Sources: https://learn.chatgpt.com/docs/build-skills and https://learn.chatgpt.com/docs/projects
+```bash
+python3 tools/package_gemini.py
+mkdir -p ~/ck-gemini && unzip -o distribution/gemini-extension.zip -d ~/ck-gemini
+gemini extensions install ~/ck-gemini
+```
 
-Current plugin documentation describes lifecycle hooks in the Codex runtime; plugin hooks are not supported in cloud-orchestrated ChatGPT Work. Such hooks require trusted scripts deployed in the execution environment; web plugin installation alone does not deploy them. Version 1.3.0 bundles opt-in hooks; private configuration and a tested runtime are required. See https://learn.chatgpt.com/docs/plugins and https://learn.chatgpt.com/docs/hooks, and the core reference `future-chat-capture.md` for proposed capture routes and coverage limits.
+The extension includes the skills and the three commands (`/ck-setup`, `/ck-help`,
+`/ck-add-session`) as TOML wrappers, plus the experimental per-turn capture hook.
+Installing from the repository URL is not possible yet, because the extension
+manifest is not at the repository root. Gemini CLI was not available for testing.
+
+Source: https://geminicli.com/docs/extensions/reference/
+
+## Gemini app
+
+There is no plugin host. Google Takeout import is planned, not built.
+
+## Private ChatGPT selected saves
+
+Use the [guided install/update flow](../plugins/connected-knowledge/skills/zettelkasten-obsidian/references/install-update.md).
+It prepares a permanent external runtime, supports your selected vault template,
+and uses your own private tunnel. ChatGPT web selected save and retry were verified
+in an earlier release; desktop and mobile are separate checks. No ChatGPT directory
+app is published.
+
+The same installer can install the Python dependencies, the private tunnel client
+and an optional managed Node.js with the Filesystem MCP server, and upgrades
+existing runtimes while keeping configuration and identities. For broader file
+access only, see the [Filesystem MCP option](../plugins/connected-knowledge/skills/zettelkasten-obsidian/references/filesystem-option.md).
 
 ## Avoid duplicate activation
 
-Version 1.1.1 renames the plugin from `zettelkasten-research` to `connected-knowledge` and the marketplace to `connected-knowledge-local`. If the earlier package is installed, disable or uninstall that copy before enabling this one. The internal skills remain `zettelkasten-obsidian` and `research-collect`; their display names are now Develop Knowledge and Collect Research. This rename requires no vault migration.
-
-Use one active copy of Zettelkasten–Obsidian in a given host: the updated personal skill or the bundled plugin copy. They share the same core; do not install standalone Zettelkasten Practice alongside this package to recreate the integration. If keeping both delivery forms, explicitly select the intended one and disable the duplicate where the host allows it.
+Version 1.1.1 renamed the plugin from `zettelkasten-research` to
+`connected-knowledge` and the marketplace to `connected-knowledge-local`. Disable
+or uninstall any earlier copy before enabling this one. Use one active copy of
+Zettelkasten–Obsidian per host: the plugin, or a personal copy of the skill.
 
 ## Dependencies and local scripts
 
-From the package root:
+From the repository or package root, with Python 3.10 or later:
 
 ```bash
 python3 -m venv .venv
 .venv/bin/python -m pip install -r plugins/connected-knowledge/skills/zettelkasten-obsidian/scripts/requirements.txt
 ```
 
-Use `.venv/bin/python` for the documented script commands. Windows: use the equivalent `.venv\Scripts\python.exe`. Python 3.10+ is required. Dependencies: pypdf, PyYAML, defusedxml. Only the fictional demo/test generation additionally needs reportlab (`requirements-dev.txt`). There are no model API calls, account credentials, OCR engine, scheduler service, or database server to configure.
+`requirements.txt` holds pypdf, PyYAML and defusedxml. `requirements-dev.txt`
+also installs the MCP runtime and reportlab for the tests and the worked example.
+There are no model API calls, scheduler services or database servers to configure.
 
 ## Account title instruction
 
-Use the optional text in `docs/ACCOUNT-INSTRUCTIONS.md` in both accounts if desired. It distinguishes broad chat labels such as Research from vault categories Admin / Personal / Work. Plugin installation never changes account instructions automatically.
+The optional text in `docs/ACCOUNT-INSTRUCTIONS.md` labels chats; the plugin never
+changes account instructions by itself.
 
-## Updating to 1.6.0
+## Updating to 1.7.0
 
-Use the 1.6.0 release ZIP or rebuild from the tagged source before uploading a replacement ZIP or refreshing a
-local installation through the host's plugin management flow. Keep one active copy
-of the plugin. Verify that the loaded manifest reports 1.6.0, then exercise a
-synthetic preview before selecting any personal source or destination. An existing
-older cache does not acquire the update just because GitHub was updated.
+Refresh the plugin through your host's plugin manager, or upload the 1.7.0 ZIP, and
+keep one active copy. Then:
 
-Store exports, archive state, capture configuration and generated notes outside
-the repository and installed plugin directory. Updates should replace plugin code,
-not user data. Capture stays opt-in; updating does not register hooks or a scheduler.
+1. Run `/ck-setup`. It writes one configuration file for this Mac at
+   `~/.config/connected-knowledge/config.json` and a private state folder, both
+   outside the vault. Capture stays off.
+2. If you used capture in 1.3–1.6 through `CONNECTED_KNOWLEDGE_*_CONFIG`
+   variables: those configurations keep working until `/ck-setup` has written the
+   new file. After that the new file wins. Remove the old variables and any Codex
+   project hook for the same projects, so each session is captured once.
+3. If earlier versions saved conversations into a `ChatArchive/` folder, preview
+   `ck.py migrate <that folder>`, then apply. Each conversation becomes a
+   conversation note plus transcript; notes you edited are reported and left
+   alone; the old folder is not changed or deleted, and a second run does nothing.
+4. Account-export archives created by `chat_import.py` are rewritten once on their
+   next import with the ontology's property names (`source_platform`, `source_id`,
+   `source_account`) and inert message text; earlier versions stay in `revisions/`.
 
-For Codex 1.3.1 onboarding, use the [project-hook route](../plugins/connected-knowledge/skills/zettelkasten-obsidian/references/project-hooks.md). Preview first, apply the selected project hook separately, and review/trust it in Codex. Capture remains disabled until the private configuration is explicitly enabled. Use one capture route per project.
-
-The private runtime is separate from the installed plugin. After updating the
-plugin, stop the existing private connection and run the new package's
+The private ChatGPT runtime is separate from the plugin: stop it, then run the
 [install/update wizard](../plugins/connected-knowledge/skills/zettelkasten-obsidian/references/install-update.md)
-against the same runtime folder. Version 1.6.0 stages and validates updated code
-and dependencies while preserving the account, archive, tunnel, credentials,
-templates, spool, profiles and bridge journal. Keep the same runtime path.
-
-This migration runs only when explicitly invoked; installing the plugin does not
-run it in the background. Existing bridge and Filesystem settings are reused.
-New scope and saving remain separately selected. Restart the selected connection
-or local host after applying the update, then verify its tools. Interrupted
-publication is completed by rerunning the same setup. Retain previous generations
-and backups; do not erase private state or create replacement identities to bypass
-an error. See [vault bridge](../plugins/connected-knowledge/skills/zettelkasten-obsidian/references/vault-bridge.md).
-
-## Private capture coverage
-
-See [private capture](../plugins/connected-knowledge/skills/zettelkasten-obsidian/references/private-capture.md) for ordinary-chat selected saves, the private stdio MCP server, Gemini CLI extension, and regular Gemini Apps import limits. No tunnel or public service is deployed. New capture components require POSIX Python 3.10+; Windows is unverified.
+against the same runtime folder, as in 1.6.0.

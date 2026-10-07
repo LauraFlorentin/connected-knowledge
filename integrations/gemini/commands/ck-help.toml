@@ -1,0 +1,5 @@
+description = "Show what Connected Knowledge can do and the next step"
+prompt = """
+Use the ck-help skill from the connected-knowledge extension and follow it exactly.
+Arguments: {{args}}
+"""

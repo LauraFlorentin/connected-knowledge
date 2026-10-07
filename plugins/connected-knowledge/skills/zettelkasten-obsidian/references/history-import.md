@@ -21,6 +21,15 @@ Keep personal exports, archive state and output outside the plugin repository.
    filenames derived from platform/account/conversation ID, and changed notes get
    saved revisions. Human-edited or deleted notes produce conflicts, not overwrites.
    An error/conflict discovered during planning blocks the entire batch.
+   Since 1.7.0 notes use the ontology's labels: `source_platform` (Claude, ChatGPT),
+   `source_id` (the provider's conversation ID) and `source_account`. ChatGPT's
+   epoch timestamps become ISO 8601 dates with an offset. Message text is written as
+   inert Markdown: links, embeds, tags, task boxes and plugin code blocks such as
+   `dataviewjs` show as plain text; the exact text stays in the original JSON. The
+   archive manifest records each note's platform, account and conversation ID, and
+   the graph tools read either that or the 1.6.0 properties `conversation_source`,
+   `conversation_id` and `account_label`. Existing archives are rewritten once on
+   their next import.
 5. Read the resulting Markdown and compare representative messages with the source.
    Reimport once to verify zero changes. Missing/non-text content stays in the
    original JSON and produces coverage warnings; no attachment bytes are invented.

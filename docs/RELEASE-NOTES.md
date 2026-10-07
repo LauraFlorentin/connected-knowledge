@@ -1,5 +1,58 @@
 # Release notes
 
+## 1.7.0 — 2026-10-07
+
+- **Commands.** `/ck-setup`, `/ck-help` and `/ck-add-session` (Codex: `$ck-…`;
+  Gemini CLI: TOML wrappers). One standard-library script, `ck.py`, sits behind
+  them. Everything previews first. Each command ends with one suggested next step
+  chosen from the actual state, one alternative, and "stop here".
+- **Capture that queues, then sweeps.** Hooks only record that a session changed
+  and never open a transcript. A background sweep saves a session once it has been
+  quiet for ten minutes or has ended, under an operating-system lock that cannot go
+  stale. Nothing is copied per turn: a 60-turn session keeps state at most twice its
+  transcript size. Sessions that change folders are kept and filed under the folder
+  they started in. Capture runs on the stock macOS Python 3.9 with no packages. The
+  hooks stay inert until `/ck-setup` writes this Mac's configuration and you switch
+  capture on.
+- **Conversation notes.** Each session becomes a short note (title of at most five
+  words, category, topics, platform, machine, device when known, project, real
+  dates, a summary block) plus a generated transcript. Your text and your changes to
+  title, category and topics survive updates. A note from another Mac is never
+  overwritten. A shorter transcript never replaces a longer one.
+- **Safe display.** Chat text is written as inert Markdown. `dataviewjs`, `query`,
+  `tasks` and other plugin code blocks, inline Dataview queries, wikilinks, embeds,
+  remote images, tags, task boxes, comments and HTML show as plain text. The same
+  applies to account-export imports.
+- **Machine state outside the vault.** One configuration file per Mac at
+  `~/.config/connected-knowledge/config.json`. A private state folder holds the
+  queue, the manifest and one raw copy per session. The vault receives only notes,
+  transcripts and an index file per machine.
+- **New vault structure.** A full or minimal structure, with a `Templates/` folder
+  or with every note shape in the Vault Guide. Home, Vault Guide, agent
+  instructions, and a topic map per main topic. Seven new note templates. Existing
+  vaults are adopted under their own property names (`type: reference` stays
+  `type: reference`) without touching `.obsidian/`.
+- **Importer labels.** Account-export notes use `source_platform`, `source_id` and
+  `source_account`; ChatGPT epoch dates become ISO 8601. Archives are rewritten
+  once on their next import. `ck.py migrate` turns 1.6.0 `ChatArchive/` folders
+  into conversation notes: edited notes are reported and skipped, and a second run
+  changes nothing.
+- **Hygiene.** The Claude manifest has author, homepage and repository; the
+  marketplace has a description; both pass `claude plugin validate` with no
+  warnings. The plugin-root `CLAUDE.md` (never loaded by Claude Code) and the stale
+  `docs/core-file-hashes.json` are removed. Packages contain only files git
+  accepts, and a private-looking file stops the build. Every current version string
+  in the docs is checked against the manifest.
+
+Validation: 262 tests pass on Python 3.12 (macOS); the 46 capture and command tests
+also pass on the stock macOS Python 3.9.6 without packages. All three commands ran
+natively in Claude Code 2.1.291 in a sandbox with a temporary vault. Codex, Cowork
+and Gemini CLI were not trialled. See [validation](VALIDATION.md#170-commands-capture-pipeline-and-vault-structure).
+
+Upgrading: run `/ck-setup`. Configurations from 1.3–1.6 that use
+`CONNECTED_KNOWLEDGE_*_CONFIG` variables keep working until the new machine
+configuration exists. See [updating](INSTALL.md#updating-to-170).
+
 ## 1.6.0 — 2026-10-05
 
 - Add one guided installation/update flow for selected private connection and

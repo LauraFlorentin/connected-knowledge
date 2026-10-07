@@ -1,7 +1,7 @@
 {
   "name": "connected-knowledge",
-  "version": "1.6.0",
-  "description": "Collect research and develop sourced, connected knowledge from conversations, documents and notes.",
+  "version": "1.7.0",
+  "description": "Turn AI chats, coding sessions and documents into sourced, linked Obsidian notes.",
   "skills": "./skills/",
   "interface": {
     "displayName": "Connected Knowledge",
@@ -12,14 +12,17 @@
       "Write"
     ],
     "defaultPrompt": [
-      "Guide me step by step through Connected Knowledge.",
-      "Help me save notes from selected past conversations."
+      "Use $ck-setup to set up Connected Knowledge on this machine.",
+      "Use $ck-help to show what I can do next.",
+      "Use $ck-add-session to save this session to my vault."
     ],
     "developerName": "LauraFlorentin",
-    "longDescription": "Collect selected research into a reviewable inbox and develop sourced, linked knowledge using existing Obsidian vault conventions. Includes read-only vault validation and comparison tools; no scheduler or account-history access is installed."
+    "longDescription": "Set up or adopt an Obsidian vault, save Codex and Claude Code sessions as labelled conversation notes with transcripts, and develop sourced, linked knowledge. Commands: $ck-setup, $ck-help, $ck-add-session. Capture stays off until you switch it on; machine state stays outside the vault."
   },
   "author": {
     "name": "LauraFlorentin",
     "url": "https://github.com/LauraFlorentin"
-  }
+  },
+  "homepage": "https://github.com/LauraFlorentin/connected-knowledge",
+  "repository": "https://github.com/LauraFlorentin/connected-knowledge"
 }

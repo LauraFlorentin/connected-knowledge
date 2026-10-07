@@ -50,8 +50,8 @@ class PrivateSetupTests(unittest.TestCase):
         text = note.read_text()
         self.assertIn('owner: Fictional owner', text)
         self.assertIn('status: auto', text)
-        self.assertIn('conversation_source: chatgpt', text)
-        self.assertIn('conversation_id: caller-fictional', text)
+        self.assertIn('source_platform: ChatGPT', text)
+        self.assertIn('source_id: caller-fictional', text)
         self.assertIn('> Fictional pears.', text)
         self.assertEqual(self.template.read_bytes(), before)
         self.payload['title'] = 'Changed title'

@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "machine": "mac-mini",
+  "role": "hub",
+  "vault": "/absolute/path/to/vault",
+  "state": "/absolute/path/to/private/state",
+  "accounts": {"claude": "personal", "openai": "personal"},
+  "capture": {
+    "enabled": false,
+    "hosts": ["claude-code", "codex"],
+    "roots": ["/absolute/path/to/projects"],
+    "exclude": [],
+    "idle_minutes": 10,
+    "default_remote_device": null
+  }
+}

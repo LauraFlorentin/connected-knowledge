@@ -1,0 +1,5 @@
+description = "Save a session to the Obsidian vault now"
+prompt = """
+Use the ck-add-session skill from the connected-knowledge extension and follow it exactly.
+Arguments: {{args}}
+"""

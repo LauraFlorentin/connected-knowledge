@@ -1,5 +1,41 @@
 # Local history and ongoing session capture
 
+## Since 1.7.0: queue, sweep, conversation notes
+
+Set up with `/ck-setup`, then save sessions with `/ck-add-session` or let the
+[bundled hooks](bundled-hooks.md) queue them for the background sweep. Everything
+below this section describes the earlier `session_capture.py` adapter, which still
+serves 1.3–1.6 configurations and Codex project hooks.
+
+- **Scope.** All sessions that start inside the capture folders chosen in setup,
+  minus excluded folders. The project is the first folder below the capture folder
+  where the session started; later folder changes do not drop the session.
+- **Reading.** `ck_transcripts.py` reads Claude Code and Codex transcripts with the
+  standard library. It skips `isMeta` rows, sidechains, tool results, developer and
+  system messages, and text the harness inserts into a user turn
+  (`<system-reminder>`, `<environment_context>`, `# AGENTS.md instructions`, local
+  command output). Slash commands appear as "Command" lines, never as your words.
+  Tool calls are listed by name. Claude Code's `custom-title`, `ai-title` and
+  `summary` rows supply the title; otherwise the first five words of your first
+  message do.
+- **Writing.** One conversation note per session in `Sources/AI Conversations/<year>/`
+  and one transcript in `Attachments/AI Transcripts/<year>/`, with the labels from
+  [the ontology](ontology.md): `title`, `category`, `topics`, `source_platform`,
+  `source_machine`, `source_device`, `source_surface`, `project`, `source_created`,
+  `source_updated`. Identity is `ck-` plus 16 hex characters of SHA-256 over
+  host, account label and the host's session ID, so the same session reached twice
+  lands on the same note.
+- **Safety.** Only the generated block of a note is rewritten. A note that is not in
+  this Mac's manifest is never overwritten: if it carries the same `id` from another
+  Mac it is reported as "captured elsewhere"; any other note stops the write. A
+  shorter or diverging transcript never replaces a saved one. A hand-edited
+  transcript is left alone and reported.
+- **State.** Configuration, queue, manifest and one raw copy per session live in
+  the private state folder (mode 0700), outside the vault. State stays near the size
+  of the raw transcripts; nothing is copied per turn.
+
+## The 1.3–1.6 adapter
+
 `session_capture.py` adapts observed Codex and Claude Code JSONL transcript formats
 into the normalized importer. This does not access ordinary Claude/ChatGPT account
 history, cloud-only Codex chats, other machines, or unavailable/deleted sessions.
