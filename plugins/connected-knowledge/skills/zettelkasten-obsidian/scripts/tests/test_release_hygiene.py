@@ -3,6 +3,7 @@
 These checks read the source repository, so they skip inside an installed plugin.
 """
 import json
+import os
 from pathlib import Path
 import re
 import sys
@@ -66,10 +67,24 @@ class Docs(unittest.TestCase):
         yield from sorted((ROOT/'docs').glob('*.md'))
         yield from sorted(PLUGIN.rglob('*.md'))
 
+    @staticmethod
+    def exists_exactly(path):
+        """Case-sensitive existence, so a Mac catches what Linux CI would."""
+        path = Path(os.path.normpath(path))
+        if not path.exists():
+            return False
+        current = Path(path.anchor) if path.is_absolute() else Path('.')
+        for part in path.parts[1:] if path.is_absolute() else path.parts:
+            if part not in ('.', '..') and part not in os.listdir(current):
+                return False
+            current = current/part
+        return True
+
     def test_relative_links_resolve(self):
         broken = []
         for doc in self.documents():
-            if 'review' in doc.parts or 'templates' in doc.parts or '__pycache__' in doc.parts:
+            # Vault assets and templates link to files inside a generated vault, not the repository.
+            if {'review', 'templates', 'assets', '__pycache__'} & set(doc.parts):
                 continue
             text = re.sub(r'^(```|~~~).*?^\1', '', doc.read_text(encoding='utf-8'), flags=re.M | re.S)
             text = re.sub(r'`[^`\n]*`', '', text)
@@ -78,7 +93,7 @@ class Docs(unittest.TestCase):
                 if re.match(r'^[a-z][a-z0-9+.-]*:', target) or target.startswith('#'):
                     continue
                 path = unquote(target.split('#')[0])
-                if path and not (doc.parent/path).exists():
+                if path and not self.exists_exactly(doc.parent/path):
                     broken.append(doc.relative_to(ROOT).as_posix() + ' → ' + target)
         self.assertEqual(broken, [])
 
