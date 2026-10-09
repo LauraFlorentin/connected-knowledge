@@ -1,6 +1,6 @@
 # Release notes
 
-## 1.7.0 — 2026-10-07
+## 1.7.0 — 2026-10-09
 
 - **Commands.** `/ck-setup`, `/ck-help` and `/ck-add-session` (Codex: `$ck-…`;
   Gemini CLI: TOML wrappers). One standard-library script, `ck.py`, sits behind
