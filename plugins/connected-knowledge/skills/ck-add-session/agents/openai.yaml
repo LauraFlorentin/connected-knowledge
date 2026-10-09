@@ -1,0 +1,6 @@
+interface:
+  display_name: Add session to vault
+  short_description: Save this session as a labelled note
+  default_prompt: Use $ck-add-session to save this session to my vault.
+policy:
+  allow_implicit_invocation: true

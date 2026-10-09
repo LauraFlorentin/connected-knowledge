@@ -21,10 +21,13 @@ Use `schema_version: 1` for newly generated notes following this schema. Keep st
 | `source_id` | Provider conversation/message/document identifier when available. Omit if unknown. |
 | `source_url` | Existing source reference, if available. Do not publish a share link to manufacture a locator. |
 | `source_coverage` | `full_export`, `excerpt`, or `visible_context`. “Full export” describes the supplied source record, not a claim that every account chat or attachment exists. |
+| `source_machine` | Label of the computer that holds a captured transcript, such as `mac-mini`. Omitted for account exports. |
+| `source_device` | Label of the device the person typed on, such as `iphone`, only when known: the machine itself for local sessions, a configured default or a stated device for Remote Control. Never guessed. |
+| `source_surface` | `cli`, `desktop`, `ide`, `remote-control`, `web`, `mobile`, `account-export`, `takeout` or `selected-save`. |
 | `created` / `updated` | Note timestamps; distinguish these from the original source dates. Use ISO 8601 and a timezone when time is known. |
 | `source_created` / `source_updated` | Source timestamps, if known. Never fill these with the import time. |
 | `project` | Quoted wikilink to a known project, if applicable. |
-| `topics` | A small list of canonical topic links; omit unsupported topics. |
+| `topics` | One to three quoted links to topic maps, such as `"[[Maps/Gardening]]"`. On a map, it names the parent topic; main topics leave it empty. Use existing maps; ask before creating a new one. |
 | `aliases` | Alternate names for the same entity or concept. Do not merge people on name similarity alone. |
 | `entity_type` | For entity notes: `person`, `organization`, `project`, or `topic`. |
 | `artifact_type` | Kind of deliverable: e.g. `plugin`, `report`, `workflow`, `dashboard`, or `code`. A conversation about a plugin is still a source note. |
@@ -33,6 +36,8 @@ Use `schema_version: 1` for newly generated notes following this schema. Keep st
 | `reported_components` | Components a source says exist but which have not been inspected. |
 | `artifact_status` | `proposed`, `in_progress`, or `implemented`; do not imply implementation just because a source describes a design. |
 | `decision_status` | `proposed`, `adopted`, or `superseded`. Populate adoption only with evidence. |
+
+A captured conversation is a `source` note (the conversation note) plus a generated transcript in `Attachments/AI Transcripts/`, linked through `source_file` and `source_sha256`. Its `id` is `ck-` plus 16 hex characters derived from platform, account label and the provider's session or conversation ID. Category may stay empty while `classification_status` is `provisional`; maps need no category.
 
 For a simple capture, use only `schema_version`, `id`, `note_type`, `category`, `title`, and the source/review fields that apply. Add technical fields only for relevant artifacts. A new empty `components` list must not imply that an artifact was inspected and has no components.
 

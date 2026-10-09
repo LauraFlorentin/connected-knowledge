@@ -25,6 +25,8 @@ class BundledHooks(unittest.TestCase):
             self.config.write_text(json.dumps(self.cfg))
             env['CONNECTED_KNOWLEDGE_CODEX_CONFIG' if host=='codex' else 'CONNECTED_KNOWLEDGE_CLAUDE_CODE_CONFIG']=str(self.config)
         env['CONNECTED_KNOWLEDGE_PYTHON']=python or sys.executable
+        # Never read a real machine configuration from the home folder.
+        env['CONNECTED_KNOWLEDGE_HOME']=str(self.root/'no-machine-config')
         definition=json.loads((PLUGIN/'hooks/hooks.json').read_text())
         command=definition['hooks'][self.event['hook_event_name']][0]['hooks'][0]['command']
         return subprocess.run(command,shell=True,env=env,input=json.dumps(self.event) if event is None else event,capture_output=True,text=True)
@@ -58,7 +60,8 @@ class BundledHooks(unittest.TestCase):
         self.assertEqual(self.invoke().returncode,0)
     def test_dependency_failure_and_disabled_without_site_packages(self):
         # Run launcher with -S directly, bypassing site-packages (including PyYAML).
-        env=dict(os.environ,PLUGIN_ROOT=str(PLUGIN),CLAUDE_PLUGIN_ROOT=str(PLUGIN),CONNECTED_KNOWLEDGE_CODEX_CONFIG=str(self.config))
+        env=dict(os.environ,PLUGIN_ROOT=str(PLUGIN),CLAUDE_PLUGIN_ROOT=str(PLUGIN),CONNECTED_KNOWLEDGE_CODEX_CONFIG=str(self.config),
+                 CONNECTED_KNOWLEDGE_HOME=str(self.root/'no-machine-config'))
         for enabled,code in [(False,0),(True,1)]:
             self.cfg['enabled']=enabled;self.config.write_text(json.dumps(self.cfg))
             r=subprocess.run([sys.executable,'-S',str(PLUGIN/'hooks/capture.py')],env=env,input=json.dumps(self.event),capture_output=True,text=True)

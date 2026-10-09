@@ -82,7 +82,7 @@ class FirstRun(unittest.TestCase):
             for path in (dest/'Templates').glob('*.md'):
                 meta=yaml.safe_load(path.read_text().split('---')[1])
                 self.assertNotIn('category',meta);self.assertNotIn('schema_version',meta)
-            self.assertNotIn('Admin / Personal / Work',(dest/'VAULT-GUIDE.md').read_text())
+            self.assertNotIn('Admin / Personal / Work',(dest/'Vault Guide.md').read_text())
         self.assertEqual((self.vault/'guide.md').read_text(),'User conventions')
 
     def test_synthetic_setup_bundle_starter_and_import_cli(self):

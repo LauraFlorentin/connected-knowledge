@@ -1,5 +1,18 @@
 {
   "name": "connected-knowledge",
-  "version": "1.6.0",
-  "description": "Collect research and develop sourced, connected knowledge from conversations, documents and notes."
+  "version": "1.7.0",
+  "description": "Turn AI chats, coding sessions and documents into sourced, linked Obsidian notes.",
+  "author": {
+    "name": "LauraFlorentin",
+    "url": "https://github.com/LauraFlorentin"
+  },
+  "homepage": "https://github.com/LauraFlorentin/connected-knowledge",
+  "repository": "https://github.com/LauraFlorentin/connected-knowledge",
+  "keywords": [
+    "obsidian",
+    "zettelkasten",
+    "knowledge",
+    "notes",
+    "chat-history"
+  ]
 }

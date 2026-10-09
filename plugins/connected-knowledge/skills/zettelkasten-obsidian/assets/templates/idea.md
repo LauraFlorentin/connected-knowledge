@@ -1,26 +1,23 @@
 ---
 schema_version: 1
-id: "REPLACE_WITH_NEW_UUID"
+id: "{{date:YYYYMMDDHHmmss}}"
 note_type: idea
-category: Personal
-title: "REPLACE_WITH_TITLE"
+category:
+classification_status: provisional
 review_status: draft
+title: "{{title}}"
+topics: []
+created: {{date:YYYY-MM-DDTHH:mm:ssZ}}
 ---
-# REPLACE_WITH_TITLE
+# {{title}}
 
-Template only. Replace placeholders, choose category, and remove unused sections.
+**The idea in one sentence:** 
 
-## Claim or question
-[One reusable contribution and its scope.]
+## Why I think so
+Reasoning and evidence. Link the source note it comes from.
 
-## Reasoning and evidence
-[Mechanism, inspected source and locator; label inference.]
+## Where it stops being true
 
-## Limits
-[Conditions, objections, uncertainty.]
 
-## Connections
-[Explain each useful relationship.]
-
-## Revisions
-[For substantive changes only: date, changed claim, reason and source. Preserve the note ID. Remove this section until needed.]
+## Connected to
+- Link a related note and say why it is related.

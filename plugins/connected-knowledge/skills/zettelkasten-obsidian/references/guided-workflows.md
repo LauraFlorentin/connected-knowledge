@@ -14,6 +14,18 @@ For a bare invocation, briefly say that you can help turn selected material into
 
 Ask which task the user wants to start with; accept a number or free-text answer. Adapt choices to known context, and offer “resume” when a task is already underway. Reuse known vault and template choices. Do not force setup before a task that can be prepared without vault access.
 
+Where the host runs local commands, these menu tasks map to commands (Codex: `$ck-…` skills; Gemini CLI: `/ck-…`):
+
+| Menu task | Command |
+| --- | --- |
+| 1. Set up or connect a vault | `/ck-setup` |
+| 2. Notes from past conversations | `/ck-add-session all` for local sessions on this Mac; account exports through [history-import.md](history-import.md) |
+| 3. Save this conversation | `/ck-add-session` |
+| 4. Add a document or source | ask; no command |
+| 5. Explore, organize or check | ask; `/ck-help` shows status and the next useful step |
+
+Each command finishes with `ck.py doctor --next`, which picks the suggestion from the actual state, so it never offers a finished step.
+
 ## Guide the selected task
 
 Explain the intended result and give a short roadmap of three to five user-facing steps. Then present only the next unresolved action or question, with a brief reason and what the user should expect. Step-by-step refers to user actions and visible progress, not disclosure of internal reasoning.

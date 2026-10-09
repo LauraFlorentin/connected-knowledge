@@ -1,5 +1,6 @@
 {
   "name": "connected-knowledge-local",
+  "description": "Connected Knowledge: AI chats and coding sessions as sourced, linked Obsidian notes.",
   "owner": {
     "name": "Laura-Florentine Stiskal"
   },
@@ -7,7 +8,7 @@
     {
       "name": "connected-knowledge",
       "source": "./plugins/connected-knowledge",
-      "description": "Source-grounded knowledge and selected research collection using Zettelkasten\u2013Obsidian."
+      "description": "Turn AI chats, coding sessions and documents into sourced, linked Obsidian notes."
     }
   ]
 }

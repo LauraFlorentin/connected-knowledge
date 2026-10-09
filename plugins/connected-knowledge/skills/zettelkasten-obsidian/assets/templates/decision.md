@@ -1,20 +1,27 @@
 ---
 schema_version: 1
-id: "REPLACE_WITH_NEW_UUID"
+id: "{{date:YYYYMMDDHHmmss}}"
 note_type: decision
-category: Personal
-title: "REPLACE_WITH_TITLE"
+category:
+classification_status: provisional
 review_status: draft
+title: "{{title}}"
+decision_status: proposed
+topics: []
+created: {{date:YYYY-MM-DDTHH:mm:ssZ}}
 ---
-# REPLACE_WITH_TITLE
+# {{title}}
 
-Template only. Replace placeholders, choose category, and remove unused sections.
+**Decision:** 
 
-## Decision
-[Proposed or explicitly adopted; do not infer approval.]
+## Why
 
-## Rationale and source
-[Decision-maker and date only if known; rejected alternatives.]
 
-## Supersession
-[Link replaced decisions only with evidence.]
+## Options I considered
+- 
+
+## What would change my mind
+
+
+## Source
+Where this was discussed or decided.

@@ -5,6 +5,10 @@ workflow. Offer Filesystem MCP when the user requests broader file management or
 chooses an existing general file connection. This is an opt-in setup option;
 Connected Knowledge does not install, bundle, register or activate it by default.
 
+`/ck-setup` offers it as an optional last step (`/ck-setup apps`), and only for chat
+in the Claude desktop app. Claude Code, Codex and Gemini CLI already read and write
+files, and ChatGPT on the web or iPhone cannot use a local server.
+
 The upstream [Filesystem MCP server documentation](https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem)
 describes a local Node.js server with file reading, writing, searching and moving
 tools. Its access comes from selected command-line directories or client-provided

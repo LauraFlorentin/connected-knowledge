@@ -1,5 +1,11 @@
 # Guided first-run setup
 
+Since 1.7.0 the main route is the `/ck-setup` command (Codex: `$ck-setup`), which
+writes this Mac's configuration outside the vault, creates a new vault or adopts an
+existing one, and switches capture on only when asked. See the
+[ck-setup skill](../../ck-setup/SKILL.md). The `first_run.py` planner below remains
+for account-export imports and for 1.3–1.6 style capture configurations.
+
 Use this flow when someone asks to get started or connect their past conversations.
 Reuse choices already given. Ask the next unresolved question in plain language;
 do not request personal export content just to set up paths.
@@ -32,8 +38,9 @@ python /plugin/skills/zettelkasten-obsidian/scripts/first_run.py --wizard --outp
 Default is a no-write preview. Add `--apply` to save the plan and disabled capture
 configs only. It does not create a vault, import anything, classify notes or enable
 hooks. For a new starter the plan supplies a separate explicit creation command.
-Its four templates use the selected ontology; none/custom does not force Personal
-or declare the default schema. Starter notes use the default note_type/review_status
+The starter creates Home, the Vault Guide and, in the templates variant, seven
+note templates; `none` leaves out the category property and custom categories are
+recorded in the vault profile. Starter notes use the default note_type/review_status
 vocabulary; existing-vault imports can use type/status with `vocabulary: existing`.
 Other vocabulary mappings need an adapter before import.
 

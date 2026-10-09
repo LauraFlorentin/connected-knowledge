@@ -1,32 +1,42 @@
-# Connected Knowledge — 1.4.0
+# Connected Knowledge — 1.7.0
 
-Start with the [guided private ChatGPT setup](plugins/connected-knowledge/skills/zettelkasten-obsidian/references/private-setup.md) for selected saves, or the general first-run guide for history import and local agent hooks. Capture stays inactive until explicitly configured.
+Connected Knowledge turns AI chats, coding sessions and documents into sourced,
+linked notes in your Obsidian vault. It is an AI-host plugin, not an Obsidian
+community plugin: Obsidian stays the place where you read and write.
 
-A reusable knowledge and research plugin built around the existing Zettelkasten–Obsidian skill, preserving its integrated Practice workflows and ontology.
+## First steps
 
-Start with `docs/INSTALL.md` for Claude and ChatGPT routes. Both use the same files under `plugins/connected-knowledge/skills/`; the Claude upload ZIP and instruction bundle are generated distribution copies, not separate implementations.
+1. Install it for your host. [docs/INSTALL.md](docs/INSTALL.md) has one section per
+   host; the README's [install table](README.md#install-per-host) is the summary.
+2. Run `/ck-setup` (Codex: `$ck-setup`). It asks one question at a time:
+   - an existing vault, or a new one with the full structure or a minimal start,
+     with or without a templates folder, and your main topics;
+   - a short name for this Mac and whether it is the hub that imports account
+     exports;
+   - which project folders' AI sessions to save.
 
-The plugin contains two skills:
+   Every step shows a preview before anything is written.
+3. Save this conversation as a trial with `/ck-add-session`, then open the note in
+   Obsidian.
+4. Switch capture on when you are happy with the trial. Until then the hooks do
+   nothing.
+5. Run `/ck-help` whenever you want to see the status and the next useful step.
 
-- **Develop Knowledge** (`zettelkasten-obsidian`): onboard, capture, develop, explore, synthesize, review, extract PDFs and check vaults.
-- **Collect Research** (`research-collect`): configure selected sources and collect raw material into a reviewable inbox, separately from note development.
+## What goes where
 
-## First conversation
+- Your notes and conversation notes live in the vault, organised by the
+  `Vault Guide.md` that setup creates or adapts.
+- Settings, the capture queue and raw transcript copies live outside the vault, on
+  each Mac, in folders only you can read. They are never synced or committed.
+- Account exports from Claude and ChatGPT are imported on one Mac, the hub.
 
-“Use Develop Knowledge (`zettelkasten-obsidian`). I have an existing vault I want to use / I do not have a vault I want to use. My goal is ____. Help me choose the smallest useful setup.”
+## The plugin's parts
 
-If an existing vault is inaccessible, supply a folder outline and representative notes or continue preparing drafts. Do not create a substitute just because access is missing. The optional starter script requires an explicit choice and refuses any existing target directory. Nothing in this delivery creates your actual vault.
+- **Commands:** `/ck-setup`, `/ck-help`, `/ck-add-session`.
+- **Develop Knowledge** (`zettelkasten-obsidian`): develop, explore, synthesize,
+  review and check notes.
+- **Collect Research** (`research-collect`): collect selected sources into a
+  reviewable inbox, separately from note development.
 
-## Collect only selected material
-
-Begin with `config/collection.disabled.json`. It deliberately has no sources and ongoing collection is disabled. Choose local files, URLs, feeds or an authorized connector export. Pick an inbox and run once before enabling anything recurring. The collector records versions, duplicates, exclusions, failures and incomplete captures. No sources or schedules were enabled for you.
-
-Read `docs/USAGE.md` for commands and `docs/WORKED-EXAMPLE.md` for an offline demonstration. Read `docs/VALIDATION.md` for actual test results and remaining limits.
-
-Read `docs/KNOWLEDGE-WORKFLOW.md` for vault basics, bounded retrieval, duplicate handling, memory-derived context and future chat capture options. Existing vault conventions take precedence. Supplied-history import, selected capture, and developed knowledge are distinct workflows; no all-account history fetcher or semantic-search service is installed.
-
-## Components
-
-Implemented: plugin manifests, two skills, source/knowledge tools, supplied-history import, opt-in local hooks, private selected-save MCP, guided runtime setup, template support, and an experimental Gemini CLI extension. No public hosted service, email authentication, or universal all-account chat capture is included.
-
-This is an AI-host plugin, not an Obsidian community plugin. Obsidian remains the reader/editor for ordinary Markdown. Your linked notes are a knowledge network; no graph database is installed.
+Read [docs/USAGE.md](docs/USAGE.md) for commands and scripts, and
+[docs/VALIDATION.md](docs/VALIDATION.md) for what was tested and what was not.

@@ -1,0 +1,6 @@
+interface:
+  display_name: Connected Knowledge setup
+  short_description: Set up the vault, this Mac and capture
+  default_prompt: Use $ck-setup to set up Connected Knowledge on this machine.
+policy:
+  allow_implicit_invocation: true

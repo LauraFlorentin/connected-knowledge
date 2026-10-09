@@ -1,4 +1,4 @@
-# Private selected capture — 1.4.0
+# Private selected capture
 
 These components remain inactive until configured. Start with [guided private setup](private-setup.md). Save explicitly selected content from ordinary chats or project chats through the same private inbox. Archiving is a source stage; use the existing graph workflow separately to propose developed notes.
 

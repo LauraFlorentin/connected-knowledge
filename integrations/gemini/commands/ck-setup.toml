@@ -1,0 +1,5 @@
+description = "Set up Connected Knowledge on this machine"
+prompt = """
+Use the ck-setup skill from the connected-knowledge extension and follow it exactly.
+Arguments: {{args}}
+"""

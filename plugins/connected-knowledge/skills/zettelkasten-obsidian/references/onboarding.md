@@ -16,11 +16,11 @@ Keep incoming captures in a separate user-chosen research inbox by default. Agre
 
 Use [readable-captures.md](readable-captures.md) for that trial. A structurally valid capture is not the end of onboarding: check that the user can find its entry point, follow a relevant source-document link, and understand what is saved inside the vault versus linked to an external original. Record any unavailable in-app check honestly.
 
-Adapt `assets/vault-guide.md` into a short operating guide only when useful and authorized. Reuse an existing guide rather than create competing instructions. Four note templates already exist under `assets/templates`; adapt them, do not replace the vault's templates wholesale.
+Reuse an existing guide rather than create competing instructions; `/ck-setup` proposes one short "AI history" paragraph for it and adds it only when asked. The adoption plan maps the plugin's labels onto the vault's own property names and values (for example `type: reference` for `note_type: source`), lists every file and folder it would add, and never touches `.obsidian/`. Seven note templates exist under `assets/templates`; offer them as examples, do not replace the vault's templates wholesale.
 
 ## No existing vault selected
 
-Only after the user explicitly indicates there is no existing vault they want to use, offer the optional starter. Run `starter_vault.py TARGET --confirmed-no-existing-vault`. The target must not exist; the script refuses to merge into any existing directory. It creates a short guide and manual templates, not Obsidian configuration, plugins, or an active collector. Add Sources, Ideas and Maps only as real notes need them. Admin / Personal / Work are metadata categories, not mandatory folder trees.
+Only after the user explicitly indicates there is no existing vault they want to use, offer a new vault through `/ck-setup` or `starter_vault.py TARGET --confirmed-no-existing-vault`. The target must not exist; the script refuses to merge into any existing directory. Offer the full structure (every folder now) or a minimal start (folders appear when the first note needs them), with a `Templates/` folder or with the note shapes kept in the Vault Guide, and ask for the person's main topics, which become topic maps linked from Home. It writes no Obsidian configuration, plugins or collector. Admin / Personal / Work are metadata categories, not folder trees.
 
 Develop one real source into one useful idea with a source locator, an applicability limit, and an explained connection when one exists. Retrieve it to answer a question. Expand conventions only to solve observed friction. Examples in the package are synthetic demonstrations; never import them as the user's observations or real research findings.
 

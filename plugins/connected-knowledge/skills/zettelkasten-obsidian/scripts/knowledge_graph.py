@@ -61,7 +61,10 @@ def load_sources(vault, archive):
                 raise ValueError('Original export hash mismatch')
             originals[original] = json.loads(raw)
             snapshots[original] = digest(raw)
-        platform, account, cid = meta['conversation_source'], meta['account_label'], meta['conversation_id']
+        # Archives from 1.7.0 keep identity in the manifest; older notes carry it in legacy properties.
+        platform = record.get('platform', meta.get('conversation_source'))
+        account = record.get('account', meta.get('account_label'))
+        cid = record.get('conversation_id', meta.get('conversation_id'))
         if key != digest(encoded([platform, account, cid])):
             raise ValueError('Archive identity mismatch')
         matches = [r for r in originals[original] if

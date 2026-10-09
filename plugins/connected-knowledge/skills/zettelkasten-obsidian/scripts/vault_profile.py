@@ -143,6 +143,10 @@ def inspect_templates(root, folders, loader, cfg):
                          'date:YYYY-MM-DD': '2000-01-02', 'time': '03:04', 'time:HH:mm': '03:04'}
             def expand(match):
                 token = match.group(1)
+                if token.startswith('date:') and re.fullmatch(r'[YMDHms\-:T Z]+', token[5:]):
+                    # Moment-style date formats used by Obsidian's core Templates plugin.
+                    sample = {'YYYY': '2000', 'MM': '01', 'DD': '02', 'HH': '03', 'mm': '04', 'ss': '05', 'Z': '+00:00'}
+                    return re.sub(r'YYYY|MM|DD|HH|mm|ss|Z', lambda m: sample[m.group(0)], token[5:])
                 if token not in supported:
                     issues.append({'severity':'warning', 'code':'template-variable',
                                    'message':f'Unsupported expansion: {match.group(0)}'})

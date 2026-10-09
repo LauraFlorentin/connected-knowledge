@@ -1,4 +1,70 @@
-# Validation and limits — updated 2026-10-05
+# Validation and limits — updated 2026-10-07
+
+## 1.7.0 commands, capture pipeline and vault structure
+
+**Automated.** 263 tests pass with Python 3.12.14 on macOS (190 carried over, 73
+new). The 46 tests in `test_capture_pipeline.py` and `test_ck_commands.py` also pass
+with the stock macOS Python 3.9.6 and no third-party packages, and a test re-runs a
+capture with `python -S` to prove that no package is imported. New coverage:
+
+- hooks find this Mac's configuration with no environment variables; stay inert
+  without it or with capture off; skip out-of-scope folders and subagents; and queue
+  a session whose transcript is unreadable, which proves they never open it;
+- state folders are 0700 and must lie outside the vault; files are 0600;
+- a 60-turn synthetic session keeps state at most twice the transcript size and
+  produces exactly one note and one transcript; the vault receives only notes,
+  attachments, the index and a project note;
+- a killed lock holder followed by a successful sweep; a crash between writes
+  retried; two concurrent sweeps both exit 0; failing entries are parked after five
+  attempts; a turn that ends during a capture stays queued; quiet sessions are
+  noticed at the end of a turn elsewhere;
+- a three-folder session is filed under its first folder; `isMeta`, wrapper and
+  reminder rows are not shown as user text; title rows are used in order; Codex
+  harness messages are skipped; a partly written last line is tolerated;
+- labels per platform, file names, the per-machine index, remote-control devices;
+  person edits, removed markers, shorter transcripts, edited transcripts, deleted
+  notes, and notes from another machine;
+- a 20-row escaping table, plus a vault check over a transcript containing all of
+  it (no findings);
+- both starter variants pass `vault_check --profile auto` with zero errors and
+  zero warnings after one capture; full and minimal structures; topic names;
+  custom categories;
+- adoption of a synthetic `type`/`status` vault: the preview writes nothing,
+  conversation notes use the vault's names with no parallel fields, and
+  `.obsidian/` and existing notes are byte-identical afterwards;
+- ChatGPT epoch dates to ISO 8601; ontology keys; graph tools read new and 1.6.0
+  archives; migration of a 1.6.0 export archive (edited note reported, second run
+  a no-op, old folder unchanged) and of a 1.6.0 session-capture archive (a later
+  live capture continues it);
+- every `doctor --next` state from the plan, add-session by ID, latest, path,
+  current and all, previews that write nothing, topic maps, the capture switch,
+  skill frontmatter, and the Gemini package contents;
+- manifest versions and every current version string in the docs, manifest shape,
+  hook registration, relative links in all docs, README host coverage, and the
+  private-data packaging guard;
+- the Filesystem answers file shown in `/ck-setup` previews without writing, then
+  registers one Claude Desktop entry while keeping the other settings, through the
+  real installer with downloads stubbed.
+
+**Examples and packages.** The graph example (0 checker warnings, 0 repeat writes)
+and the worked example pass. `package.py`, `package_gemini.py` and
+`verify_package.py` pass; verification now also creates a new vault from the
+extracted package, captures a synthetic session and runs the vault check with zero
+findings. `claude plugin validate` passes for the plugin and the marketplace with
+no warnings (Claude Code 2.1.291).
+
+**Native, in a sandbox.** In Claude Code 2.1.291 with `--plugin-dir` and a
+temporary configuration home: `/ck-help` showed status, the menu and `/ck-setup`
+as the next step; `/ck-setup status` summarised a temporary vault; `/ck-add-session`
+previewed, retitled and saved a synthetic session with a topic and category, then
+offered the next step. No real vault, configuration or transcript was used.
+
+**Not tested.** Codex (bundled hook discovery, `$ck-…` skills, `SessionStart` and
+`SessionEnd` handling), Cowork, Claude chat and iPhone, ChatGPT desktop and iPhone,
+Gemini CLI; marketplace installation by repository name; how the hooks behave in a
+real long session with capture switched on; two real Macs on one synced vault;
+Remote Control detection (devices come from setup or `--device`); the exact field
+names of Claude Code title rows, which the reader accepts in several spellings.
 
 ## 1.6.0 unified install/update flow
 

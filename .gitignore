@@ -11,7 +11,11 @@ venv/
 /examples/completed/
 /dist/
 
-# User-specific material belongs outside the source repository
+# User-specific material belongs outside the source repository. These entries
+# are a safety net: tools/release_files.py also refuses to package such files.
+private-data/
+conversations.json
+*.jsonl
 /.env
 /.env.*
 !.env.example

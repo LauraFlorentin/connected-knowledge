@@ -35,9 +35,14 @@ def body_only(text):
 def check(vault, profile='auto', config=None):
     root = Path(vault).resolve()
     if not root.is_dir(): raise ValueError('Vault directory not found')
-    cfg = {} if config is None else config
+    # A vault set up by Connected Knowledge carries its own profile; use it unless told otherwise.
+    own = root/'_meta/ck/vault.json'
+    cfg = (json.loads(own.read_text()) if own.is_file() and not own.is_symlink() else {}) if config is None else config
     validate_config(cfg)
     fields = cfg.get('fields', {})
+    enums = dict(ENUMS, category=cfg['categories']) if cfg.get('categories') else ENUMS
+    # An adopted vault may store its own values, e.g. type: reference for note_type: source.
+    canonical = {key: {v: k for k, v in mapping.items()} for key, mapping in cfg.get('values', {}).items()}
     template_folders = template_locations(root, cfg)
     excluded = {'.obsidian','.git','Templates','templates', *cfg.get('exclude_dirs',[])}
     findings, texts, ids, names, field_types = [], {}, defaultdict(list), defaultdict(list), defaultdict(set)
@@ -78,14 +83,23 @@ def check(vault, profile='auto', config=None):
             else: ids[(role if cfg.get('roles') else None, identity, ident)].append(f)
         strict = profile=='zettelkasten' or (profile=='auto' and meta.get('schema_version')==1)
         required = [] if 'required' in cfg else (['schema_version','id','note_type','category','title'] if strict else [])
+        note_type = canonical.get('note_type', {}).get(meta.get(fields.get('note_type','note_type')), meta.get(fields.get('note_type','note_type')))
         for key in required:
             actual=fields.get(key,key)
-            if actual not in meta or meta[actual] in (None,''): add('required',f,f'Missing {actual}')
+            if actual not in meta or meta[actual] in (None,''):
+                if key == 'category':
+                    # Maps span categories; an unconfirmed note may honestly leave it empty.
+                    if note_type == 'map': continue
+                    status = meta.get(fields.get('classification_status','classification_status'))
+                    if canonical.get('classification_status', {}).get(status, status) == 'provisional':
+                        add('required',f,f'Missing {actual} (provisional)','warning'); continue
+                add('required',f,f'Missing {actual}')
         if strict:
             if meta.get('schema_version') != 1: add('schema-version',f,'Expected schema_version: 1')
-            for key, allowed in ENUMS.items():
+            for key, allowed in enums.items():
                 actual=fields.get(key,key)
-                if key not in cfg.get('enums', {}) and actual in meta and meta[actual] not in allowed: add('enum',f,f'Invalid {actual}: {meta[actual]!r}')
+                value = canonical.get(key, {}).get(meta.get(actual), meta.get(actual)) if isinstance(meta.get(actual), str) else meta.get(actual)
+                if key not in cfg.get('enums', {}) and meta.get(actual) is not None and value not in allowed: add('enum',f,f'Invalid {actual}: {meta[actual]!r}')
             for key in LISTS:
                 value=meta.get(fields.get(key,key))
                 if value is not None and (not isinstance(value,list) or any(not isinstance(x,str) for x in value)):

@@ -13,6 +13,8 @@ For an explicit bare invocation, getting-started help or a guided task, read [gu
 
 ## Package entry points
 
+Three commands sit beside this skill: `ck-setup` (vault, this Mac, capture), `ck-help` (status, menu and next step) and `ck-add-session` (save a session now as a conversation note plus transcript). Route setup, status and "save this session" requests to them; they call `scripts/ck.py`. A captured conversation is a short `source` note in the vault's conversations folder with a generated block, and a generated transcript in `Attachments/AI Transcripts/`; never edit either generated part. For new notes, use the vault's topic maps for `topics` and ask before creating a new topic.
+
 For assistant-guided saves and graph development, read [readable-captures.md](references/readable-captures.md). Reuse a clear entry point, connect scoped source documents through reference notes, and verify the result in Obsidian when available. Captured bytes and valid links alone do not establish a usable reading experience.
 
 For installing selected components or upgrading a private runtime, use [install-update.md](references/install-update.md); it keeps existing identities and makes Filesystem optional. For private ChatGPT account connection, use [private-setup.md](references/private-setup.md). Read the actual vault guide, select a source or conversation-review template, and keep private configuration/runtime outside the package. Desktop/mobile verification is separate; Gemini CLI remains experimental.

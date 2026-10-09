@@ -10,8 +10,12 @@ import sys
 import tempfile
 from contextlib import contextmanager
 import yaml
+from ck_render import inert
+from ck_transcripts import iso
 
-IMPORT_FORMAT_VERSION = 2
+IMPORT_FORMAT_VERSION = 3
+PLATFORM_NAMES = {'claude': 'Claude', 'chatgpt': 'ChatGPT', 'claude-code': 'Claude Code', 'codex': 'Codex',
+                  'gemini-cli': 'Gemini CLI', 'manual': 'Manual'}
 
 
 @contextmanager
@@ -142,14 +146,26 @@ def atomic_write(path, data):
             os.unlink(name)
 
 
-def render(chat, platform, account, raw_path, annotation, vocabulary):
-    meta = {'title': chat['title'], 'conversation_source': platform,
-            'conversation_id': chat['id'], 'account_label': account,
-            'source_file': raw_path, 'source_created': chat['created'], 'source_updated': chat['updated']}
+def source_labels(chat, platform):
+    """Ontology labels: display platform name and the provider's own conversation ID."""
     provenance = chat.get('capture_provenance')
     if provenance:
-        meta['conversation_source'] = provenance['source']
-        meta['conversation_id'] = provenance['conversation_id']
+        return PLATFORM_NAMES.get(provenance['source'], provenance['source']), provenance['conversation_id']
+    if platform == 'normalized':
+        host, _, native = chat['id'].partition(':')
+        if host in PLATFORM_NAMES and native:
+            return PLATFORM_NAMES[host], native
+        return 'Imported', chat['id']
+    return PLATFORM_NAMES.get(platform, platform), chat['id']
+
+
+def render(chat, platform, account, raw_path, annotation, vocabulary):
+    display, native = source_labels(chat, platform)
+    meta = {'title': chat['title'], 'source_platform': display, 'source_id': native,
+            'source_account': account, 'source_file': raw_path,
+            'source_created': iso(chat['created']) or chat['created'],
+            'source_updated': iso(chat['updated']) or chat['updated']}
+    provenance = chat.get('capture_provenance')
     if vocabulary == 'existing':
         meta.update(type='reference', status='auto')
     else:
@@ -175,7 +191,8 @@ def render(chat, platform, account, raw_path, annotation, vocabulary):
         result += '### ' + str(msg['role']).replace('\n', ' ') + ' — ' + msg['id'].replace('\n', ' ') + '\n\n'
         result += 'Source metadata: `' + json.dumps({k:v for k,v in msg.items() if k != 'text'}, ensure_ascii=False) + '`\n\n'
         # Quoting keeps source headings/frontmatter distinct from importer metadata.
-        result += '\n'.join('> ' + line for line in msg['text'].split('\n')) + '\n\n^' + anchor + '\n\n'
+        # Chat text is data: links, tags, embeds and plugin code blocks are made inert.
+        result += '\n'.join('> ' + line for line in inert(msg['text']).split('\n')) + '\n\n^' + anchor + '\n\n'
     return result.encode('utf-8')
 
 
@@ -206,7 +223,7 @@ def run(source, destination, platform, account, apply=False, annotations=None, v
         raise ValueError('Annotations must map provider conversation IDs to objects')
     report = {'mode':'apply' if apply else 'preview', 'platform':platform,
               'account':account, 'items':[], 'created':0, 'updated':0, 'unchanged':0, 'conflicts':0, 'failed':0}
-    plans, seen = [], set()
+    plans, seen, ids = [], set(), {}
     for i, record in enumerate(records):
         try:
             chat = normalize(record, platform)
@@ -276,6 +293,7 @@ def run(source, destination, platform, account, apply=False, annotations=None, v
                     from capture_template import apply_template
                     content = apply_template(template, content, key)
                 plans.append((key, path, content, fingerprint, current))
+                ids[key] = chat['id']
         except (ValueError, TypeError, KeyError, AttributeError) as exc:
             report['failed'] += 1
             report['items'].append({'index':i, 'action':'failed', 'error':str(exc)})
@@ -306,7 +324,8 @@ def run(source, destination, platform, account, apply=False, annotations=None, v
                 atomic_write(revision, path.read_bytes())
             atomic_write(path, content)
             state['records'][key] = {'path':path.name, 'sha256':digest(content), 'fingerprint':fingerprint,
-                                     'original': 'originals/' + digest(raw) + '.json'}
+                                     'original': 'originals/' + digest(raw) + '.json',
+                                     'platform': platform, 'account': account, 'conversation_id': ids[key]}
             atomic_write(manifest_path, encoded(state))
             report['written'] += 1
     return report

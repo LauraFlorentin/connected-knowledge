@@ -1,23 +1,30 @@
 ---
 schema_version: 1
-id: "REPLACE_WITH_NEW_UUID"
+id: "{{date:YYYYMMDDHHmmss}}"
 note_type: map
-category: Personal
-title: "REPLACE_WITH_TITLE"
+category:
+classification_status: provisional
 review_status: draft
+title: "{{title}}"
+topics: []
+created: {{date:YYYY-MM-DDTHH:mm:ssZ}}
 ---
-# REPLACE_WITH_TITLE
+# {{title}}
 
-Template only. Replace placeholders, choose category, and remove unused sections.
+A topic map. A main topic leaves `topics` empty; a subtopic names its parent,
+for example `topics: ["[[Maps/Parent topic]]"]`.
+
+**What this topic covers:** 
+
+## Subtopics
+- 
 
 ## Start here
-[Explain what the reader can find. Reuse this entry point for later relevant captures; link documents, summaries and useful ideas with descriptive labels.]
+The few notes to read first, and why.
+- 
 
-## Guiding question
-[What does this map help investigate?]
+## Conversations and sources
+- 
 
-## Reading path
-[Verified notes arranged by reasoning role, including source/reference notes for relevant documents. Distinguish maintained originals from dated attachment copies. Prefer lists or valid relative Markdown links inside tables.]
-
-## Gaps and disagreements
-[Unresolved questions.]
+## Open questions
+- 
