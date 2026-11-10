@@ -13,7 +13,7 @@ The user supplied `zettelkasten-practice.zip` earlier in this conversation. Its 
 
 ## Script assessment
 
-The installed foundation had no PDF extractor or vault checker. We inspected [External Brain](https://github.com/Aznatkoiny/external-brain/tree/699f24d65500ae9e72cd43f142227056cc8b5144), specifically `scripts/extract_pdf.py`, `scripts/vault_lint.py`, its schemas and workflows. Its useful ideas include page-aware extraction, source hashes and deterministic checks. Its code assumes repository-relative folders and a different metadata schema; the linter uses a limited frontmatter parser. This package supplies newly implemented scripts with explicit paths, real YAML parsing, duplicate-ID checks and broader source handling. No upstream script code is vendored, and no upstream software license is assumed. Docling integration in that repository is a proposal, not an included dependency here.
+The installed foundation had no PDF extractor or vault checker. This package supplies newly implemented scripts with explicit paths, real YAML parsing, duplicate-ID checks and broader source handling.
 
 All templates, the fictional worked example, collection protocol, manifests, and setup gates in this release are implementation choices for the user's requirements. Platform support is documented separately with dated official links.
 
